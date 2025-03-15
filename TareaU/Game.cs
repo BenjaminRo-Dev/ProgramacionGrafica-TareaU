@@ -13,6 +13,10 @@ namespace TareaU
         private int elementBufferObject;   //Se encarga de almacenar los indices
         private int vertexArrayObject;
 
+        private int lVertexBufferObject;
+        private int lElementBufferObject;
+        private int lVertexArrayObject;
+
 
         //Vertices de un triangulo
         float[] vertices = {
@@ -26,6 +30,46 @@ namespace TareaU
             0, 1, 3,   // first triangle
             1, 2, 3    // second triangle
         };
+
+        // Vértices para la letra "U"
+        float[] uVertices = {
+            //Rectangulo 1
+            -0.8f,  0.8f, 0.0f,  // arriba izq
+            -0.8f, -0.8f, 0.0f,  // abajo izq (vertical)
+            -0.6f, -0.8f, 0.0f,  // abajo der (horizontal)
+            -0.6f,  0.8f, 0.0f,  // arriba der (horizontal)
+            
+            //Rectangulo 2
+            -0.6f,  -0.8f, 0.0f, // abajo izq
+            -0.6f,  -0.6f, 0.0f, // arriba izq
+            0.6f,  -0.6f, 0.0f,  // arriba der
+            0.6f,  -0.8f, 0.0f,  // abajo der
+
+            //Rectangulo 3
+            0.6f,  0.8f, 0.0f,  // arriba izq
+            0.6f,  -0.8f, 0.0f,  // abajo izq
+            0.8f,  -0.8f, 0.0f,  // abajo der
+            0.8f,  0.8f, 0.0f,  // arriba der
+
+        };
+
+
+        // Índices para formar los triángulos de la letra "U"
+        uint[] uIndices = {
+            //Rectangulo 1
+            0, 1, 3,  // First triangle (top left to internal corner)
+            1, 2, 3,  // Second triangle (top half)
+
+            //Rectangulo 2
+            4, 5, 6,  // First triangle (top left to internal corner)
+            4, 7, 6,  // Second triangle (top half)
+
+            //Rectangulo 3
+            8, 9, 10,  // First triangle (top left to internal corner)
+            8, 11, 10  // Second triangle (top half)
+        };
+
+
 
 
         // A simple constructor to let us set properties like window size, title, FPS, etc. on the window.
@@ -73,6 +117,19 @@ namespace TareaU
             GL.EnableVertexAttribArray(0);
 
 
+            // Configurar la letra "L"
+            lVertexBufferObject = GL.GenBuffer();
+            lVertexArrayObject = GL.GenVertexArray();
+            lElementBufferObject = GL.GenBuffer();
+
+            GL.BindVertexArray(lVertexArrayObject);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, lElementBufferObject);
+            GL.BufferData(BufferTarget.ArrayBuffer, uVertices.Length * sizeof(float), uVertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, uIndices.Length * sizeof(uint), uIndices, BufferUsageHint.StaticDraw);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(0);
+
 
         }
 
@@ -85,8 +142,14 @@ namespace TareaU
 
             //Dibujar el triangulo
             shader.Use();
-            GL.BindVertexArray(vertexArrayObject);
-            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+            //GL.BindVertexArray(vertexArrayObject);
+            //GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+
+
+            // Dibujar la letra "L"
+            GL.BindVertexArray(lVertexArrayObject);
+            GL.DrawElements(PrimitiveType.Triangles, uIndices.Length, DrawElementsType.UnsignedInt, 0);
+
 
             SwapBuffers();
 
