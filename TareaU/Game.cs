@@ -17,41 +17,36 @@ namespace TareaU
         private int lElementBufferObject;
         private int lVertexArrayObject;
 
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
 
-        //Vertices de un triangulo
-        float[] vertices = {
-             0.5f,  0.5f, 0.0f,  // top right
-             0.5f, -0.5f, 0.0f,  // bottom right
-            -0.5f, -0.5f, 0.0f,  // bottom left
-            -0.5f,  0.5f, 0.0f   // top left
-        };
 
-        uint[] indices = {  // note that we start from 0!
-            0, 1, 3,   // first triangle
-            1, 2, 3    // second triangle
-        };
-
-        // Vértices para la letra "U"
-        float[] uVertices = {
-            //Rectangulo 1
-            -0.8f,  0.8f, 0.0f,  // arriba izq
-            -0.8f, -0.8f, 0.0f,  // abajo izq (vertical)
-            -0.6f, -0.8f, 0.0f,  // abajo der (horizontal)
-            -0.6f,  0.8f, 0.0f,  // arriba der (horizontal)
+        float[] getVertices(float x, float y, float z)
+        {
+            // Vértices para la letra "U"
+            return new float[]
+            {
+                //Rectangulo 1
+                -0.8f + x,  0.8f + y, 0.0f + z,  // arriba izq
+                -0.8f + x, -0.8f + y, 0.0f + z,  // abajo izq (vertical)
+                -0.6f + x, -0.8f + y, 0.0f + z,  // abajo der (horizontal)
+                -0.6f + x,  0.8f + y, 0.0f + z,  // arriba der (horizontal)
             
-            //Rectangulo 2
-            -0.6f,  -0.8f, 0.0f, // abajo izq
-            -0.6f,  -0.6f, 0.0f, // arriba izq
-            0.6f,  -0.6f, 0.0f,  // arriba der
-            0.6f,  -0.8f, 0.0f,  // abajo der
+                //Rectangulo 2
+                -0.6f + x,  -0.8f + y, 0.0f + z, // abajo izq
+                -0.6f + x,  -0.6f + y, 0.0f + z, // arriba izq
+                0.6f + x,  -0.6f + y, 0.0f + z,  // arriba der
+                0.6f + x,  -0.8f + y, 0.0f + z,  // abajo der
 
-            //Rectangulo 3
-            0.6f,  0.8f, 0.0f,  // arriba izq
-            0.6f,  -0.8f, 0.0f,  // abajo izq
-            0.8f,  -0.8f, 0.0f,  // abajo der
-            0.8f,  0.8f, 0.0f,  // arriba der
+                //Rectangulo 3
+                0.6f + x,  0.8f + y, 0.0f + z,  // arriba izq
+                0.6f + x,  -0.8f + y, 0.0f + z,  // abajo izq
+                0.8f + x,  -0.8f + y, 0.0f + z,  // abajo der
+                0.8f + x,  0.8f + y, 0.0f + z,  // arriba der
 
-        };
+            };
+        }
 
 
         // Índices para formar los triángulos de la letra "U"
@@ -84,6 +79,22 @@ namespace TareaU
                 // If it is, close the window.
                 Close();
             }
+            // Mueve la letra "U" a la izquierda/derecha con las teclas A/D
+            if (KeyboardState.IsKeyDown(Keys.A))
+            {
+                x -= 0.01f;  // Desplazamiento a la izquierda
+            }
+            if (KeyboardState.IsKeyDown(Keys.D))
+            {
+                x += 0.01f;  // Desplazamiento a la derecha
+            }
+
+            // Actualiza los vértices con la nueva posición
+            float[] updatedVertices = getVertices(x,0,0);
+
+            // Actualiza los datos del buffer con los nuevos vértices
+            GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
+            GL.BufferData(BufferTarget.ArrayBuffer, updatedVertices.Length * sizeof(float), updatedVertices, BufferUsageHint.StaticDraw);
 
             base.OnUpdateFrame(e);
         }
@@ -108,8 +119,6 @@ namespace TareaU
 
 
             //3. Cargar los vertices en el buffer
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
             //Definiendo la forma de los vertices
             //pos 0, 3 elementos, tipo float, no normalizado, distancia entre atributos del vertice, offset 0
@@ -125,7 +134,7 @@ namespace TareaU
             GL.BindVertexArray(lVertexArrayObject);
             GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, lElementBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, uVertices.Length * sizeof(float), uVertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, getVertices(0,0,0).Length * sizeof(float), getVertices(0,0,0), BufferUsageHint.StaticDraw);
             GL.BufferData(BufferTarget.ElementArrayBuffer, uIndices.Length * sizeof(uint), uIndices, BufferUsageHint.StaticDraw);
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
