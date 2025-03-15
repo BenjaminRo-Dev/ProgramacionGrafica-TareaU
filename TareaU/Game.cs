@@ -10,21 +10,22 @@ namespace TareaU
         Shader shader;
 
         private int vertexBufferObject;    //Se encarga de almacenar los vertices
-        
+        private int elementBufferObject;   //Se encarga de almacenar los indices
         private int vertexArrayObject;
 
 
         //Vertices de un triangulo
-        private readonly float[] vertices =
-        {
-            //x, y, z
-            -0.5f, -0.5f, 0.0f, //abajo izquierda
-             0.5f, -0.5f, 0.0f, //abajo derecha
-             0.0f,  0.5f, 0.0f  //arriba
+        float[] vertices = {
+             0.5f,  0.5f, 0.0f,  // top right
+             0.5f, -0.5f, 0.0f,  // bottom right
+            -0.5f, -0.5f, 0.0f,  // bottom left
+            -0.5f,  0.5f, 0.0f   // top left
         };
 
-
-        //private int _vertexArrayObject;
+        uint[] indices = {  // note that we start from 0!
+            0, 1, 3,   // first triangle
+            1, 2, 3    // second triangle
+        };
 
 
         // A simple constructor to let us set properties like window size, title, FPS, etc. on the window.
@@ -46,44 +47,33 @@ namespace TareaU
 
         //Esta funcion se ejecuta cuando se carga la ventana
         protected override void OnLoad()
-        {
+        {   
             base.OnLoad();
-            //Generar el buffer
-            vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-
-            //Cargar los vertices en el buffer
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
-
             //Dibujar los vertices
-            //shader = new Shader("shader.vert", "shader.frag");
             shader = new Shader("../../../Shaders/shader.vert", "../../../Shaders/shader.frag");
-
+            
+            //1. Generar el buffer
+            vertexBufferObject = GL.GenBuffer();
             vertexArrayObject = GL.GenVertexArray();
-            GL.BindVertexArray(vertexArrayObject); //Vincular el vertex array object
+            elementBufferObject = GL.GenBuffer();
 
-            //Copiar nuestros vertices en un buffer que OpenGL puede usar
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
+            //2. Vincular el buffer
+            GL.BindVertexArray(vertexArrayObject);                                      //Vincular el vertex array object
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);                //Vincular el buffer de vertices
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);        //Vincular el buffer de elementos
+
+
+            //3. Cargar los vertices en el buffer
             GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
             //Definiendo la forma de los vertices
-                                //pos 0, 3 elementos, tipo float, no normalizado, distancia entre atributos del vertice, offset 0
+            //pos 0, 3 elementos, tipo float, no normalizado, distancia entre atributos del vertice, offset 0
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
-
-            //shader.Use();
-            // 3. now draw the object
-            //someOpenGLFunctionThatDrawsOurTriangle();
-
-            
 
 
-            //GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-
-            //Code goes here
         }
 
         //OnRenderFrame se ejecuta cada vez que se renderiza un frame
@@ -96,10 +86,9 @@ namespace TareaU
             //Dibujar el triangulo
             shader.Use();
             GL.BindVertexArray(vertexArrayObject);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
 
             SwapBuffers();
-
 
 
         }
