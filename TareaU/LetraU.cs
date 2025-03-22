@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace TareaU
 {
 
     class LetraU
     {
-        float x = 0.0f;
+        public float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
 
@@ -19,6 +20,8 @@ namespace TareaU
             this.y = y;
             this.z = z;
         }
+
+        
 
         public float[] getVertices(float x, float y, float z)
         {
@@ -62,5 +65,8 @@ namespace TareaU
                 8, 11, 10  // Second triangle (top half)
             };
         }
+
+
+
     }
 }

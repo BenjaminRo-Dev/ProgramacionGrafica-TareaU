@@ -27,31 +27,29 @@ namespace TareaU
         // This function runs on every update frame.
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            // Check if the Escape button is currently being pressed.
-            //if (KeyboardState.IsKeyDown(Keys.Escape))
-            //{
-            //    // If it is, close the window.
-            //    Close();
-            //}
-            //// Mueve la letra "U" a la izquierda/derecha con las teclas A/D
-            //if (KeyboardState.IsKeyDown(Keys.A))
-            //{
-            //    x -= 0.01f;  // Desplazamiento a la izquierda
-            //}
-            //if (KeyboardState.IsKeyDown(Keys.D))
-            //{
-            //    x += 0.01f;  // Desplazamiento a la derecha
-            //}
+            // Ajusta el valor de desplazamiento para que la letra se mueva más lentamente
+            float moveSpeed = 0.005f;  // Reducido el valor de desplazamiento para que sea más suave
 
-            //// Actualiza los vértices con la nueva posición
-            //float[] updatedVertices = u.getVertices(0,0,0);
+            if (KeyboardState.IsKeyDown(Keys.A))
+            {
+                u.x -= moveSpeed;  // Desplazamiento a la izquierda
+            }
+            if (KeyboardState.IsKeyDown(Keys.D))
+            {
+                u.x += moveSpeed;  // Desplazamiento a la derecha
+            }
 
-            //// Actualiza los datos del buffer con los nuevos vértices
-            //GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
-            //GL.BufferData(BufferTarget.ArrayBuffer, updatedVertices.Length * sizeof(float), updatedVertices, BufferUsageHint.StaticDraw);
+            // Actualiza los vértices con la nueva posición
+            float[] updatedVertices = u.getVertices(u.x, 0, 0);
+
+            // Actualiza los datos del buffer con los nuevos vértices
+            GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
+            GL.BufferData(BufferTarget.ArrayBuffer, updatedVertices.Length * sizeof(float), updatedVertices, BufferUsageHint.StaticDraw);
 
             base.OnUpdateFrame(e);
         }
+
+
 
 
         //Esta funcion se ejecuta cuando se carga la ventana
