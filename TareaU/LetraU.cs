@@ -21,8 +21,6 @@ namespace TareaU
             this.z = z;
         }
 
-        
-
         public float[] getVertices(float x, float y, float z)
         {
             // Vértices para la letra "U"
@@ -52,8 +50,8 @@ namespace TareaU
         // Índices para formar los triángulos de la letra "U"
         public uint[] getIndices()
         {
-            return new uint[]
-            {
+            return
+            [
                 //Rectangulo 1
                 0, 1, 3,  // First triangle (top left to internal corner)
                 1, 2, 3,  // Second triangle (top half)
@@ -63,7 +61,7 @@ namespace TareaU
                 //Rectangulo 3
                 8, 9, 10,  // First triangle (top left to internal corner)
                 8, 11, 10  // Second triangle (top half)
-            };
+            ];
         }
 
 
