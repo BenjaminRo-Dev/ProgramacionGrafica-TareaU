@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using System.Diagnostics;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -17,54 +18,7 @@ namespace TareaU
         private int lElementBufferObject;
         private int lVertexArrayObject;
 
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-
-
-        float[] getVertices(float x, float y, float z)
-        {
-            // Vértices para la letra "U"
-            return new float[]
-            {
-                //Rectangulo 1
-                -0.8f + x,  0.8f + y, 0.0f + z,  // arriba izq
-                -0.8f + x, -0.8f + y, 0.0f + z,  // abajo izq (vertical)
-                -0.6f + x, -0.8f + y, 0.0f + z,  // abajo der (horizontal)
-                -0.6f + x,  0.8f + y, 0.0f + z,  // arriba der (horizontal)
-            
-                //Rectangulo 2
-                -0.6f + x,  -0.8f + y, 0.0f + z, // abajo izq
-                -0.6f + x,  -0.6f + y, 0.0f + z, // arriba izq
-                0.6f + x,  -0.6f + y, 0.0f + z,  // arriba der
-                0.6f + x,  -0.8f + y, 0.0f + z,  // abajo der
-
-                //Rectangulo 3
-                0.6f + x,  0.8f + y, 0.0f + z,  // arriba izq
-                0.6f + x,  -0.8f + y, 0.0f + z,  // abajo izq
-                0.8f + x,  -0.8f + y, 0.0f + z,  // abajo der
-                0.8f + x,  0.8f + y, 0.0f + z,  // arriba der
-
-            };
-        }
-
-
-        // Índices para formar los triángulos de la letra "U"
-        uint[] uIndices = {
-            //Rectangulo 1
-            0, 1, 3,  // First triangle (top left to internal corner)
-            1, 2, 3,  // Second triangle (top half)
-
-            //Rectangulo 2
-            4, 5, 6,  // First triangle (top left to internal corner)
-            4, 7, 6,  // Second triangle (top half)
-
-            //Rectangulo 3
-            8, 9, 10,  // First triangle (top left to internal corner)
-            8, 11, 10  // Second triangle (top half)
-        };
-
-
+        LetraU u = new LetraU(0, 0, 0);
 
 
         // A simple constructor to let us set properties like window size, title, FPS, etc. on the window.
@@ -74,27 +28,27 @@ namespace TareaU
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             // Check if the Escape button is currently being pressed.
-            if (KeyboardState.IsKeyDown(Keys.Escape))
-            {
-                // If it is, close the window.
-                Close();
-            }
-            // Mueve la letra "U" a la izquierda/derecha con las teclas A/D
-            if (KeyboardState.IsKeyDown(Keys.A))
-            {
-                x -= 0.01f;  // Desplazamiento a la izquierda
-            }
-            if (KeyboardState.IsKeyDown(Keys.D))
-            {
-                x += 0.01f;  // Desplazamiento a la derecha
-            }
+            //if (KeyboardState.IsKeyDown(Keys.Escape))
+            //{
+            //    // If it is, close the window.
+            //    Close();
+            //}
+            //// Mueve la letra "U" a la izquierda/derecha con las teclas A/D
+            //if (KeyboardState.IsKeyDown(Keys.A))
+            //{
+            //    x -= 0.01f;  // Desplazamiento a la izquierda
+            //}
+            //if (KeyboardState.IsKeyDown(Keys.D))
+            //{
+            //    x += 0.01f;  // Desplazamiento a la derecha
+            //}
 
-            // Actualiza los vértices con la nueva posición
-            float[] updatedVertices = getVertices(x,0,0);
+            //// Actualiza los vértices con la nueva posición
+            //float[] updatedVertices = u.getVertices(0,0,0);
 
-            // Actualiza los datos del buffer con los nuevos vértices
-            GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, updatedVertices.Length * sizeof(float), updatedVertices, BufferUsageHint.StaticDraw);
+            //// Actualiza los datos del buffer con los nuevos vértices
+            //GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
+            //GL.BufferData(BufferTarget.ArrayBuffer, updatedVertices.Length * sizeof(float), updatedVertices, BufferUsageHint.StaticDraw);
 
             base.OnUpdateFrame(e);
         }
@@ -125,8 +79,6 @@ namespace TareaU
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
 
-
-            // Configurar la letra "L"
             lVertexBufferObject = GL.GenBuffer();
             lVertexArrayObject = GL.GenVertexArray();
             lElementBufferObject = GL.GenBuffer();
@@ -134,14 +86,16 @@ namespace TareaU
             GL.BindVertexArray(lVertexArrayObject);
             GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, lElementBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, getVertices(0,0,0).Length * sizeof(float), getVertices(0,0,0), BufferUsageHint.StaticDraw);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, uIndices.Length * sizeof(uint), uIndices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, u.getVertices(0,0,0).Length * sizeof(float), u.getVertices(0,0,0), BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, u.getIndices().Length * sizeof(uint), u.getIndices(), BufferUsageHint.StaticDraw);
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
 
 
+
         }
 
+        Stopwatch _timer = Stopwatch.StartNew();
         //OnRenderFrame se ejecuta cada vez que se renderiza un frame
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -154,10 +108,17 @@ namespace TareaU
             //GL.BindVertexArray(vertexArrayObject);
             //GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
 
+            // update the uniform color
+            
+            double timeValue = _timer.Elapsed.TotalSeconds;
+            float greenValue = (float)Math.Sin(timeValue) / 2.0f + 0.5f;
+            int vertexColorLocation = GL.GetUniformLocation(shader.Handle, "ourColor");
+            GL.Uniform4(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
-            // Dibujar la letra "L"
+
+            // Dibujar la letra
             GL.BindVertexArray(lVertexArrayObject);
-            GL.DrawElements(PrimitiveType.Triangles, uIndices.Length, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Triangles, u.getIndices().Length, DrawElementsType.UnsignedInt, 0);
 
 
             SwapBuffers();
