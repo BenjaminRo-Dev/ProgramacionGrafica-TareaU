@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
@@ -14,10 +15,6 @@ namespace TareaU
         private int elementBufferObject;   //Se encarga de almacenar los indices
         private int vertexArrayObject;
 
-        private int lVertexBufferObject;
-        private int lElementBufferObject;
-        private int lVertexArrayObject;
-
         LetraU u = new LetraU(0, 0, 0);
 
 
@@ -28,7 +25,7 @@ namespace TareaU
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             // Ajusta el valor de desplazamiento para que la letra se mueva más lentamente
-            float moveSpeed = 0.005f;  // Reducido el valor de desplazamiento para que sea más suave
+            float moveSpeed = 0.0005f;  // Reducido el valor de desplazamiento para que sea más suave
 
             if (KeyboardState.IsKeyDown(Keys.A))
             {
@@ -43,7 +40,7 @@ namespace TareaU
             float[] updatedVertices = u.getVertices(u.x, 0, 0);
 
             // Actualiza los datos del buffer con los nuevos vértices
-            GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
             GL.BufferData(BufferTarget.ArrayBuffer, updatedVertices.Length * sizeof(float), updatedVertices, BufferUsageHint.StaticDraw);
 
             base.OnUpdateFrame(e);
@@ -58,7 +55,7 @@ namespace TareaU
             base.OnLoad();
             //Dibujar los vertices
             shader = new Shader("../../../Shaders/shader.vert", "../../../Shaders/shader.frag");
-            
+
             //1. Generar el buffer
             vertexBufferObject = GL.GenBuffer();
             vertexArrayObject = GL.GenVertexArray();
@@ -74,20 +71,13 @@ namespace TareaU
 
             //Definiendo la forma de los vertices
             //pos 0, 3 elementos, tipo float, no normalizado, distancia entre atributos del vertice, offset 0
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
 
-            lVertexBufferObject = GL.GenBuffer();
-            lVertexArrayObject = GL.GenVertexArray();
-            lElementBufferObject = GL.GenBuffer();
-
-            GL.BindVertexArray(lVertexArrayObject);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, lElementBufferObject);
             GL.BufferData(BufferTarget.ArrayBuffer, u.getVertices(0,0,0).Length * sizeof(float), u.getVertices(0,0,0), BufferUsageHint.StaticDraw);
             GL.BufferData(BufferTarget.ElementArrayBuffer, u.getIndices().Length * sizeof(uint), u.getIndices(), BufferUsageHint.StaticDraw);
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
+            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+            GL.EnableVertexAttribArray(1);
 
 
 
@@ -103,8 +93,6 @@ namespace TareaU
 
             //Dibujar el triangulo
             shader.Use();
-            //GL.BindVertexArray(vertexArrayObject);
-            //GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
 
             // update the uniform color
             
@@ -115,7 +103,7 @@ namespace TareaU
 
 
             // Dibujar la letra
-            GL.BindVertexArray(lVertexArrayObject);
+            GL.BindVertexArray(vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, u.getIndices().Length, DrawElementsType.UnsignedInt, 0);
 
 

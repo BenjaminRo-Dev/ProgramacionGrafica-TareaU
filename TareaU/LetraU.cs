@@ -25,26 +25,37 @@ namespace TareaU
 
         public float[] getVertices(float x, float y, float z)
         {
+
+            //return new float[]
+            //   {
+            //      // positions        // colors
+            //      0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+            //     -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+            //      0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
+            //    };
+
+
             // Vértices para la letra "U"
             return new float[]
             {
-                //Rectangulo 1
-                -0.8f + x,  0.8f + y, 0.0f + z,  // arriba izq
-                -0.8f + x, -0.8f + y, 0.0f + z,  // abajo izq (vertical)
-                -0.6f + x, -0.8f + y, 0.0f + z,  // abajo der (horizontal)
-                -0.6f + x,  0.8f + y, 0.0f + z,  // arriba der (horizontal)
+                //Posiciones                            Colores
+                //Rectangulo 1 
+                -0.8f + x,  0.8f + y, 0.0f + z,  1.0f, 0.0f, 0.0f,                       // arriba izq
+                -0.8f + x, -0.8f + y, 0.0f + z,  0.0f, 1.0f, 0.0f,                       // abajo izq (vertical)
+                -0.6f + x, -0.8f + y, 0.0f + z,  0.0f, 0.0f, 1.0f,                       // abajo der (horizontal)
+                -0.6f + x,  0.8f + y, 0.0f + z,  1.0f, 0.0f, 0.0f,                       // arriba der (horizontal)
             
                 //Rectangulo 2
-                -0.6f + x,  -0.8f + y, 0.0f + z, // abajo izq
-                -0.6f + x,  -0.6f + y, 0.0f + z, // arriba izq
-                0.6f + x,  -0.6f + y, 0.0f + z,  // arriba der
-                0.6f + x,  -0.8f + y, 0.0f + z,  // abajo der
+                -0.6f + x,  -0.8f + y, 0.0f + z, 1.0f, 0.0f, 0.0f,// abajo izq
+                -0.6f + x,  -0.6f + y, 0.0f + z, 0.0f, 1.0f, 0.0f,// arriba izq
+                0.6f + x,  -0.6f + y, 0.0f + z,  0.0f, 0.0f, 1.0f,// arriba der
+                0.6f + x,  -0.8f + y, 0.0f + z,  1.0f, 0.0f, 0.0f,// abajo der
 
                 //Rectangulo 3
-                0.6f + x,  0.8f + y, 0.0f + z,  // arriba izq
-                0.6f + x,  -0.8f + y, 0.0f + z,  // abajo izq
-                0.8f + x,  -0.8f + y, 0.0f + z,  // abajo der
-                0.8f + x,  0.8f + y, 0.0f + z,  // arriba der
+                0.6f + x,  0.8f + y, 0.0f + z,  1.0f, 0.0f, 0.0f,// arriba izq
+                0.6f + x,  -0.8f + y, 0.0f + z, 0.0f, 1.0f, 0.0f, // abajo izq
+                0.8f + x,  -0.8f + y, 0.0f + z, 0.0f, 0.0f, 1.0f, // abajo der
+                0.8f + x,  0.8f + y, 0.0f + z,  1.0f, 0.0f, 0.0f,// arriba der
 
             };
         }
@@ -52,6 +63,13 @@ namespace TareaU
         // Índices para formar los triángulos de la letra "U"
         public uint[] getIndices()
         {
+            //return new uint[] {
+            //     // note that we start from 0!
+            //    0, 1, 3,   // first triangle
+            //    //1, 2, 3    // second triangle
+            //};
+
+
             return new uint[]
             {
                 //Rectangulo 1
