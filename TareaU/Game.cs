@@ -2,8 +2,8 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTK.Windowing.Desktop;
 
 namespace TareaU
 {
@@ -15,7 +15,12 @@ namespace TareaU
         private int elementBufferObject;   //Bufer para guardar los indices de los vertices (que forman objetos)
         private int vertexArrayObject;     //Arreglo de vertices
 
-        LetraU u = new LetraU(0, 0, 0);
+        private Matrix4 modelo;
+        private Matrix4 vista;
+        private Matrix4 proyeccion;
+
+
+        LetraU u = new LetraU(0, 0, 0, 4, 4, 0);
 
 
         // A simple constructor to let us set properties like window size, title, FPS, etc. on the window.
@@ -39,7 +44,13 @@ namespace TareaU
             if (KeyboardState.IsKeyDown(Keys.S))
                 u.y -= moveSpeed;  // Desplazamiento a abajo
 
-            
+            if (KeyboardState.IsKeyDown(Keys.Q))
+                u.z += moveSpeed;  // Desplazamiento hacia adelante
+
+            if (KeyboardState.IsKeyDown(Keys.E))
+                u.z -= moveSpeed;  // Desplazamiento hacia atrás
+
+
             // Actualiza los vértices con la nueva posición
             float[] updatedVertices = u.getVertices(u.x, u.y, u.z);
 
@@ -90,6 +101,11 @@ namespace TareaU
             GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
             GL.EnableVertexAttribArray(1);//Habilita el atributo del vertice en la ubicación 1
 
+            //3D:
+            modelo = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(55.0f));
+            vista = Matrix4.CreateTranslation(0.0f, 0.0f, -10.0f);
+            proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / Size.Y, 0.1f, 100.0f);
+
 
 
         }
@@ -116,6 +132,12 @@ namespace TareaU
             GL.BindVertexArray(vertexArrayObject);      //Vincula o enlaza el vertex array object (creado en onload) para poder dibujar los vertices
             GL.DrawElements(PrimitiveType.Triangles, u.getIndices().Length, DrawElementsType.UnsignedInt, 0);   //Dibuja los elementos de los vertices
 
+            //Enviar las matrices al shader:
+            shader.SetMatrix4("model", modelo);
+            shader.SetMatrix4("view", vista);
+            shader.SetMatrix4("projection", proyeccion);
+
+
 
             SwapBuffers();      //Intercambia los buffers para mostrar el nuevo fotograma
 
@@ -137,7 +159,7 @@ namespace TareaU
             //GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             //GL.DeleteBuffer(_vertexBufferObject);
             //GL.DeleteProgram(shader.Handle);
-            shader.Dispose();
+            //shader.Dispose();
         }
     }
 }
