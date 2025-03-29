@@ -9,14 +9,22 @@ namespace TareaU
     class Cuboide
     {
         List<Rectangulo> rectangulos = new List<Rectangulo>();
-        public Cuboide() {
+        public Cuboide(float x, float y, float z, float w, float h, float d)
+        {
 
-            rectangulos.Add(new Rectangulo(-2, -2, 0, 2, 2, -5));
-            rectangulos.Add(new Rectangulo(2, -2, 0, 2, 2, -5));
-            rectangulos.Add(new Rectangulo(-2, 2, 0, 3, 3, -5));
+            // Frontal
+            rectangulos.Add(new Rectangulo(x, y, z, w, h, d, Rectangulo.Cara.Frontal, Rectangulo.Color.Azul));
+            rectangulos.Add(new Rectangulo(x, y, z + d, w, h, d, Rectangulo.Cara.Frontal, Rectangulo.Color.Azul));
+
+            // Echada (Superior)
+            rectangulos.Add(new Rectangulo(x, y, z, w, h, d, Rectangulo.Cara.Echada, Rectangulo.Color.Verde));
+            rectangulos.Add(new Rectangulo(x, y + h, z, w, h, d, Rectangulo.Cara.Echada, Rectangulo.Color.Verde));
+
+            // Costado (Lateral)
+            rectangulos.Add(new Rectangulo(x, y, z, w, h, d, Rectangulo.Cara.Costado, Rectangulo.Color.Rojo));
+            rectangulos.Add(new Rectangulo(x + w, y, z, w, h, d, Rectangulo.Cara.Costado, Rectangulo.Color.Rojo));
 
         }
-
 
         public void Dibujar(int vertexBufferObject, int elementBufferObject)
         {

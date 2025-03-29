@@ -21,9 +21,7 @@ namespace TareaU
 
         private double _time;
 
-        List<Rectangulo> rectangulos = new List<Rectangulo>();
-        Cuboide cuboide = new Cuboide();
-
+        List<LetraU> letras = new List<LetraU>();
 
         public Game(int width, int height, string title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = title }) { }
 
@@ -31,6 +29,7 @@ namespace TareaU
         protected override void OnLoad()
         {   
             base.OnLoad();
+            GL.Enable(EnableCap.DepthTest);
             //Dibujar los vertices
             shader = new Shader("../../../Shaders/shader.vert", "../../../Shaders/shader.frag");
 
@@ -50,30 +49,32 @@ namespace TareaU
             GL.EnableVertexAttribArray(1);
 
             //3D:
-            modelo = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(0.0f));    //Vista en diferente angulo
+            modelo =  Matrix4.CreateRotationX(MathHelper.DegreesToRadians(20.0f));
             vista = Matrix4.CreateTranslation(0.0f, 0.0f, -20.0f);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / Size.Y, 0.1f, 100.0f);
 
-            //rectangulos.Add(new Rectangulo(-2, -2, 0, 2, 2, -5));
-            //rectangulos.Add(new Rectangulo(2, -2, 0, 2, 2, -5));
-            //rectangulos.Add(new Rectangulo(-2, 2, 0, 3, 3, -5));
+
+            letras.Add(new LetraU(0, 0, 0, 2, 6, 2));
+            letras.Add(new LetraU(-10, 0, 0, 2, 6, 2));
+            letras.Add(new LetraU(+10, 0, 0, 2, 6, 2));
 
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
-            _time += 16.0 * e.Time;
+            _time += 128.0 * e.Time;
 
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             shader.Use();
 
-            modelo = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(_time));
+            //modelo = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(_time));
             modelo = Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(_time));
 
-            //DibujarRectangulos();
-            cuboide.Dibujar(vertexBufferObject, elementBufferObject);
+            DibujarObjetos();
+            //cuboide.Dibujar(vertexBufferObject, elementBufferObject);
+            //letraU.Dibujar(vertexBufferObject, elementBufferObject);
 
             //Enviar las matrices al shader:
             shader.SetMatrix4("model", modelo);
@@ -84,11 +85,11 @@ namespace TareaU
 
         }
 
-        private void DibujarRectangulos()
+        private void DibujarObjetos()
         {
-            foreach (var rectangulo in rectangulos)
+            foreach (var letra in letras)
             {
-                rectangulo.Dibujar(vertexBufferObject, elementBufferObject);
+                letra.Dibujar(vertexBufferObject, elementBufferObject);
             }
         }
 

@@ -23,7 +23,21 @@ namespace TareaU
 
         Vertice[] vertices;
 
-        public Rectangulo(float x, float y, float z, float w, float h, float d)
+        public enum Cara
+        {
+            Frontal,   // Frente
+            Echada,    // Superior
+            Costado    // Lateral
+        }
+
+        public enum Color
+        {
+            Rojo = 1,
+            Verde = 2,
+            Azul = 3
+        }
+
+        public Rectangulo(float x, float y, float z, float w, float h, float d, Cara cara, Color color)
         {
             this.x = x;
             this.y = y;
@@ -32,17 +46,58 @@ namespace TareaU
             this.h = h;
             this.d = d;
 
-            float r = 1.0f;
+            float r = 0.0f;
             float g = 0.0f;
             float b = 0.0f;
 
-            vertices = new Vertice[]
+            switch (color)
             {
-                new Vertice(x,      y,      z + d,      r, g, b),   // Abajo izquierda
-                new Vertice(x + w,  y,      z + d,      r, g, b),   // Abajo derecha
-                new Vertice(x + w,  y + h,  z + d,      r, g, b),   // Arriba derecha
-                new Vertice(x,      y + h,  z + d,      r, g, b)    // Arriba izquierda
-            };
+                case Color.Rojo:
+                    r = 0.9f;
+                    break;
+                case Color.Verde:
+                    g = 0.5f;
+                    break;
+                case Color.Azul:
+                    b = 0.3f;
+                    break;
+            }
+
+            switch (cara)
+            {
+                case Cara.Frontal:
+                    // Cara de frente (XY plane)
+                    vertices = new Vertice[]
+                    {
+                        new Vertice(x,      y,      z,      r, g, b),   // Abajo izquierda
+                        new Vertice(x + w,  y,      z,      r, g, b),   // Abajo derecha
+                        new Vertice(x + w,  y + h,  z,      r, g, b),   // Arriba derecha
+                        new Vertice(x,      y + h,  z,      r, g, b)    // Arriba izquierda
+                    };
+                    break;
+
+                case Cara.Echada:
+                    // Cara echada (XZ plane)
+                    vertices = new Vertice[]
+                    {
+                        new Vertice(x,      y,      z,      r, g, b),   // Abajo izquierda
+                        new Vertice(x + w,  y,      z,      r, g, b),   // Abajo derecha
+                        new Vertice(x + w,  y,      z + d,  r, g, b),   // Arriba derecha
+                        new Vertice(x,      y,      z + d,  r, g, b)    // Arriba izquierda
+                    };
+                    break;
+
+                case Cara.Costado:
+                    // Cara de costado (YZ plane)
+                    vertices = new Vertice[]
+                    {
+                        new Vertice(x,      y,      z,      r, g, b),   // Abajo izquierda
+                        new Vertice(x,      y,      z + d,  r, g, b),   // Abajo derecha
+                        new Vertice(x,      y + h,  z + d,  r, g, b),   // Arriba derecha
+                        new Vertice(x,      y + h,  z,      r, g, b)    // Arriba izquierda
+                    };
+                    break;
+            }
         }
 
         public void Dibujar(int vertexBufferObject, int elementBufferObject)
@@ -59,55 +114,38 @@ namespace TareaU
             GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 
-
         public void Mover(float dx, float dy, float dz)
         {
             this.x += dx;
             this.y += dy;
             this.z += dz;
 
-            vertices[0].X += dx;
-            vertices[0].Y += dy;
-            vertices[0].Z += dz;
-
-            vertices[1].X += dx;
-            vertices[1].Y += dy;
-            vertices[1].Z += dz;
-
-            vertices[2].X += dx;
-            vertices[2].Y += dy;
-            vertices[2].Z += dz;
-
-            vertices[3].X += dx;
-            vertices[3].Y += dy;
-            vertices[3].Z += dz;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i].X += dx;
+                vertices[i].Y += dy;
+                vertices[i].Z += dz;
+            }
         }
-
-
-
-
 
         public float[] getVertices()
         {
-
             List<float> verticesList = new List<float>();
             foreach (Vertice vertice in vertices)
             {
                 verticesList.AddRange(vertice.ToArray());
             }
             return verticesList.ToArray();
-            
         }
 
         public uint[] getIndices()
         {
-            return
-            [
-                0, 1, 2,
-                2, 3, 0,
-            ];
-
+            return new uint[]
+            {
+            0, 1, 2,
+            2, 3, 0,
+            };
         }
-
     }
+
 }
