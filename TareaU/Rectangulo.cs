@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Diagnostics;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using OpenTK.Windowing.Desktop;
+using System.Drawing;
 
 namespace TareaU
 {
@@ -50,13 +47,16 @@ namespace TareaU
 
         public void Dibujar(int vertexBufferObject, int elementBufferObject)
         {
+            float[] updatedVertices = getVertices();
+            uint[] indices = getIndices();
+
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, getVertices().Length * sizeof(float), getVertices(), BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, updatedVertices.Length * sizeof(float), updatedVertices, BufferUsageHint.StaticDraw);
 
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, getIndices().Length * sizeof(uint), getIndices(), BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
-            GL.DrawElements(PrimitiveType.Triangles, getIndices().Length, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 
 
@@ -108,8 +108,6 @@ namespace TareaU
             ];
 
         }
-
-
 
     }
 }
