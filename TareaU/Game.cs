@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTK.Windowing.Desktop;
 
 namespace TareaU
 {
@@ -10,105 +11,88 @@ namespace TareaU
     {
         Shader shader;
 
-        private int vertexBufferObject;    //Se encarga de almacenar los vertices
-        private int elementBufferObject;   //Se encarga de almacenar los indices
+        private int vertexBufferObject;
+        private int elementBufferObject;
         private int vertexArrayObject;
 
-        private int lVertexBufferObject;
-        private int lElementBufferObject;
-        private int lVertexArrayObject;
+        private Matrix4 modelo;
+        private Matrix4 vista;
+        private Matrix4 proyeccion;
 
-        LetraU u = new LetraU(0, 0, 0);
+        private double _time;
+
+        List<LetraU> letras = new List<LetraU>();
 
         public Game(int width, int height, string title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = title }) { }
 
-        protected override void OnUpdateFrame(FrameEventArgs e)
-        {
-            float moveSpeed = 0.0005f;
 
-            if (KeyboardState.IsKeyDown(Keys.A))
-            {
-                u.x -= moveSpeed;   //Izquierda
-            }
-            if (KeyboardState.IsKeyDown(Keys.D))
-            {
-                u.x += moveSpeed;  //Derecha
-            }
-
-            // Actualiza los vértices con la nueva posición
-            float[] verticesActualizados = u.getVertices(u.x, 0, 0);
-
-            // Actualiza los datos del buffer con los nuevos vértices
-            GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, verticesActualizados.Length * sizeof(float), verticesActualizados, BufferUsageHint.StaticDraw);
-
-            base.OnUpdateFrame(e);
-        }
-
-        protected override void OnLoad() //Esta funcion se ejecuta cuando se carga la ventana
+        protected override void OnLoad()
         {   
             base.OnLoad();
+            GL.Enable(EnableCap.DepthTest);
             //Dibujar los vertices
             shader = new Shader("../../../Shaders/shader.vert", "../../../Shaders/shader.frag");
-            
+
             //1. Generar el buffer
-            vertexBufferObject = GL.GenBuffer();
-            vertexArrayObject = GL.GenVertexArray();
-            elementBufferObject = GL.GenBuffer();
+            vertexBufferObject = GL.GenBuffer();       
+            elementBufferObject = GL.GenBuffer();      
+            vertexArrayObject = GL.GenVertexArray();    
 
-            //2. Vincular el buffer
-            GL.BindVertexArray(vertexArrayObject);                                      //Vincular el vertex array object
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);                //Vincular el buffer de vertices
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);        //Vincular el buffer de elementos
+            GL.BindVertexArray(vertexArrayObject);
 
-
-            //3. Cargar los vertices en el buffer
-
-            //Definiendo la forma de los vertices
-            //pos 0, 3 elementos, tipo float, no normalizado, distancia entre atributos del vertice, offset 0
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
 
-            lVertexBufferObject = GL.GenBuffer();
-            lVertexArrayObject = GL.GenVertexArray();
-            lElementBufferObject = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
+            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+            GL.EnableVertexAttribArray(1);
 
-            GL.BindVertexArray(lVertexArrayObject);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, lVertexBufferObject);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, lElementBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, u.getVertices(0,0,0).Length * sizeof(float), u.getVertices(0,0,0), BufferUsageHint.StaticDraw);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, u.getIndices().Length * sizeof(uint), u.getIndices(), BufferUsageHint.StaticDraw);
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
+            //3D:
+            modelo =  Matrix4.CreateRotationX(MathHelper.DegreesToRadians(20.0f));
+            vista = Matrix4.CreateTranslation(0.0f, 0.0f, -40.0f);
+            proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / Size.Y, 0.1f, 100.0f);
 
+            letras.Add(new LetraU(0, 0, 0, 2, 6, 2));
+            //letras.Add(new LetraU(-10, 0, 0, 2, 6, 2));
+            //letras.Add(new LetraU(+10, 0, 0, 2, 6, 2));
+            //letras.Add(new LetraU(0, 10, -3, 2, 6, 2));
 
         }
 
-        Stopwatch _timer = Stopwatch.StartNew();
-        
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
+            _time += 128.0 * e.Time;
 
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             shader.Use();
-            
-            //Hace que la figura parpadee:
-            double timeValue = _timer.Elapsed.TotalSeconds;
-            float greenValue = (float)Math.Sin(timeValue) / 20.0f + 0.5f;
-            int vertexColorLocation = GL.GetUniformLocation(shader.Handle, "ourColor");
-            GL.Uniform4(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
-            // Dibujar la figura
-            GL.BindVertexArray(lVertexArrayObject);
-            GL.DrawElements(PrimitiveType.Triangles, u.getIndices().Length, DrawElementsType.UnsignedInt, 0);
+            //modelo = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(_time));
+            modelo = Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(_time));
+
+            DibujarObjetos();
+
+            //Enviar las matrices al shader:
+            shader.SetMatrix4("model", modelo);
+            shader.SetMatrix4("view", vista);
+            shader.SetMatrix4("projection", proyeccion);
 
             SwapBuffers();
 
         }
 
-        protected override void OnFramebufferResize(FramebufferResizeEventArgs e) //se ejecuta cada vez que se redimensiona la ventana
+        private void DibujarObjetos()
+        {
+            foreach (var letra in letras)
+            {
+                letra.Dibujar(vertexBufferObject, elementBufferObject);
+            }
+        }
+
+        protected override void OnFramebufferResize(FramebufferResizeEventArgs e)
+
         {
             base.OnFramebufferResize(e);
 
@@ -118,7 +102,7 @@ namespace TareaU
         protected override void OnUnload()
         {
             base.OnUnload();
-            shader.Dispose();
+
         }
     }
 }
