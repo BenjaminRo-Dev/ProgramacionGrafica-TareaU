@@ -53,7 +53,6 @@ namespace TareaU
             vista = Matrix4.CreateTranslation(0.0f, 0.0f, -40.0f);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / Size.Y, 0.1f, 100.0f);
 
-
             letras.Add(new LetraU(0, 0, 0, 2, 6, 2));
             //letras.Add(new LetraU(-10, 0, 0, 2, 6, 2));
             //letras.Add(new LetraU(+10, 0, 0, 2, 6, 2));
@@ -93,6 +92,7 @@ namespace TareaU
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)
+
         {
             base.OnFramebufferResize(e);
 
@@ -102,6 +102,7 @@ namespace TareaU
         protected override void OnUnload()
         {
             base.OnUnload();
+
         }
     }
 }

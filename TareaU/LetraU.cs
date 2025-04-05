@@ -13,11 +13,13 @@ namespace TareaU
             //Primer palo
             cuboides.Add(new Cuboide(x, y, z, w, h, d));
 
+
             //Segundo palo
             cuboides.Add(new Cuboide(x + w * 2, y, z, w, h, d));
 
             //Base
             cuboides.Add(new Cuboide(x, y, z, w * 2, h/4, d));
+
         }
 
         public void Dibujar(int vertexBufferObject, int elementBufferObject)
@@ -26,6 +28,7 @@ namespace TareaU
             {
                 c.Dibujar(vertexBufferObject, elementBufferObject);
             }
+
         }
     }
 }
