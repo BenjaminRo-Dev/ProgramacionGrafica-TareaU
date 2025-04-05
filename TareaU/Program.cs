@@ -2,7 +2,7 @@
 using TareaU;
 
 Console.WriteLine("Hello, World!");
-using (Game game = new Game(800, 600, "LearnOpenTK"))
+using (Game game = new Game(1700, 900, "LearnOpenTK"))
 {
     game.Run();
 }

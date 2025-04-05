@@ -50,13 +50,14 @@ namespace TareaU
 
             //3D:
             modelo =  Matrix4.CreateRotationX(MathHelper.DegreesToRadians(20.0f));
-            vista = Matrix4.CreateTranslation(0.0f, 0.0f, -20.0f);
+            vista = Matrix4.CreateTranslation(0.0f, 0.0f, -40.0f);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / Size.Y, 0.1f, 100.0f);
 
 
             letras.Add(new LetraU(0, 0, 0, 2, 6, 2));
-            letras.Add(new LetraU(-10, 0, 0, 2, 6, 2));
-            letras.Add(new LetraU(+10, 0, 0, 2, 6, 2));
+            //letras.Add(new LetraU(-10, 0, 0, 2, 6, 2));
+            //letras.Add(new LetraU(+10, 0, 0, 2, 6, 2));
+            //letras.Add(new LetraU(0, 10, -3, 2, 6, 2));
 
         }
 
@@ -73,8 +74,6 @@ namespace TareaU
             modelo = Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(_time));
 
             DibujarObjetos();
-            //cuboide.Dibujar(vertexBufferObject, elementBufferObject);
-            //letraU.Dibujar(vertexBufferObject, elementBufferObject);
 
             //Enviar las matrices al shader:
             shader.SetMatrix4("model", modelo);
