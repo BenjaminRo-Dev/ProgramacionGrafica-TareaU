@@ -11,7 +11,7 @@ using System.Drawing;
 namespace TareaU
 {
 
-    class Rectangulo
+    class Cara
     {
         public float x = 0.0f;
         public float y = 0.0f;
@@ -23,7 +23,7 @@ namespace TareaU
 
         Vertice[] vertices;
 
-        public enum Cara
+        public enum Posicion
         {
             Frontal,   // Frente
             Echada,    // Superior
@@ -37,7 +37,7 @@ namespace TareaU
             Azul = 3
         }
 
-        public Rectangulo(float x, float y, float z, float w, float h, float d, Cara cara, Color color)
+        public Cara(float x, float y, float z, float w, float h, float d, Posicion cara, Color color)
         {
             this.x = x;
             this.y = y;
@@ -65,8 +65,8 @@ namespace TareaU
 
             switch (cara)
             {
-                case Cara.Frontal:
-                    // Cara de frente (XY plane)
+                case Posicion.Frontal:
+                    // Cara de frente (Plano XY)
                     vertices = new Vertice[]
                     {
                         new Vertice(x,      y,      z,      r, g, b),   // Abajo izquierda
@@ -76,8 +76,8 @@ namespace TareaU
                     };
                     break;
 
-                case Cara.Echada:
-                    // Cara echada (XZ plane)
+                case Posicion.Echada:
+                    // Cara echada (Plano XZ)
                     vertices = new Vertice[]
                     {
                         new Vertice(x,      y,      z,      r, g, b),   // Abajo izquierda
@@ -87,8 +87,8 @@ namespace TareaU
                     };
                     break;
 
-                case Cara.Costado:
-                    // Cara de costado (YZ plane)
+                case Posicion.Costado:
+                    // Cara de costado (Plano YZ)
                     vertices = new Vertice[]
                     {
                         new Vertice(x,      y,      z,      r, g, b),   // Abajo izquierda
@@ -142,8 +142,8 @@ namespace TareaU
         {
             return new uint[]
             {
-            0, 1, 2,
-            2, 3, 0,
+                0, 1, 2,
+                2, 3, 0,
             };
         }
     }

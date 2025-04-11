@@ -8,25 +8,24 @@ namespace TareaU
 {
     class LetraU
     {
-        List<Cuboide> cuboides = new List<Cuboide>();
+        List<Parte> partes = new List<Parte>();
         public LetraU(float x, float y, float z, float w, float h, float d) {
             //Primer palo
-            cuboides.Add(new Cuboide(x, y, z, w, h, d));
-
+            partes.Add(new Parte(x, y, z, w, h, d));
 
             //Segundo palo
-            cuboides.Add(new Cuboide(x + w * 2, y, z, w, h, d));
+            partes.Add(new Parte(x + w * 2, y, z, w, h, d));
 
             //Base
-            cuboides.Add(new Cuboide(x, y, z, w * 2, h/4, d));
+            partes.Add(new Parte(x, y, z, w * 2, h/4, d));
 
         }
 
         public void Dibujar(int vertexBufferObject, int elementBufferObject)
         {
-            foreach (Cuboide c in cuboides)
+            foreach (Parte parte in partes)
             {
-                c.Dibujar(vertexBufferObject, elementBufferObject);
+                parte.Dibujar(vertexBufferObject, elementBufferObject);
             }
 
         }
