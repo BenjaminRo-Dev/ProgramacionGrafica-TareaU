@@ -21,10 +21,7 @@ namespace TareaU
         private Matrix4 proyeccion;
 
         private double _time;
-
-        List<LetraU> letras = new List<LetraU>();
-        private List<Parte> partes = new List<Parte>();
-        private Ejes ejes;
+        private Escenario escenario;
 
         public Game(int width, int height, string title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = title }) { }
 
@@ -51,30 +48,73 @@ namespace TareaU
             GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
             GL.EnableVertexAttribArray(1);
 
-            //3D:
-            // modelo =  Matrix4.CreateRotationX(MathHelper.DegreesToRadians(20.0f));
 
             modelo = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(10.0f)) *
-             Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(30.0f)) *
-             Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(0.00f));
+                Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(30.0f)) *
+                Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(0.00f));
 
             vista = Matrix4.CreateTranslation(0.0f, 0.0f, -40.0f);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / Size.Y, 0.1f, 100.0f);
 
-            // ejes = new Ejes(Vector3.Zero, Vector3.Zero, new Vector3(10, 10, 10)); // Escala de los ejes
-            //Crear una parte:
-            partes.Add(new Parte(Vector3.Zero, Vector3.Zero, new Vector3(5, 5, 5)));
+            escenario = new Escenario();
+
+            // Objeto letraU = new Objeto(new Vector3(+10, 0, 0), Vector3.Zero, new Vector3(10, 1, 1));
+            Objeto letraU = new Objeto();
+            letraU.AgregarParte(new Parte(
+                new Vector3(-2.5f, 0, 0), // Parte inferior
+                Vector3.Zero,
+                new Vector3(4, 1, 1)
+            ));
+            letraU.AgregarParte(new Parte(
+                new Vector3(-2.5f, 0, 0), // Parte izquierda
+                Vector3.Zero,
+                new Vector3(1, 5, 1)
+            ));
+            letraU.AgregarParte(new Parte(
+                new Vector3(0.5f, 0, 0), // Parte derecha
+                Vector3.Zero,
+                new Vector3(1, 5, 1)
+            ));
+            
+            escenario.AgregarObjeto(letraU);
+
+            Objeto letraO = new Objeto();
+            letraO.AgregarParte(new Parte(
+                new Vector3(-12.5f, 0, 0), // Parte inferior
+                Vector3.Zero,
+                new Vector3(4, 1, 1)
+            ));
+            letraO.AgregarParte(new Parte(
+                new Vector3(-12.5f, 5, 0), // Parte superior
+                Vector3.Zero,
+                new Vector3(4, 1, 1)
+            ));
+            letraO.AgregarParte(new Parte(
+                new Vector3(-12.5f, 0, 0), // Parte izquierda
+                Vector3.Zero,
+                new Vector3(1, 5, 1)
+            ));
+            letraO.AgregarParte(new Parte(
+                new Vector3(-9.5f, 0, 0), // Parte derecha
+                Vector3.Zero,
+                new Vector3(1, 5, 1)
+            ));
+
+            escenario.AgregarObjeto(letraO);
+
+            Objeto letraUGen = Objeto.CrearObjetoGenerico(
+                new Vector3(+10, 0, 0), // Posición
+                Vector3.Zero,         // Rotación
+                new Vector3(5, 5, 5)  // Escala
+            );
+            escenario.AgregarObjeto(letraUGen);
+            
             
 
-            // Crear letras U y añadirlas a la lista
-            letras.Add(new LetraU(Vector3.Zero, Vector3.Zero, new Vector3(5, 5, 5)));
-            letras.Add(new LetraU(new Vector3(10, 0, 0), Vector3.Zero, new Vector3(5, 5, 5)));
-            letras.Add(new LetraU(new Vector3(-10, 0, 0), Vector3.Zero, new Vector3(5, 5, 5)));
-
-            // letras.Add(new LetraU(0, 0, 0, 2, 6, 2));
-            // letras.Add(new LetraU(-10, 0, 0, 2, 6, 2));
-            // letras.Add(new LetraU(+10, 0, 0, 2, 6, 2));
-            //letras.Add(new LetraU(0, 10, -3, 2, 6, 2));
+            // escenario.AgregarObjeto(new LetraU(new Vector3(10, 0, 0), Vector3.Zero, new Vector3(5, 5, 5)));
+            // escenario.AgregarObjeto(new LetraU(new Vector3(-10, 0, 0), Vector3.Zero, new Vector3(5, 5, 5)));
+            // escenario.AgregarObjeto(new Objeto(new Vector3(-10, 0, 0), Vector3.Zero, new Vector3(5, 5, 5)));
+            
 
         }
 
@@ -90,12 +130,7 @@ namespace TareaU
             // modelo = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(_time));
             modelo = Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(_time));
 
-            // modelo = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(_time)) *
-            //  Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(_time * 0.02)) *
-            //  Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(_time * 0.01));
-
-            
-            DibujarObjetos();
+            escenario.Dibujar(vertexBufferObject, elementBufferObject);
 
             //Enviar las matrices al shader:
             shader.SetMatrix4("model", modelo);
@@ -106,17 +141,14 @@ namespace TareaU
 
         }
 
-        private void DibujarObjetos()
+        
+
+        protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            // ejes.Dibujar(vertexBufferObject, elementBufferObject);
-            foreach (var letra in letras)
-            {
-                letra.Dibujar(vertexBufferObject, elementBufferObject);
-            }
-            // foreach (var parte in partes)
-            // {
-            //     parte.Dibujar(vertexBufferObject, elementBufferObject);
-            // }
+            base.OnUpdateFrame(e);
+
+            // Actualizar el escenario
+            escenario.Actualizar(e.Time);
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)

@@ -5,7 +5,6 @@ namespace TareaU
 {
     public class Ejes : ObjetoGrafico
     {
-        private float[] vertices;
         private int vertexBufferObject;
         private int vertexArrayObject;
 
@@ -13,7 +12,7 @@ namespace TareaU
             : base(posicion, rotacion, escala)
         {
             // Definir los vértices para los ejes X, Y y Z
-            vertices = new float[]
+            float[] vertices = new float[]
             {
                 // Eje X (rojo)
                 0.0f, 0.0f, 0.0f,  1.0f, 0.0f, 0.0f, // Origen
@@ -54,7 +53,6 @@ namespace TareaU
 
         public override void Actualizar(double tiempo)
         {
-            // No se necesita lógica de actualización para los ejes
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TareaU
 {
-    class Parte : ObjetoGrafico
+    public class Parte : ObjetoGrafico
     {
         List<Cara> caras;
 
