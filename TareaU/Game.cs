@@ -4,6 +4,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using OpenTK.Windowing.Desktop;
+using OpenTK.Compute.OpenCL;
 
 namespace TareaU
 {
@@ -22,6 +23,8 @@ namespace TareaU
         private double _time;
 
         List<LetraU> letras = new List<LetraU>();
+        private List<Parte> partes = new List<Parte>();
+        private Ejes ejes;
 
         public Game(int width, int height, string title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = title }) { }
 
@@ -49,13 +52,28 @@ namespace TareaU
             GL.EnableVertexAttribArray(1);
 
             //3D:
-            modelo =  Matrix4.CreateRotationX(MathHelper.DegreesToRadians(20.0f));
+            // modelo =  Matrix4.CreateRotationX(MathHelper.DegreesToRadians(20.0f));
+
+            modelo = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(10.0f)) *
+             Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(30.0f)) *
+             Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(0.00f));
+
             vista = Matrix4.CreateTranslation(0.0f, 0.0f, -40.0f);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / Size.Y, 0.1f, 100.0f);
 
-            letras.Add(new LetraU(0, 0, 0, 2, 6, 2));
-            letras.Add(new LetraU(-10, 0, 0, 2, 6, 2));
-            letras.Add(new LetraU(+10, 0, 0, 2, 6, 2));
+            // ejes = new Ejes(Vector3.Zero, Vector3.Zero, new Vector3(10, 10, 10)); // Escala de los ejes
+            //Crear una parte:
+            partes.Add(new Parte(Vector3.Zero, Vector3.Zero, new Vector3(5, 5, 5)));
+            
+
+            // Crear letras U y añadirlas a la lista
+            letras.Add(new LetraU(Vector3.Zero, Vector3.Zero, new Vector3(5, 5, 5)));
+            letras.Add(new LetraU(new Vector3(10, 0, 0), Vector3.Zero, new Vector3(5, 5, 5)));
+            letras.Add(new LetraU(new Vector3(-10, 0, 0), Vector3.Zero, new Vector3(5, 5, 5)));
+
+            // letras.Add(new LetraU(0, 0, 0, 2, 6, 2));
+            // letras.Add(new LetraU(-10, 0, 0, 2, 6, 2));
+            // letras.Add(new LetraU(+10, 0, 0, 2, 6, 2));
             //letras.Add(new LetraU(0, 10, -3, 2, 6, 2));
 
         }
@@ -63,15 +81,20 @@ namespace TareaU
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
-            _time += 128.0 * e.Time;
+            _time += 20.0 * e.Time;
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             shader.Use();
 
-            //modelo = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(_time));
+            // modelo = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(_time));
             modelo = Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(_time));
 
+            // modelo = Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(_time)) *
+            //  Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(_time * 0.02)) *
+            //  Matrix4.CreateRotationZ((float)MathHelper.DegreesToRadians(_time * 0.01));
+
+            
             DibujarObjetos();
 
             //Enviar las matrices al shader:
@@ -85,10 +108,15 @@ namespace TareaU
 
         private void DibujarObjetos()
         {
+            // ejes.Dibujar(vertexBufferObject, elementBufferObject);
             foreach (var letra in letras)
             {
                 letra.Dibujar(vertexBufferObject, elementBufferObject);
             }
+            // foreach (var parte in partes)
+            // {
+            //     parte.Dibujar(vertexBufferObject, elementBufferObject);
+            // }
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)
