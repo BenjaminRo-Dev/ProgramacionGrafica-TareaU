@@ -1,33 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenTK.Mathematics;
+using TareaU;
 
-namespace TareaU
+public class LetraU : ObjetoGrafico
 {
-    class LetraU
+    private List<Parte> partes;
+
+    public LetraU(Vector3 posicion, Vector3 rotacion, Vector3 escala)
+        : base(posicion, rotacion, escala)
     {
-        List<Parte> partes = new List<Parte>();
-        public LetraU(float x, float y, float z, float w, float h, float d) {
-            //Primer palo
-            partes.Add(new Parte(x, y, z, w, h, d));
-
-            //Segundo palo
-            partes.Add(new Parte(x + w * 2, y, z, w, h, d));
-
-            //Base
-            partes.Add(new Parte(x, y, z, w * 2, h/4, d));
-
-        }
-
-        public void Dibujar(int vertexBufferObject, int elementBufferObject)
+        partes = new List<Parte>
         {
-            foreach (Parte parte in partes)
-            {
-                parte.Dibujar(vertexBufferObject, elementBufferObject);
-            }
+            // Parte izquierda
+            new Parte(
+                posicion + new Vector3(0, 0, 0),
+                new Vector3(0, MathHelper.DegreesToRadians(45), 0), // Rotación en Y de 45 grados
+                new Vector3(escala.X / 8, escala.Y, escala.Z/12) // Tamaño de la parte
+            ),
 
+            // Parte derecha
+            new Parte(
+                posicion + new Vector3(escala.X/2, 0, 0),
+                Vector3.Zero, // Sin rotación
+                new Vector3(escala.X / 8, escala.Y, escala.Z / 12) // Tamaño de la parte
+            ),
+
+            // // Parte inferior
+            new Parte(
+                posicion + new Vector3(0, 0, 0),
+                Vector3.Zero, // Sin rotación
+                new Vector3(escala.X/2, escala.Y / 4, escala.Z/12) // Tamaño de la parte
+                
+            )
+
+            
+        };
+    }
+
+    public override void Dibujar(int vertexBufferObject, int elementBufferObject)
+    {
+        foreach (var parte in partes)
+        {
+            parte.Posicion += Posicion; // Aplicar posición global
+            parte.Rotacion += Rotacion; // Aplicar rotación global
+            parte.Dibujar(vertexBufferObject, elementBufferObject);
         }
+    }
+
+    public override void Actualizar(double tiempo)
+    {
+        // Lógica para actualizar la letra U pa cuando se requiera
     }
 }

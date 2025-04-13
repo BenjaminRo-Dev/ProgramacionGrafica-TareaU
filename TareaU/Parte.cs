@@ -1,37 +1,83 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenTK.Mathematics;
 
 namespace TareaU
 {
-    class Parte
+    public class Parte : ObjetoGrafico
     {
-        List<Cara> caras = new List<Cara>();
-        public Parte(float x, float y, float z, float w, float h, float d)
+        List<Cara> caras;
+
+        public Parte(Vector3 posicion, Vector3 rotacion, Vector3 escala)
+            : base(posicion, rotacion, escala)
         {
+            caras = new List<Cara>();
 
-            // Frontal
-            caras.Add(new Cara(x, y, z, w, h, d, Cara.Posicion.Frontal, Cara.Color.Azul));
-            caras.Add(new Cara(x, y, z + d, w, h, d, Cara.Posicion.Frontal, Cara.Color.Azul));
+            // Generar las 6 caras del cuboide
+            // Cara frontal
+            caras.Add(new Cara(
+                posicion + new Vector3(0, 0, escala.Z / 2), // Posición relativa
+                new Vector3(escala.X, escala.Y, 0), // Tamaño
+                new Vector3(1, 0, 0) // Color rojo
+            ));
 
-            // Echada (Superior)
-            caras.Add(new Cara(x, y, z, w, h, d, Cara.Posicion.Echada, Cara.Color.Verde));
-            caras.Add(new Cara(x, y + h, z, w, h, d, Cara.Posicion.Echada, Cara.Color.Verde));
+            // Cara trasera
+            Cara caraTrasera = new Cara(
+                posicion + new Vector3(0, 0, -escala.Z / 2), // Posición relativa
+                new Vector3(escala.X, escala.Y, 0), // Tamaño
+                new Vector3(0, 1, 0) // Color verde
+            );
+            caraTrasera.Rotar(new Vector3(0, 0, 0)); // Rotar 0 grados en Y
+            caras.Add(caraTrasera);
 
-            // Costado (Lateral)
-            caras.Add(new Cara(x, y, z, w, h, d, Cara.Posicion.Costado, Cara.Color.Rojo));
-            caras.Add(new Cara(x + w, y, z, w, h, d, Cara.Posicion.Costado, Cara.Color.Rojo));
 
+            // Cara superior
+            Cara caraSuperior = new Cara(
+                posicion + new Vector3(0, escala.Y, escala.Z/2), // Posición relativa
+                new Vector3(escala.X, escala.Z, 0), // Tamaño
+                new Vector3(0, 0, 1) // Color azul
+            );
+            caraSuperior.Rotar(new Vector3(-90, 0, 0)); // Rotar -90 grados en X
+            caras.Add(caraSuperior);
+
+            // Cara inferior
+            Cara caraInferior = new Cara(
+                posicion + new Vector3(0, 0, -escala.Z/2), // Posición relativa
+                new Vector3(escala.X, escala.Z, 0), // Tamaño
+                new Vector3(1, 1, 0) // Color amarillo
+            );
+            caraInferior.Rotar(new Vector3(90, 0, 0)); // Rotar 90 grados en X
+            caras.Add(caraInferior);
+
+            // Cara izquierda
+            Cara caraIzquierda = new Cara(
+                posicion + new Vector3(escala.X, 0, escala.Z/2), // Posición relativa
+                new Vector3(escala.Z, escala.Y, 0), // Tamaño
+                new Vector3(1, 0, 1) // Color magenta
+            );
+            caraIzquierda.Rotar(new Vector3(0, 90, 0)); // Rotar 90 grados en Y
+            caras.Add(caraIzquierda);
+
+            // Cara derecha
+            Cara caraDerecha = new Cara(
+                posicion + new Vector3(0, 0, -escala.Z/2), // Posición relativa
+                new Vector3(escala.Z, escala.Y, 0), // Tamaño
+                new Vector3(0, 1, 1) // Color cian
+            );
+            caraDerecha.Rotar(new Vector3(0, -90, 0)); // Rotar -90 grados en Y
+            caras.Add(caraDerecha);
         }
 
-        public void Dibujar(int vertexBufferObject, int elementBufferObject)
+        public override void Dibujar(int vertexBufferObject, int elementBufferObject)
         {
-            foreach (Cara cara in caras)
+            // Dibujar todas las caras de la parte
+            foreach (var cara in caras)
             {
                 cara.Dibujar(vertexBufferObject, elementBufferObject);
             }
+        }
+
+        public override void Actualizar(double tiempo)
+        {
+            // Lógica para actualizar la parte (si es necesario)
         }
     }
 }
