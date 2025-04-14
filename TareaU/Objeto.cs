@@ -12,7 +12,7 @@ public class Objeto : ObjetoGrafico
         partes = new List<Parte>();
     }
 
-    public Objeto ()
+    public Objeto()
     {
         partes = new List<Parte>();
     }
@@ -28,19 +28,19 @@ public class Objeto : ObjetoGrafico
 
         objeto.AgregarParte(new Parte(
             posicion + new Vector3(-escala.X / 2, 0, 0), // Parte izquierda
-            Vector3.Zero,
+            rotacion + Vector3.Zero,
             new Vector3(escala.X / 8, escala.Y, escala.Z / 12)
         ));
 
         objeto.AgregarParte(new Parte(
             posicion + new Vector3(escala.X / 2, 0, 0), // Parte derecha
-            Vector3.Zero,
+            rotacion + Vector3.Zero,
             new Vector3(escala.X / 8, escala.Y, escala.Z / 12)
         ));
 
         objeto.AgregarParte(new Parte(
-            posicion + new Vector3(-escala.X/2, 0, 0), // Parte inferior
-            Vector3.Zero,
+            posicion + new Vector3(-escala.X / 2, 0, 0), // Parte inferior
+            rotacion + Vector3.Zero,
             new Vector3(escala.X, escala.Y / 4, escala.Z / 12)
         ));
 
@@ -52,19 +52,19 @@ public class Objeto : ObjetoGrafico
         foreach (var parte in partes)
         {
             // Guardar las transformaciones originales
-            // Vector3 posicionOriginal = parte.Posicion;
-            // Vector3 rotacionOriginal = parte.Rotacion;
+            Vector3 posicionOriginal = parte.Posicion;
+            Vector3 rotacionOriginal = parte.Rotacion;
 
-            // Aplicar la posición global del objeto a cada parte
-            // parte.Posicion += Posicion;
-            // parte.Rotacion += Rotacion;
+            // Aplicar la posición y rotación global del objeto a cada parte
+            parte.Posicion += Posicion;
+            parte.Rotacion += Rotacion;
 
             // Dibujar la parte
             parte.Dibujar(vertexBufferObject, elementBufferObject);
 
             // Restaurar las transformaciones originales
-            // parte.Posicion = posicionOriginal;
-            // parte.Rotacion = rotacionOriginal;
+            parte.Posicion = posicionOriginal;
+            parte.Rotacion = rotacionOriginal;
         }
     }
 

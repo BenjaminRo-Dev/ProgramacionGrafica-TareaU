@@ -1,96 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 
 namespace TareaU
 {
-    class Cara
+    public class Cara
     {
-        public Vector3 Posicion { get; set; } // Posición inicial de la cara
-        public Vector3 Escala { get; set; }   // Ancho, alto y profundidad
-        public Vector3 Color { get; set; }   // Color RGB de la cara
-        public Matrix4 Rotacion { get; set; } // Matriz de rotación para orientar la cara
+        public int vao, vbo, ebo;
+        public Vector3 Posicion { get; set; }
+        public Vector3 Escala { get; set; }
+        public Vector3 Rotacion { get; set; }
+        public Color4 Color { get; set; }
 
         private Vertice[] vertices;
 
-        public Cara(Vector3 posicion, Vector3 escala, Vector3 color)
+        public Matrix4 Modelo =>
+            Matrix4.CreateScale(Escala) *
+            Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotacion.X)) *
+            Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotacion.Y)) *
+            Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotacion.Z)) *
+            Matrix4.CreateTranslation(Posicion);
+
+        public Cara(Vector3 posicion, Vector3 escala, Color4 color)
         {
             Posicion = posicion;
             Escala = escala;
+            Rotacion = Vector3.Zero;
             Color = color;
-            Rotacion = Matrix4.Identity; // Sin rotación por defecto
 
-            // Crear los vértices en el plano base (XY)
             vertices = new Vertice[]
             {
-                new Vertice(0, 0, 0, Color.X, Color.Y, Color.Z), // Abajo izquierda
-                new Vertice(Escala.X, 0, 0, Color.X, Color.Y, Color.Z), // Abajo derecha
-                new Vertice(Escala.X, Escala.Y, 0, Color.X, Color.Y, Color.Z), // Arriba derecha
-                new Vertice(0, Escala.Y, 0, Color.X, Color.Y, Color.Z)  // Arriba izquierda
+            new Vertice(new Vector3(-0.5f, -0.5f, 0f), Color),
+            new Vertice(new Vector3( 0.5f, -0.5f, 0f), Color),
+            new Vertice(new Vector3( 0.5f,  0.5f, 0f), Color),
+            new Vertice(new Vector3(-0.5f,  0.5f, 0f), Color),
             };
         }
 
-        public void Dibujar(int vertexBufferObject, int elementBufferObject)
+        public void Cargar()
         {
-            // Aplicar la rotación y traslación a los vértices
-            float[] updatedVertices = getVerticesTransformados();
-            uint[] indices = getIndices();
+            float[] datosVertices = vertices.SelectMany(v => new float[]
+            {
+                v.posicion.X, v.posicion.Y, v.posicion.Z,
+                v.Color.R, v.Color.G, v.Color.B
+            }).ToArray();
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, updatedVertices.Length * sizeof(float), updatedVertices, BufferUsageHint.StaticDraw);
+            uint[] indices = { 0, 1, 2, 2, 3, 0 };
 
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
+            vao = GL.GenVertexArray();
+            vbo = GL.GenBuffer();
+            ebo = GL.GenBuffer();
+
+            GL.BindVertexArray(vao);
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+            GL.BufferData(BufferTarget.ArrayBuffer, datosVertices.Length * sizeof(float), datosVertices, BufferUsageHint.StaticDraw);
+
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
             GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
-            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(0);
+
+            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+            GL.EnableVertexAttribArray(1);
+
+            GL.BindVertexArray(0);
         }
 
-        public void Mover(Vector3 desplazamiento)
+        public void Dibujar(Shader shader)
         {
-            Posicion += desplazamiento;
+            shader.SetMatrix4("modelo", Modelo);
+
+            GL.BindVertexArray(vao);
+            GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0);
         }
 
-        public void Rotar(Vector3 angulos)
+        public void Liberar()
         {
-            // Crear una matriz de rotación a partir de los ángulos (en grados)
-            Rotacion = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(angulos.X)) *
-                       Matrix4.CreateRotationY(MathHelper.DegreesToRadians(angulos.Y)) *
-                       Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(angulos.Z));
+            GL.DeleteVertexArray(vao);
+            GL.DeleteBuffer(vbo);
+            GL.DeleteBuffer(ebo);
         }
 
-        private float[] getVerticesTransformados()
-        {
-            List<float> verticesList = new List<float>();
-
-            foreach (Vertice vertice in vertices)
-            {
-                // Transformar el vértice usando la matriz de rotación y traslación
-                Vector4 posicionTransformada = new Vector4(vertice.X, vertice.Y, vertice.Z, 1.0f);
-                posicionTransformada = posicionTransformada * Rotacion;
-                posicionTransformada.X += Posicion.X;
-                posicionTransformada.Y += Posicion.Y;
-                posicionTransformada.Z += Posicion.Z;
-
-                // Agregar los datos transformados a la lista
-                verticesList.Add(posicionTransformada.X);
-                verticesList.Add(posicionTransformada.Y);
-                verticesList.Add(posicionTransformada.Z);
-                verticesList.Add(vertice.R);
-                verticesList.Add(vertice.G);
-                verticesList.Add(vertice.B);
-            }
-
-            return verticesList.ToArray();
-        }
-
-        public uint[] getIndices()
-        {
-            return new uint[]
-            {
-                0, 1, 2,
-                2, 3, 0,
-            };
-        }
     }
+
 }

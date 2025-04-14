@@ -3,31 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Mathematics;
 
 namespace TareaU
 {
     class Vertice
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
-        public float R { get; set; }
-        public float G { get; set; }
-        public float B { get; set; }
+        public Vector3 posicion { get; set; }
 
-        public Vertice(float x, float y, float z, float r, float g, float b)
+        public Color4 Color { get; set; }
+
+        public Vertice(Vector3 posicion,  Color4 color)
         {
-            X = x;
-            Y = y;
-            Z = z;
-            R = r;
-            G = g;
-            B = b;
+            this.posicion = posicion;
+            Color = color;
         }
 
         public float[] ToArray()
         {
-            return new float[] { X, Y, Z, R, G, B };
+            return new float[] { posicion.X, posicion.Y, posicion.Z, Color.R, Color.G, Color.B, Color.A };
         }
     }
 }
