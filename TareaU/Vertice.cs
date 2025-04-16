@@ -7,7 +7,7 @@ using OpenTK.Mathematics;
 
 namespace TareaU
 {
-    class Vertice
+    public class Vertice
     {
         public Vector3 posicion { get; set; }
 

@@ -11,6 +11,7 @@ namespace TareaU
         public Vector3 Escala { get; set; }
         public Vector3 Rotacion { get; set; }
         public Color4 Color { get; set; }
+        private uint[] indices;
 
         private Vertice[] vertices;
 
@@ -21,21 +22,62 @@ namespace TareaU
             Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotacion.Z)) *
             Matrix4.CreateTranslation(Posicion);
 
-        public Cara(Vector3 posicion, Vector3 escala, Color4 color)
+        //TODO: configurar los indices para caras cuadradas y triangulares
+        public Cara(Vector3 posicion, Vector3 escala, Color4 color, Vector3 p1, Vector3 p2, Vector3 p3)//Cara triangular
         {
             Posicion = posicion;
             Escala = escala;
             Rotacion = Vector3.Zero;
             Color = color;
 
-            vertices = new Vertice[]
+            this.vertices = new Vertice[3]
             {
-            new Vertice(new Vector3(-0.5f, -0.5f, 0f), Color),
-            new Vertice(new Vector3( 0.5f, -0.5f, 0f), Color),
-            new Vertice(new Vector3( 0.5f,  0.5f, 0f), Color),
-            new Vertice(new Vector3(-0.5f,  0.5f, 0f), Color),
+                new Vertice(p1, color),
+                new Vertice(p2, color),
+                new Vertice(p3, color)
             };
+
+            this.indices = new uint[3] { 0, 1, 2 };
         }
+
+        public Cara(Vector3 posicion, Vector3 escala, Color4 color, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)//Cara cuadrada
+        {
+            Posicion = posicion;
+            Escala = escala;
+            Rotacion = Vector3.Zero;
+            Color = color;
+
+            this.vertices = new Vertice[4]
+            {
+                new Vertice(p1, color),
+                new Vertice(p2, color),
+                new Vertice(p3, color),
+                new Vertice(p4, color)
+            };
+
+            this.indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
+        }
+        public Cara(Vector3 posicion, Vector3 escala, Color4 color, Vector3[] vertices)//Cara cuadrada
+        {
+            Posicion = posicion;
+            Escala = escala;
+            Rotacion = Vector3.Zero;
+            Color = color;
+
+            this.vertices = new Vertice[vertices.Length];
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                this.vertices[i] = new Vertice(vertices[i], color);
+            }
+
+            this.indices = new uint[vertices.Length];
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                this.indices[i] = (uint)i;
+            }
+            
+        }
+
 
         public void Cargar()
         {
@@ -45,7 +87,7 @@ namespace TareaU
                 v.Color.R, v.Color.G, v.Color.B
             }).ToArray();
 
-            uint[] indices = { 0, 1, 2, 2, 3, 0 };
+            // uint[] indices = { 0, 1, 2, 2, 3, 0 };
 
             vao = GL.GenVertexArray();
             vbo = GL.GenBuffer();
@@ -73,7 +115,7 @@ namespace TareaU
             shader.SetMatrix4("modelo", Modelo);
 
             GL.BindVertexArray(vao);
-            GL.DrawElements(PrimitiveType.Triangles, 6, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 
         public void Liberar()

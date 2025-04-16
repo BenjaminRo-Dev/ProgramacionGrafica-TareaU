@@ -4,75 +4,48 @@ namespace TareaU
 {
     public class Parte : ObjetoGrafico
     {
-        List<Cara> caras;
+        List<Cara> Caras;
 
-        public Parte(Vector3 posicion, Vector3 rotacion, Vector3 escala)
-            : base(posicion, rotacion, escala)
+
+        public Parte(Vector3 posicion, Vector3 escala, Vector3 rotacion, List<Cara> caras)
+            : base(posicion, escala, rotacion)
         {
-            caras = new List<Cara>();
+            Caras = caras;
 
-            // // Generar las 6 caras del cuboide
-            // // Cara frontal
-            // caras.Add(new Cara(
-            //     posicion + new Vector3(0, 0, escala.Z / 2), // Posición relativa
-            //     new Vector3(escala.X, escala.Y, 0), // Tamaño
-            //     new Vector3(1, 0, 0) // Color rojo
-            // ));
+            foreach (var cara in Caras)
+            {
+                cara.Posicion = Posicion;
+                cara.Escala = Escala;
+                cara.Rotacion = Rotacion;
+                cara.Cargar();
+            }
 
-            // // Cara trasera
-            // Cara caraTrasera = new Cara(
-            //     posicion + new Vector3(0, 0, -escala.Z / 2), // Posición relativa
-            //     new Vector3(escala.X, escala.Y, 0), // Tamaño
-            //     new Vector3(0, 1, 0) // Color verde
-            // );
-            // caraTrasera.Rotar(new Vector3(0, 0, 0)); // Rotar 0 grados en Y
-            // caras.Add(caraTrasera);
-
-
-            // // Cara superior
-            // Cara caraSuperior = new Cara(
-            //     posicion + new Vector3(0, escala.Y, escala.Z/2), // Posición relativa
-            //     new Vector3(escala.X, escala.Z, 0), // Tamaño
-            //     new Vector3(0, 0, 1) // Color azul
-            // );
-            // caraSuperior.Rotar(new Vector3(-90, 0, 0)); // Rotar -90 grados en X
-            // caras.Add(caraSuperior);
-
-            // // Cara inferior
-            // Cara caraInferior = new Cara(
-            //     posicion + new Vector3(0, 0, -escala.Z/2), // Posición relativa
-            //     new Vector3(escala.X, escala.Z, 0), // Tamaño
-            //     new Vector3(1, 1, 0) // Color amarillo
-            // );
-            // caraInferior.Rotar(new Vector3(90, 0, 0)); // Rotar 90 grados en X
-            // caras.Add(caraInferior);
-
-            // // Cara izquierda
-            // Cara caraIzquierda = new Cara(
-            //     posicion + new Vector3(escala.X, 0, escala.Z/2), // Posición relativa
-            //     new Vector3(escala.Z, escala.Y, 0), // Tamaño
-            //     new Vector3(1, 0, 1) // Color magenta
-            // );
-            // caraIzquierda.Rotar(new Vector3(0, 90, 0)); // Rotar 90 grados en Y
-            // caras.Add(caraIzquierda);
-
-            // // Cara derecha
-            // Cara caraDerecha = new Cara(
-            //     posicion + new Vector3(0, 0, -escala.Z/2), // Posición relativa
-            //     new Vector3(escala.Z, escala.Y, 0), // Tamaño
-            //     new Vector3(0, 1, 1) // Color cian
-            // );
-            // caraDerecha.Rotar(new Vector3(0, -90, 0)); // Rotar -90 grados en Y
-            // caras.Add(caraDerecha);
         }
 
-        public override void Dibujar(int vertexBufferObject, int elementBufferObject)
+
+
+        public override void Dibujar(Shader shader)
         {
-            // Dibujar todas las caras de la parte
-            // foreach (var cara in caras)
-            // {
-                // cara.Dibujar(vertexBufferObject, elementBufferObject);
-            // }
+            // Aplicar la transformación de la parte
+            Matrix4 modelo = Matrix4.CreateScale(Escala) *
+                             Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotacion.X)) *
+                             Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotacion.Y)) *
+                             Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotacion.Z)) *
+                             Matrix4.CreateTranslation(Posicion);
+
+
+            shader.SetMatrix4("modelo", modelo); // Enviar la matriz de modelo al shader
+
+            // Dibujar todas las caras de la parte foreach (var cara in caras)
+            foreach (var cara in Caras){
+                cara.Dibujar(shader);
+            }
+           
+        }
+
+        public override void Dibujar()
+        {
+            // Lógica para dibujar la parte (si es necesario)
         }
 
         public override void Actualizar(double tiempo)

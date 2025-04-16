@@ -1,25 +1,27 @@
 using OpenTK.Mathematics;
+using TareaU;
 
 public abstract class ObjetoGrafico
 {
     public Vector3 Posicion { get; set; }
-    public Vector3 Rotacion { get; set; }
     public Vector3 Escala { get; set; }
+    public Vector3 Rotacion { get; set; }
 
-    protected ObjetoGrafico(Vector3 posicion, Vector3 rotacion, Vector3 escala)
+    protected ObjetoGrafico(Vector3 posicion, Vector3 escala, Vector3 rotacion )
     {
         Posicion = posicion;
-        Rotacion = rotacion;
         Escala = escala;
+        Rotacion = rotacion;
     }
 
     public ObjetoGrafico()
     {
         Posicion = Vector3.Zero;
-        Rotacion = Vector3.Zero;
         Escala = Vector3.One;
+        Rotacion = Vector3.Zero;
     }
 
-    public abstract void Dibujar(int vertexBufferObject, int elementBufferObject);
+    public abstract void Dibujar();
+    public abstract void Dibujar(Shader shader);
     public abstract void Actualizar(double tiempo);
 }
