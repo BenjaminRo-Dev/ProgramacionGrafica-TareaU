@@ -11,8 +11,13 @@ namespace TareaU
         private Matrix4 vista;
         private Matrix4 proyeccion;
         private List<Parte> partesU;
+        private List<Parte> partesU2;
         private Objeto objetoU;
+        private Objeto objetoU2;
         private Escenario escenario;
+
+        private Cara cara;
+        private Parte parte;
 
         public Game(int width, int height, string title)
             : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = title }) { }
@@ -28,9 +33,19 @@ namespace TareaU
             vista = Matrix4.CreateTranslation(0.0f, 0.0f, -40.0f);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / (float)Size.Y, 0.1f, 100.0f);
             
-            Vector3 posicionU = new Vector3(-10, -10, 0); //Si
-            Vector3 escalaU = new Vector3(3,3,3);
-            Vector3 rotacionU = new Vector3(0,10,0);
+            // cara = new Cara(
+            //     new Vector3(0,0,0),
+            //     new Vector3(1,1,1),
+            //     Color4.Red,
+            //     new Vector3(-1,-1,0), new Vector3(-1,1,0), new Vector3(1,1,0), new Vector3(1,-1,0)
+            // );
+            // cara.Cargar();
+
+            
+
+            Vector3 posicionU = new Vector3(-5, 0, 0);
+            Vector3 escalaU = new Vector3(1,1,1);
+            Vector3 rotacionU = new Vector3(0,0,0);
 
             var verticesU = new []
             {
@@ -109,14 +124,10 @@ namespace TareaU
             };
 
             objetoU = new Objeto(posicionU, escalaU, rotacionU, partesU);
-
+            
             escenario = new Escenario();
 
-            objetoU.Posicion = new Vector3(0, 0, 0);//No me funciona
             escenario.AgregarObjeto(objetoU);
-
-
-
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -130,11 +141,21 @@ namespace TareaU
             shader.SetMatrix4("vista", vista);
             shader.SetMatrix4("proyeccion", proyeccion);
 
-            objetoU.Posicion = new Vector3(0, 0, 0);//No me funciona
+            // objetoU.Posicion = new Vector3(0, 0, 0);//No me funciona
             // objetoU.Rotacion = new Vector3(45, 20, 0);
             // objetoU.Dibujar(shader);
             
             escenario.Dibujar(shader);
+
+            // cara.Posicion = new Vector3(-5, 0, 0);
+            // cara.Rotacion = new Vector3(0, 0, 0);
+            // cara.Escala = new Vector3(1, 1, 1);
+            // cara.Dibujar(shader);
+
+            // parte.Posicion = new Vector3(-5, 0, 0);
+            // parte.Actualizar();
+            // parte.Dibujar(shader);
+
             
 
             SwapBuffers();
@@ -143,7 +164,7 @@ namespace TareaU
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-            escenario.AgregarObjeto(objetoU);
+            // escenario.AgregarObjeto(objetoU);
             foreach (var objeto in escenario.Objetos)
             {
                 objeto.Actualizar();

@@ -29,12 +29,12 @@ public class Objeto : ObjetoGrafico
 
     public override void Actualizar()
     {
-        // Recalcular la matriz de modelo para cada parte del objeto
         foreach (var parte in Partes)
         {
             parte.Posicion = Posicion;
             parte.Escala = Escala;
             parte.Rotacion = Rotacion;
+            parte.Actualizar();
         }
     }
 

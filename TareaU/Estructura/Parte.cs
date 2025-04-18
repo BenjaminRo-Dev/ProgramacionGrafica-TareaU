@@ -30,7 +30,6 @@ namespace TareaU
 
         public override void Actualizar()
         {
-            // Recalcular la matriz de modelo para cada cara de la parte
             foreach (var cara in Caras)
             {
                 cara.Posicion = Posicion;
@@ -38,14 +37,6 @@ namespace TareaU
                 cara.Rotacion = Rotacion;
             }
         }
-
-        // public void Cargar()
-        // {
-        //     foreach (var cara in Caras)
-        //     {
-        //         cara.Cargar();
-        //     }
-        // }
 
     }
 }
