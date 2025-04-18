@@ -8,14 +8,11 @@ namespace TareaU
     class Game : GameWindow
     {
         private Shader shader;
-
         private Matrix4 vista;
         private Matrix4 proyeccion;
-
-        private Cara cara;
-        private Parte parte;
-        private List<Cara> carasU;
         private List<Parte> partesU;
+        private Objeto objetoU;
+        private Escenario escenario;
 
         public Game(int width, int height, string title)
             : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = title }) { }
@@ -31,40 +28,9 @@ namespace TareaU
             vista = Matrix4.CreateTranslation(0.0f, 0.0f, -40.0f);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / (float)Size.Y, 0.1f, 100.0f);
             
-
-            Vector3 posicion = new Vector3(0, 0, 0);
-            Vector3 escala = new Vector3(1, 1, 1);
-            Vector3 rotacion = new Vector3(0,90,0);
-
-            Vector3 posicionU = new Vector3(0, 0, 0);
+            Vector3 posicionU = new Vector3(-10, -10, 0); //Si
             Vector3 escalaU = new Vector3(3,3,3);
-            Vector3 rotacionU = new Vector3(0,90,0);
-
-            var vertices = new[]
-            {
-                new Vector3(-1, -1, -1), // 0
-                new Vector3(1, -1, -1),  // 1
-                new Vector3(1, 1, -1),   // 2
-                new Vector3(-1, 1, -1),  // 3
-                new Vector3(-1, -1, 1),  // 4
-                new Vector3(1, -1, 1),   // 5
-                new Vector3(1, 1, 1),    // 6
-                new Vector3(-1, 1, 1)    // 7
-            };
-
-            var caras = new List<Cara>
-            {
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Indigo, vertices[0], vertices[1], vertices[2], vertices[3]), // Front
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Green, vertices[4], vertices[5], vertices[6], vertices[7]), // Back
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Blue, vertices[3], vertices[2], vertices[6], vertices[7]), // Top
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Yellow, vertices[0], vertices[1], vertices[5], vertices[4]), // Bottom
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Cyan, vertices[0], vertices[3], vertices[7], vertices[4]), // Left
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Magenta, vertices[1], vertices[2], vertices[6], vertices[5]) // Right
-            };
-
-            parte = new Parte(posicion, escala, rotacion, caras);
-            
-            
+            Vector3 rotacionU = new Vector3(0,10,0);
 
             var verticesU = new []
             {
@@ -107,32 +73,32 @@ namespace TareaU
 
             var carasC1 = new List<Cara>
             {
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Indigo, verticesU[0], verticesU[1], verticesU[2], verticesU[3]), // Front
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Green, verticesU[4], verticesU[5], verticesU[6], verticesU[7]), // Back
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Blue, verticesU[3], verticesU[2], verticesU[6], verticesU[7]), // Top
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Yellow, verticesU[0], verticesU[1], verticesU[5], verticesU[4]), // Bottom
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Cyan, verticesU[0], verticesU[3], verticesU[7], verticesU[4]), // Left
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Magenta, verticesU[1], verticesU[2], verticesU[6], verticesU[5]) // Right
+                new Cara(Color4.Indigo, verticesU[0], verticesU[1], verticesU[2], verticesU[3]), // Front
+                new Cara(Color4.Green, verticesU[4], verticesU[5], verticesU[6], verticesU[7]), // Back
+                new Cara(Color4.Blue, verticesU[3], verticesU[2], verticesU[6], verticesU[7]), // Top
+                new Cara(Color4.Yellow, verticesU[0], verticesU[1], verticesU[5], verticesU[4]), // Bottom
+                new Cara(Color4.Cyan, verticesU[0], verticesU[3], verticesU[7], verticesU[4]), // Left
+                new Cara(Color4.Magenta, verticesU[1], verticesU[2], verticesU[6], verticesU[5]) // Right
             };
 
             var carasC2 = new List<Cara>
             {
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Indigo, verticesU[8], verticesU[9], verticesU[10], verticesU[11]), // Front
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Green, verticesU[12], verticesU[13], verticesU[14], verticesU[15]), // Back
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Blue, verticesU[11], verticesU[10], verticesU[14], verticesU[15]), // Top
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Yellow, verticesU[8], verticesU[9], verticesU[13], verticesU[12]), // Bottom
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Cyan, verticesU[8], verticesU[11], verticesU[15], verticesU[12]), // Left
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Magenta, verticesU[9], verticesU[10], verticesU[14], verticesU[13]) // Right
+                new Cara(Color4.Indigo, verticesU[8], verticesU[9], verticesU[10], verticesU[11]), // Front
+                new Cara(Color4.Green, verticesU[12], verticesU[13], verticesU[14], verticesU[15]), // Back
+                new Cara(Color4.Blue, verticesU[11], verticesU[10], verticesU[14], verticesU[15]), // Top
+                new Cara(Color4.Yellow, verticesU[8], verticesU[9], verticesU[13], verticesU[12]), // Bottom
+                new Cara(Color4.Cyan, verticesU[8], verticesU[11], verticesU[15], verticesU[12]), // Left
+                new Cara(Color4.Magenta, verticesU[9], verticesU[10], verticesU[14], verticesU[13]) // Right
             };
 
             var carasC3 = new List<Cara>
             {
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Indigo, verticesU[16], verticesU[17], verticesU[18], verticesU[19]), // Front
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Green, verticesU[20], verticesU[21], verticesU[22], verticesU[23]), // Back
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Blue, verticesU[19], verticesU[18], verticesU[22], verticesU[23]), // Top
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Yellow, verticesU[16], verticesU[17], verticesU[21], verticesU[20]), // Bottom
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Cyan, verticesU[16], verticesU[19], verticesU[23], verticesU[20]), // Left
-                new Cara(new Vector3(0, 0, 0), new Vector3(1, 1, 1), Color4.Magenta, verticesU[17], verticesU[18], verticesU[22], verticesU[21]) // Right
+                new Cara(Color4.Indigo, verticesU[16], verticesU[17], verticesU[18], verticesU[19]), // Front
+                new Cara(Color4.Green, verticesU[20], verticesU[21], verticesU[22], verticesU[23]), // Back
+                new Cara(Color4.Blue, verticesU[19], verticesU[18], verticesU[22], verticesU[23]), // Top
+                new Cara(Color4.Yellow, verticesU[16], verticesU[17], verticesU[21], verticesU[20]), // Bottom
+                new Cara(Color4.Cyan, verticesU[16], verticesU[19], verticesU[23], verticesU[20]), // Left
+                new Cara(Color4.Magenta, verticesU[17], verticesU[18], verticesU[22], verticesU[21]) // Right
             };
 
             partesU = new List<Parte>
@@ -142,10 +108,15 @@ namespace TareaU
                 new Parte(posicionU, escalaU, rotacionU, carasC3)
             };
 
+            objetoU = new Objeto(posicionU, escalaU, rotacionU, partesU);
+
+            escenario = new Escenario();
+
+            objetoU.Posicion = new Vector3(0, 0, 0);//No me funciona
+            escenario.AgregarObjeto(objetoU);
 
 
 
-        
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -159,14 +130,11 @@ namespace TareaU
             shader.SetMatrix4("vista", vista);
             shader.SetMatrix4("proyeccion", proyeccion);
 
-
-            // cara.Dibujar(shader);
-            parte.Dibujar(shader); // Llamar al método Dibujar de la parte
-
-            foreach (var parteU in partesU)
-            {
-                parteU.Dibujar(shader); // Llamar al método Dibujar de la parte
-            }
+            objetoU.Posicion = new Vector3(0, 0, 0);//No me funciona
+            // objetoU.Rotacion = new Vector3(45, 20, 0);
+            // objetoU.Dibujar(shader);
+            
+            escenario.Dibujar(shader);
             
 
             SwapBuffers();
@@ -174,8 +142,12 @@ namespace TareaU
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            // parte.Rotacion += new Vector3(0, 1, 0); // Rotar la parte en el eje Y
             base.OnUpdateFrame(e);
+            escenario.AgregarObjeto(objetoU);
+            foreach (var objeto in escenario.Objetos)
+            {
+                objeto.Actualizar();
+            }
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)

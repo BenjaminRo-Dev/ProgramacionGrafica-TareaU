@@ -23,6 +23,24 @@ namespace TareaU
             Matrix4.CreateTranslation(Posicion);
 
         //TODO: configurar los indices para caras cuadradas y triangulares
+        public Cara(Color4 color, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
+        {
+            Posicion = Vector3.Zero;
+            Escala = Vector3.One;
+            Rotacion = Vector3.Zero;
+            Color = color;
+
+            this.vertices = new Vertice[4]
+            {
+                new Vertice(p1, color),
+                new Vertice(p2, color),
+                new Vertice(p3, color),
+                new Vertice(p4, color)
+            };
+
+            this.indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
+        }
+
         public Cara(Vector3 posicion, Vector3 escala, Color4 color, Vector3 p1, Vector3 p2, Vector3 p3)//Cara triangular
         {
             Posicion = posicion;
@@ -57,6 +75,7 @@ namespace TareaU
 
             this.indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
         }
+        
         public Cara(Vector3 posicion, Vector3 escala, Color4 color, Vector3[] vertices)//Cara cuadrada
         {
             Posicion = posicion;
@@ -75,7 +94,7 @@ namespace TareaU
             {
                 this.indices[i] = (uint)i;
             }
-            
+
         }
 
 

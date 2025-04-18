@@ -21,7 +21,27 @@ public abstract class ObjetoGrafico
         Rotacion = Vector3.Zero;
     }
 
-    public abstract void Dibujar();
     public abstract void Dibujar(Shader shader);
-    public abstract void Actualizar(double tiempo);
+
+    public abstract void Actualizar();
+
+    public void Mover(Vector3 posicion)
+    {
+        Posicion += posicion;
+    }
+
+    public void Escalar(Vector3 escala)
+    {
+        Escala += escala;
+    }
+
+    public void Rotar(Vector3 rotacion)
+    {
+        Rotacion += rotacion;
+    }
+
+    
+
+    
+
 }
