@@ -30,12 +30,12 @@ class Escenario : ObjetoGrafico
         Objetos.Add(objeto);
     }
 
-    public override void Rotar(Vector3 rotacion)
+   public override void Rotar(Vector3 rotacion)
     {
-        this.Rotacion = rotacion;
         foreach (var objeto in Objetos)
         {
-            objeto.Rotacion = Rotacion;
+            objeto.Posicion = Centro;
+            objeto.Rotacion = rotacion;
         }
     }
 
@@ -54,6 +54,34 @@ class Escenario : ObjetoGrafico
         foreach (var objeto in Objetos)
         {
             objeto.Escala = Escala;
+        }
+    }
+
+    public override void CalcularCentroDeMasa()
+    {
+        Vector3 suma = Vector3.Zero;
+        int totalVertices = 0;
+
+        foreach (var objeto in Objetos)
+        {
+            foreach (var parte in objeto.Partes)
+            {
+                foreach (var cara in parte.Caras)
+                {
+                    foreach (var vertice in cara.vertices)
+                    {
+                        suma += vertice.posicion;
+                        totalVertices++;
+                    }
+                }
+            }
+        }
+
+        Centro = suma / totalVertices;
+        
+        foreach (var objeto in Objetos)
+        {
+            objeto.Centro = Centro;
         }
     }
 

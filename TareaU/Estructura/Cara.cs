@@ -13,14 +13,24 @@ namespace TareaU
         public Color4 Color { get; set; }
         private uint[] indices;
 
-        private Vertice[] vertices;
+        public Vertice[] vertices;
 
-        public Matrix4 Modelo =>
-            Matrix4.CreateScale(Escala) *
-            Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotacion.X)) *
-            Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotacion.Y)) *
-            Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotacion.Z)) *
-            Matrix4.CreateTranslation(Posicion);
+        public Vector3 Centro { get; set; }
+
+        public Matrix4 Modelo
+        {
+            get
+            {
+                return
+                    Matrix4.CreateTranslation(-Centro) *
+                    Matrix4.CreateScale(Escala) *
+                    Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotacion.X)) *
+                    Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotacion.Y)) *
+                    Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotacion.Z)) *
+                    Matrix4.CreateTranslation(Centro) *
+                    Matrix4.CreateTranslation(Posicion);
+            }
+        }
 
         //TODO: configurar los indices para caras cuadradas y triangulares
         public Cara(Color4 color, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
@@ -75,7 +85,7 @@ namespace TareaU
 
             this.indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
         }
-        
+
         public Cara(Vector3 posicion, Vector3 escala, Color4 color, Vector3[] vertices)//Cara cuadrada
         {
             Posicion = posicion;

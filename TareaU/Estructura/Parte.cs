@@ -4,7 +4,7 @@ namespace TareaU
 {
     public class Parte : ObjetoGrafico
     {
-        List<Cara> Caras;
+        public List<Cara> Caras;
 
         public Parte(Vector3 posicion, Vector3 escala, Vector3 rotacion, List<Cara> caras)
             : base(posicion, escala, rotacion)
@@ -18,6 +18,7 @@ namespace TareaU
                 cara.Rotacion = Rotacion;
                 cara.Cargar();
             }
+            CalcularCentroDeMasa();
 
         }
 
@@ -63,6 +64,22 @@ namespace TareaU
             {
                 cara.Escala = Escala;
             }
+        }
+
+        public override void CalcularCentroDeMasa(){
+            Vector3 suma = Vector3.Zero;
+            int totalVertices = 0;
+
+            foreach (var cara in Caras)
+            {
+                foreach (var vertice in cara.vertices)
+                {
+                    suma += vertice.posicion;
+                    totalVertices++;
+                }
+            }
+
+            Centro = suma / totalVertices;
         }
 
     }

@@ -32,8 +32,13 @@ namespace TareaU
             robot = JsonLoader.Cargar("../../../datos/robot.json");
             letraU = JsonLoader.Cargar("../../../datos/letraU.json");
 
+            robot.CalcularCentroDeMasa();
+            letraU.CalcularCentroDeMasa();
+
             escenario.AgregarObjeto(letraU);
             escenario.AgregarObjeto(robot);
+
+            escenario.CalcularCentroDeMasa();
 
         }
 
@@ -48,19 +53,22 @@ namespace TareaU
             shader.SetMatrix4("vista", vista);
             shader.SetMatrix4("proyeccion", proyeccion);
 
-            letraU.Posicion = new Vector3(-5, 0, 0);
-            letraU.Rotacion = new Vector3(45, 45, 0);
-            letraU.Actualizar();
+            letraU.Posicion = new Vector3(-20, 10, 0);
+            // letraU.Rotacion = new Vector3(20, 0, 0);
 
-            robot.Posicion = new Vector3(5, 0, 0);
-            robot.Rotacion = new Vector3(45, 0, 0);
-            robot.Actualizar();
-
-            robot.Partes[1].Rotacion = new Vector3(45, 45, 45);
-            robot.Partes[1].Actualizar();
-            
-            // letraU.Partes[0].Rotacion = new Vector3(180, 0, 0);
+            // letraU.Partes[0].Rotacion = new Vector3(45, 0, 0);
             // letraU.Partes[0].Actualizar();
+
+            // letraU.Actualizar();
+
+            robot.Posicion = new Vector3(+20, 0, -20);
+            // robot.Rotacion = new Vector3(45, 0, 0);
+            // robot.Actualizar();
+
+            // robot.Partes[1].Rotacion = new Vector3(45, 45, 45);
+            // robot.Partes[1].Actualizar();
+            
+            
             
             
 
@@ -68,8 +76,8 @@ namespace TareaU
             // escenario.Escalar(new Vector3(0.5f, 0.5f, 0.5f));
             // escenario.Mover(new Vector3(-5, 5, 0));
             // escenario.Actualizar();
-
             escenario.Dibujar(shader);
+            
 
             SwapBuffers();
         }
@@ -77,11 +85,13 @@ namespace TareaU
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-            // objetoCargado.Rotacion += new Vector3(0,45,0);
+            // robot.Rotacion += new Vector3(0,45,0);
+            
             foreach (var objeto in escenario.Objetos)
             {
                 objeto.Actualizar();
             }
+            escenario.Rotar(new Vector3(0, 0, 90));
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)

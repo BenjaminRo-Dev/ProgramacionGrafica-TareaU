@@ -9,7 +9,7 @@ public class Objeto : ObjetoGrafico
         : base(posicion, escala, rotacion)
     {
         Partes = partes;
-        
+
         foreach (var parte in Partes)
         {
             parte.Posicion = Posicion;
@@ -57,6 +57,35 @@ public class Objeto : ObjetoGrafico
         foreach (var parte in Partes)
         {
             parte.Escala = Escala;
+        }
+    }
+
+    public override void CalcularCentroDeMasa()
+    {
+        Vector3 suma = Vector3.Zero;
+        int totalVertices = 0;
+
+        foreach (var parte in Partes)
+        {
+            foreach (var cara in parte.Caras)
+            {
+                foreach (var vertice in cara.vertices)
+                {
+                    suma += vertice.posicion;
+                    totalVertices++;
+                }
+            }
+        }
+
+        Centro = suma / totalVertices;
+        //Asignar el centro de masa a cada parte y cara
+        foreach (var parte in Partes)
+        {
+            parte.Centro = Centro;
+            foreach (var cara in parte.Caras)
+            {
+                cara.Centro = Centro;
+            }
         }
     }
 
