@@ -48,16 +48,26 @@ namespace TareaU
             shader.SetMatrix4("vista", vista);
             shader.SetMatrix4("proyeccion", proyeccion);
 
-            // letraU.Rotacion = new Vector3(45, 45, 90);
-            // letraU.Actualizar();
+            letraU.Posicion = new Vector3(-5, 0, 0);
+            letraU.Rotacion = new Vector3(45, 45, 0);
+            letraU.Actualizar();
+
+            robot.Posicion = new Vector3(5, 0, 0);
+            robot.Rotacion = new Vector3(45, 0, 0);
+            robot.Actualizar();
+
+            robot.Partes[1].Rotacion = new Vector3(45, 45, 45);
+            robot.Partes[1].Actualizar();
             
             // letraU.Partes[0].Rotacion = new Vector3(180, 0, 0);
             // letraU.Partes[0].Actualizar();
-            robot.Posicion = new Vector3(10, 10, 0);
-            robot.Rotacion = new Vector3(45, 45, 0);
-            robot.Actualizar();
+            
+            
 
-            escenario.Rotar(new Vector3(180, 0, 0));
+            // escenario.Rotar(new Vector3(180, 0, 0));
+            // escenario.Escalar(new Vector3(0.5f, 0.5f, 0.5f));
+            // escenario.Mover(new Vector3(-5, 5, 0));
+            // escenario.Actualizar();
 
             escenario.Dibujar(shader);
 

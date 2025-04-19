@@ -25,23 +25,12 @@ public abstract class ObjetoGrafico
 
     public abstract void Actualizar();
 
-    public void Mover(Vector3 posicion)
-    {
-        Posicion += posicion;
-    }
+    public abstract void Mover(Vector3 posicion);
 
-    public void Escalar(Vector3 escala)
-    {
-        Escala += escala;
-    }
+    public abstract void Escalar(Vector3 escala);
 
     public abstract void Rotar(Vector3 rotacion);
 
-    // public void Rotar(Vector3 rotacion)
-    // {
-    //     Rotacion += rotacion;
-    //     Actualizar();
-    // }
 
     
 

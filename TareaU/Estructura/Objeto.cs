@@ -42,13 +42,22 @@ public class Objeto : ObjetoGrafico
         throw new NotImplementedException();
     }
 
-    // public override void Rotar(Vector3 rotacion)
-    // {
-    //     base.Rotar(rotacion);
-    //     foreach (var parte in Partes)
-    //     {
-    //         parte.Rotacion = Rotacion;
-    //     }
-    // }
+    public override void Mover(Vector3 posicion)
+    {
+        Posicion = posicion;
+        foreach (var parte in Partes)
+        {
+            parte.Posicion = Posicion;
+        }
+    }
+
+    public override void Escalar(Vector3 escala)
+    {
+        Escala = escala;
+        foreach (var parte in Partes)
+        {
+            parte.Escala = Escala;
+        }
+    }
 
 }

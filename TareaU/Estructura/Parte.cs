@@ -47,5 +47,23 @@ namespace TareaU
             }
         }
 
+        public override void Mover(Vector3 posicion)
+        {
+            Posicion = posicion;
+            foreach (var cara in Caras)
+            {
+                cara.Posicion = Posicion;
+            }
+        }
+
+        public override void Escalar(Vector3 escala)
+        {
+            Escala = escala;
+            foreach (var cara in Caras)
+            {
+                cara.Escala = Escala;
+            }
+        }
+
     }
 }

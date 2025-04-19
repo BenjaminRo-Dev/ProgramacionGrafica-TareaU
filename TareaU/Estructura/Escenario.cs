@@ -39,6 +39,24 @@ class Escenario : ObjetoGrafico
         }
     }
 
+    public override void Mover(Vector3 posicion)
+    {
+        Posicion = posicion;
+        foreach (var objeto in Objetos)
+        {
+            objeto.Posicion = Posicion;
+        }
+    }
+
+    public override void Escalar(Vector3 escala)
+    {
+        Escala = escala;
+        foreach (var objeto in Objetos)
+        {
+            objeto.Escala = Escala;
+        }
+    }
+
 
 
 
