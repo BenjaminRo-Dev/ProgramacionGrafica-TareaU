@@ -4,7 +4,7 @@ using TareaU;
 
 public class Objeto : ObjetoGrafico
 {
-    private List<Parte> Partes;
+    public List<Parte> Partes;
 
     public Objeto(Vector3 posicion, Vector3 escala, Vector3 rotacion, List<Parte> partes)
         : base(posicion, escala, rotacion)
