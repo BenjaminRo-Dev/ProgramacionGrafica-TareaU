@@ -35,10 +35,13 @@ public abstract class ObjetoGrafico
         Escala += escala;
     }
 
-    public void Rotar(Vector3 rotacion)
-    {
-        Rotacion += rotacion;
-    }
+    public abstract void Rotar(Vector3 rotacion);
+
+    // public void Rotar(Vector3 rotacion)
+    // {
+    //     Rotacion += rotacion;
+    //     Actualizar();
+    // }
 
     
 

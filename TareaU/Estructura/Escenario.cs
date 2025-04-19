@@ -1,3 +1,4 @@
+using OpenTK.Mathematics;
 using TareaU;
 class Escenario : ObjetoGrafico
 {
@@ -27,6 +28,15 @@ class Escenario : ObjetoGrafico
     public void AgregarObjeto(ObjetoGrafico objeto)
     {
         Objetos.Add(objeto);
+    }
+
+    public override void Rotar(Vector3 rotacion)
+    {
+        this.Rotacion = rotacion;
+        foreach (var objeto in Objetos)
+        {
+            objeto.Rotacion = Rotacion;
+        }
     }
 
 

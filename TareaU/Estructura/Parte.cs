@@ -38,5 +38,14 @@ namespace TareaU
             }
         }
 
+        public override void Rotar(Vector3 rotacion)
+        {
+            this.Rotacion = rotacion;
+            foreach (var cara in Caras)
+            {
+                cara.Rotacion = Rotacion;
+            }
+        }
+
     }
 }

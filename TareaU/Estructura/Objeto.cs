@@ -1,5 +1,4 @@
 using OpenTK.Mathematics;
-using System.Collections.Generic;
 using TareaU;
 
 public class Objeto : ObjetoGrafico
@@ -37,5 +36,19 @@ public class Objeto : ObjetoGrafico
             parte.Actualizar();
         }
     }
+
+    public override void Rotar(Vector3 rotacion)
+    {
+        throw new NotImplementedException();
+    }
+
+    // public override void Rotar(Vector3 rotacion)
+    // {
+    //     base.Rotar(rotacion);
+    //     foreach (var parte in Partes)
+    //     {
+    //         parte.Rotacion = Rotacion;
+    //     }
+    // }
 
 }
