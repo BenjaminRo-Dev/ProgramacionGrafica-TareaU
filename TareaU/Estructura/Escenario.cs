@@ -68,7 +68,7 @@ class Escenario : ObjetoGrafico
             {
                 foreach (var cara in parte.Caras)
                 {
-                    foreach (var vertice in cara.vertices)
+                    foreach (var vertice in cara.Vertices)
                     {
                         suma += vertice.posicion;
                         totalVertices++;
@@ -82,6 +82,36 @@ class Escenario : ObjetoGrafico
         foreach (var objeto in Objetos)
         {
             objeto.Centro = Centro;
+        }
+    }
+
+    public override void setPosicion(Vector3 posicion)
+    {
+        Posicion = posicion;
+        foreach (var objeto in Objetos)
+        {
+            objeto.Posicion = Posicion;
+            objeto.setPosicion(Posicion);
+        }
+    }
+
+    public override void setEscala(Vector3 escala)
+    {
+        Escala = escala;
+        foreach (var objeto in Objetos)
+        {
+            objeto.Escala = Escala;
+            objeto.setEscala(Escala);
+        }
+    }
+
+    public override void setRotacion(Vector3 rotacion)
+    {
+        Rotacion = rotacion;
+        foreach (var objeto in Objetos)
+        {
+            objeto.Rotacion = Rotacion;
+            objeto.setRotacion(Rotacion);
         }
     }
 

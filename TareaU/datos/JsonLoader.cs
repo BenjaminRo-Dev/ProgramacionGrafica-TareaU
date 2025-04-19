@@ -38,8 +38,10 @@ public static class JsonLoader
                 caras));
         }
 
+        // Console.WriteLine(objetoJson.posicion[0]);
+        // Console.WriteLine("Adasdasadasd");
         return new Objeto(
-            ToVector3(objetoJson.posicion), 
+            ToVector3(objetoJson.posicion),
             ToVector3(objetoJson.escala), 
             ToVector3(objetoJson.rotacion), 
             partes);

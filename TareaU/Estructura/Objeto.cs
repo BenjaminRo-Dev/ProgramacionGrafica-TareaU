@@ -18,6 +18,7 @@ public class Objeto : ObjetoGrafico
         }
     }
 
+
     public override void Dibujar(Shader shader)
     {
         foreach (var parte in Partes)
@@ -33,6 +34,7 @@ public class Objeto : ObjetoGrafico
             parte.Posicion = Posicion;
             parte.Escala = Escala;
             parte.Rotacion = Rotacion;
+            parte.Centro = Centro;
             parte.Actualizar();
         }
     }
@@ -69,7 +71,7 @@ public class Objeto : ObjetoGrafico
         {
             foreach (var cara in parte.Caras)
             {
-                foreach (var vertice in cara.vertices)
+                foreach (var vertice in cara.Vertices)
                 {
                     suma += vertice.posicion;
                     totalVertices++;
@@ -86,6 +88,36 @@ public class Objeto : ObjetoGrafico
             {
                 cara.Centro = Centro;
             }
+        }
+    }
+
+    public override void setPosicion(Vector3 posicion)
+    {
+        Posicion = posicion;
+        foreach (var parte in Partes)
+        {
+            parte.Posicion = Posicion;
+            parte.setPosicion(Posicion);
+        }
+    }
+
+    public override void setEscala(Vector3 escala)
+    {
+        Escala = escala;
+        foreach (var parte in Partes)
+        {
+            parte.Escala = Escala;
+            parte.setEscala(Escala);
+        }
+    }
+
+    public override void setRotacion(Vector3 rotacion)
+    {
+        Rotacion = rotacion;
+        foreach (var parte in Partes)
+        {
+            parte.Rotacion = Rotacion;
+            parte.setRotacion(Rotacion);
         }
     }
 

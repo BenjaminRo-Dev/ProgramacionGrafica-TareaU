@@ -11,9 +11,9 @@ namespace TareaU
         public Vector3 Escala { get; set; }
         public Vector3 Rotacion { get; set; }
         public Color4 Color { get; set; }
-        private uint[] indices;
+        private uint[] Indices;
 
-        public Vertice[] vertices;
+        public Vertice[] Vertices;
 
         public Vector3 Centro { get; set; }
 
@@ -40,7 +40,7 @@ namespace TareaU
             Rotacion = Vector3.Zero;
             Color = color;
 
-            this.vertices = new Vertice[4]
+            this.Vertices = new Vertice[4]
             {
                 new Vertice(p1, color),
                 new Vertice(p2, color),
@@ -48,69 +48,12 @@ namespace TareaU
                 new Vertice(p4, color)
             };
 
-            this.indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
+            this.Indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
         }
-
-        public Cara(Vector3 posicion, Vector3 escala, Color4 color, Vector3 p1, Vector3 p2, Vector3 p3)//Cara triangular
-        {
-            Posicion = posicion;
-            Escala = escala;
-            Rotacion = Vector3.Zero;
-            Color = color;
-
-            this.vertices = new Vertice[3]
-            {
-                new Vertice(p1, color),
-                new Vertice(p2, color),
-                new Vertice(p3, color)
-            };
-
-            this.indices = new uint[3] { 0, 1, 2 };
-        }
-
-        public Cara(Vector3 posicion, Vector3 escala, Color4 color, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)//Cara cuadrada
-        {
-            Posicion = posicion;
-            Escala = escala;
-            Rotacion = Vector3.Zero;
-            Color = color;
-
-            this.vertices = new Vertice[4]
-            {
-                new Vertice(p1, color),
-                new Vertice(p2, color),
-                new Vertice(p3, color),
-                new Vertice(p4, color)
-            };
-
-            this.indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
-        }
-
-        public Cara(Vector3 posicion, Vector3 escala, Color4 color, Vector3[] vertices)//Cara cuadrada
-        {
-            Posicion = posicion;
-            Escala = escala;
-            Rotacion = Vector3.Zero;
-            Color = color;
-
-            this.vertices = new Vertice[vertices.Length];
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                this.vertices[i] = new Vertice(vertices[i], color);
-            }
-
-            this.indices = new uint[vertices.Length];
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                this.indices[i] = (uint)i;
-            }
-
-        }
-
 
         public void Cargar()
         {
-            float[] datosVertices = vertices.SelectMany(v => new float[]
+            float[] datosVertices = Vertices.SelectMany(v => new float[]
             {
                 v.posicion.X, v.posicion.Y, v.posicion.Z,
                 v.Color.R, v.Color.G, v.Color.B
@@ -128,7 +71,7 @@ namespace TareaU
             GL.BufferData(BufferTarget.ArrayBuffer, datosVertices.Length * sizeof(float), datosVertices, BufferUsageHint.StaticDraw);
 
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, Indices.Length * sizeof(uint), Indices, BufferUsageHint.StaticDraw);
 
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
             GL.EnableVertexAttribArray(0);
@@ -144,7 +87,7 @@ namespace TareaU
             shader.SetMatrix4("modelo", Modelo);
 
             GL.BindVertexArray(vao);
-            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);
+            GL.DrawElements(PrimitiveType.Triangles, Indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 
         public void Liberar()
@@ -152,6 +95,29 @@ namespace TareaU
             GL.DeleteVertexArray(vao);
             GL.DeleteBuffer(vbo);
             GL.DeleteBuffer(ebo);
+        }
+
+        public void CalcularCentro()
+        {
+            float minX = float.MaxValue, minY = float.MaxValue, minZ = float.MaxValue;
+            float maxX = float.MinValue, maxY = float.MinValue, maxZ = float.MinValue;
+
+            foreach (var punto in Vertices)
+            {
+                if (punto.posicion.X < minX) minX = punto.posicion.X;
+                if (punto.posicion.Y < minY) minY = punto.posicion.Y;
+                if (punto.posicion.Z < minZ) minZ = punto.posicion.Z;
+
+                if (punto.posicion.X > maxX) maxX = punto.posicion.X;
+                if (punto.posicion.Y > maxY) maxY = punto.posicion.Y;
+                if (punto.posicion.Z > maxZ) maxZ = punto.posicion.Z;
+            }
+
+            float centroX = (minX + maxX) / 2;
+            float centroY = (minY + maxY) / 2;
+            float centroZ = (minZ + maxZ) / 2;
+
+            Centro = new Vector3(centroX, centroY, centroZ);
         }
 
     }

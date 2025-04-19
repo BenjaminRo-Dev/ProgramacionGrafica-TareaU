@@ -1,6 +1,6 @@
 {
     "objeto": {
-      "posicion": [0, 0, 0],
+      "posicion": [10, 10, 0],
       "escala": [1, 1, 1],
       "rotacion": [0, 0, 0],
       "partes": [

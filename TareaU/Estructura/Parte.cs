@@ -18,10 +18,11 @@ namespace TareaU
                 cara.Rotacion = Rotacion;
                 cara.Cargar();
             }
-            CalcularCentroDeMasa();
+            // CalcularCentroDeMasa();
 
         }
 
+        
         public override void Dibujar(Shader shader)
         {
             foreach (var cara in Caras){
@@ -41,10 +42,11 @@ namespace TareaU
 
         public override void Rotar(Vector3 rotacion)
         {
-            this.Rotacion = rotacion;
+            Rotacion += rotacion; // Acumular la rotación en lugar de sobrescribirla
             foreach (var cara in Caras)
             {
-                cara.Rotacion = Rotacion;
+                // cara.CalcularCentro();
+                cara.Rotacion += rotacion; // Aplicar la rotación acumulativa
             }
         }
 
@@ -67,20 +69,41 @@ namespace TareaU
         }
 
         public override void CalcularCentroDeMasa(){
-            Vector3 suma = Vector3.Zero;
-            int totalVertices = 0;
+            var vertices = Caras.SelectMany(c => c.Vertices).ToList();
+            Centro = new Vector3(
+                vertices.Average(v => v.posicion.X),
+                vertices.Average(v => v.posicion.Y),
+                vertices.Average(v => v.posicion.Z)
+            );
+        }
 
+        public override void setPosicion(Vector3 posicion)
+        {
+            Posicion = posicion;
             foreach (var cara in Caras)
             {
-                foreach (var vertice in cara.vertices)
-                {
-                    suma += vertice.posicion;
-                    totalVertices++;
-                }
+                cara.Posicion = Posicion;
             }
-
-            Centro = suma / totalVertices;
         }
+
+        public override void setEscala(Vector3 escala)
+        {
+            Escala = escala;
+            foreach (var cara in Caras)
+            {
+                cara.Escala = Escala;
+            }
+        }
+
+        public override void setRotacion(Vector3 rotacion)
+        {
+            Rotacion = rotacion;
+            foreach (var cara in Caras)
+            {
+                cara.Rotacion = Rotacion;
+            }
+        }
+
 
     }
 }
