@@ -3,10 +3,11 @@ using TareaU;
 class Escenario : ObjetoGrafico
 {
     public List<ObjetoGrafico> Objetos; // Lista de objetos en el escenario
-
+    
     public Escenario()
     {
         Objetos = new List<ObjetoGrafico>();
+        Centro = new Vector3(0, 0, 0);
     }
 
     public override void Dibujar(Shader shader)
@@ -33,11 +34,12 @@ class Escenario : ObjetoGrafico
     public override void Rotar(Vector3 rotacion)
     {
         // CalcularCentroDeMasa();
-        Centro = new Vector3(0, 0, 0);
+        Centro = Posicion;
         Rotacion = rotacion;
         foreach (var objeto in Objetos)
         {
-            objeto.setCentro(Centro);
+            objeto.setCentro(Centro - objeto.Posicion);
+            // objeto.setRotacion(objeto.Rotacion + Rotacion);
             objeto.setRotacion(Rotacion);
         }
     }
@@ -62,38 +64,7 @@ class Escenario : ObjetoGrafico
 
     public override void CalcularCentroDeMasa()
     {
-        Vector3 suma = Vector3.Zero;
-        int totalVertices = 0;
-
-        foreach (var objeto in Objetos)
-        {
-            foreach (var parte in objeto.Partes)
-            {
-                foreach (var cara in parte.Caras)
-                {
-                    foreach (var vertice in cara.Vertices)
-                    {
-                        suma += vertice.posicion;
-                        totalVertices++;
-                    }
-                }
-            }
-        }
-
-        Centro = suma / totalVertices;
-
-        foreach (var objeto in Objetos)
-        {
-            objeto.Centro = Centro;
-            foreach (var parte in Partes)
-            {
-                parte.Centro = Centro;
-                foreach (var cara in parte.Caras)
-                {
-                    cara.Centro = Centro;
-                }
-            }
-        }
+        Centro = Posicion;
     }
 
     public override void setPosicion(Vector3 posicion)

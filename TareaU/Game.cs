@@ -34,7 +34,7 @@ namespace TareaU
             letraU = JsonLoader.Cargar("../../../datos/letraU.json");
             letraU2 = JsonLoader.Cargar("../../../datos/letraU.json");
 
-            letraU.setPosicion(new Vector3(10, 10, 0));
+            letraU.setPosicion(new Vector3(0, 0, 0));
             letraU2.setPosicion(new Vector3(-10, -10, 0));
 
             // robot.CalcularCentroDeMasa();
@@ -64,7 +64,7 @@ namespace TareaU
 
             // letraU.Rotar(new Vector3(letraU.Rotacion + new Vector3(0, velocidadRotacion * (float)e.Time, 0)));
             // letraU.Rotar(new Vector3(letraU.Rotacion + new Vector3(0, 0, velocidadRotacion * (float)e.Time)));
-            //letraU.Rotar(new Vector3(letraU.Rotacion + new Vector3(velocidadRotacion * (float)e.Time, 0, 0)));
+            letraU.Rotar(new Vector3(letraU.Rotacion + new Vector3(velocidadRotacion * (float)e.Time, 0, 0)));
             
                 // letraU.Partes[0].Rotar(letraU.Partes[0].Rotacion + new Vector3(0, velocidadRotacion * (float)e.Time, 0));
                 // letraU.Partes[0].Rotar(letraU.Partes[0].Rotacion + new Vector3(velocidadRotacion * (float)e.Time, 0, 0));
@@ -78,7 +78,7 @@ namespace TareaU
             // escenario.Rotar(new Vector3(escenario.Rotacion + new Vector3(velocidadRotacion * (float)e.Time, 0, 0)));
             
             // escenario.Escalar(new Vector3(0.5f, 0.5f, 0.5f));
-            // escenario.Mover(new Vector3(-5, 5, 0));
+            // escenario.Mover(new Vector3(-10, 5, 0));
             // escenario.Actualizar();
             escenario.Dibujar(shader);
             
@@ -89,21 +89,6 @@ namespace TareaU
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-            // robot.Rotacion += new Vector3(0,45,0);
-            float velocidadRotacion = 45.0f; // Velocidad de rotación en grados por segundo
-            // letraU.Rotacion += new Vector3(0, velocidadRotacion * (float)e.Time, 0); // Rotar en el eje Y
-            
-                // letraU.Partes[0].Rotacion += new Vector3(0, velocidadRotacion * (float)e.Time, 0);
-                // Console.WriteLine($"Rotación actual: {letraU.Partes[0].Rotacion}");
-
-            // foreach (var objeto in escenario.Objetos)
-            // {
-            //     objeto.Actualizar();
-            // }
-
-            
-            // escenario.CalcularCentroDeMasa();
-            // escenario.Rotar(new Vector3(40, 0, 0));
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)

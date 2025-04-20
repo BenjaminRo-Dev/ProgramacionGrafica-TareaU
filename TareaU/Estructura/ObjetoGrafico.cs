@@ -7,8 +7,6 @@ public abstract class ObjetoGrafico
     public virtual Vector3 Escala { get; set; }
     public virtual Vector3 Rotacion { get; set; }
     public virtual Vector3 Centro { get; set;}
-    public List<Parte> Partes { get; set; } = new List<Parte>();
-
     protected ObjetoGrafico(Vector3 posicion, Vector3 escala, Vector3 rotacion )
     {
         Posicion = posicion;
