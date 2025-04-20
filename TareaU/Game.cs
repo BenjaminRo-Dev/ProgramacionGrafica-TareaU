@@ -44,7 +44,6 @@ namespace TareaU
             escenario.AgregarObjeto(letraU2);
             // escenario.AgregarObjeto(robot);
 
-            // escenario.CalcularCentroDeMasa();
 
         }
 

@@ -60,8 +60,6 @@ namespace TareaU
                 v.Color.R, v.Color.G, v.Color.B
             }).ToArray();
 
-            // uint[] indices = { 0, 1, 2, 2, 3, 0 };
-
             vao = GL.GenVertexArray();
             vbo = GL.GenBuffer();
             ebo = GL.GenBuffer();
@@ -96,29 +94,6 @@ namespace TareaU
             GL.DeleteVertexArray(vao);
             GL.DeleteBuffer(vbo);
             GL.DeleteBuffer(ebo);
-        }
-
-        public void CalcularCentro()
-        {
-            float minX = float.MaxValue, minY = float.MaxValue, minZ = float.MaxValue;
-            float maxX = float.MinValue, maxY = float.MinValue, maxZ = float.MinValue;
-
-            foreach (var punto in Vertices)
-            {
-                if (punto.posicion.X < minX) minX = punto.posicion.X;
-                if (punto.posicion.Y < minY) minY = punto.posicion.Y;
-                if (punto.posicion.Z < minZ) minZ = punto.posicion.Z;
-
-                if (punto.posicion.X > maxX) maxX = punto.posicion.X;
-                if (punto.posicion.Y > maxY) maxY = punto.posicion.Y;
-                if (punto.posicion.Z > maxZ) maxZ = punto.posicion.Z;
-            }
-
-            float centroX = (minX + maxX) / 2;
-            float centroY = (minY + maxY) / 2;
-            float centroZ = (minZ + maxZ) / 2;
-
-            Centro = new Vector3(centroX, centroY, centroZ);
         }
 
     }

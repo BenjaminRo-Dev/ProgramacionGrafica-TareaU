@@ -18,7 +18,6 @@ namespace TareaU
                 cara.Rotacion = Rotacion;
                 cara.Cargar();
             }
-            // CalcularCentroDeMasa();
 
         }
 

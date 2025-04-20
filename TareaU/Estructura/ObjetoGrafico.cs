@@ -31,10 +31,10 @@ public abstract class ObjetoGrafico
 
     public abstract void Rotar(Vector3 rotacion);
 
+
     public abstract void CalcularCentroDeMasa();
-
-
     public abstract void setCentro(Vector3 centro);
+    
 
     public abstract void setPosicion(Vector3 posicion);
     public abstract void setEscala(Vector3 escala);
