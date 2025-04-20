@@ -41,7 +41,13 @@ public class Objeto : ObjetoGrafico
 
     public override void Rotar(Vector3 rotacion)
     {
-        throw new NotImplementedException();
+        CalcularCentroDeMasa();
+        Rotacion = rotacion;
+        foreach (var parte in Partes)
+        {
+            parte.setCentro(Centro);
+            parte.setRotacion(Rotacion);
+        }
     }
 
     public override void Mover(Vector3 posicion)
@@ -96,7 +102,6 @@ public class Objeto : ObjetoGrafico
         Posicion = posicion;
         foreach (var parte in Partes)
         {
-            parte.Posicion = Posicion;
             parte.setPosicion(Posicion);
         }
     }
@@ -106,7 +111,6 @@ public class Objeto : ObjetoGrafico
         Escala = escala;
         foreach (var parte in Partes)
         {
-            parte.Escala = Escala;
             parte.setEscala(Escala);
         }
     }
@@ -116,8 +120,17 @@ public class Objeto : ObjetoGrafico
         Rotacion = rotacion;
         foreach (var parte in Partes)
         {
-            parte.Rotacion = Rotacion;
+            parte.CalcularCentroDeMasa();
             parte.setRotacion(Rotacion);
+        }
+    }
+
+    public override void setCentro(Vector3 centro)
+    {
+        Centro = centro;
+        foreach (var parte in Partes)
+        {
+            parte.setCentro(Centro);
         }
     }
 

@@ -11,6 +11,7 @@ namespace TareaU
         private Matrix4 vista;
         private Matrix4 proyeccion;
         private Objeto letraU;
+        private Objeto letraU2;
         private Objeto robot;
         private Escenario escenario;
         public Game(int width, int height, string title)
@@ -31,13 +32,16 @@ namespace TareaU
 
             robot = JsonLoader.Cargar("../../../datos/robot.json");
             letraU = JsonLoader.Cargar("../../../datos/letraU.json");
+            letraU2 = JsonLoader.Cargar("../../../datos/letraU.json");
 
             letraU.setPosicion(new Vector3(10, 10, 0));
+            letraU2.setPosicion(new Vector3(-10, -10, 0));
 
             // robot.CalcularCentroDeMasa();
             // letraU.CalcularCentroDeMasa();
 
             escenario.AgregarObjeto(letraU);
+            escenario.AgregarObjeto(letraU2);
             // escenario.AgregarObjeto(robot);
 
             // escenario.CalcularCentroDeMasa();
@@ -55,32 +59,24 @@ namespace TareaU
             shader.SetMatrix4("vista", vista);
             shader.SetMatrix4("proyeccion", proyeccion);
 
-            // letraU.Posicion = new Vector3(20, 10, 0);
-            // letraU.Rotacion = new Vector3(20, 0, 0);
-            // letraU.Partes[0].Rotar(new Vector3(0, 45, 0));
-
-            // letraU.Partes[0].Rotacion = new Vector3(45, 0, 0);
-            // letraU.Partes[0].Actualizar();
-
-            // letraU.Actualizar();
-
-            // robot.Posicion = new Vector3(+20, 0, -20);
-            // robot.Rotacion = new Vector3(45, 0, 0);
-            // robot.Actualizar();
-
-            // robot.Partes[1].Rotacion = new Vector3(45, 45, 45);
-            // robot.Partes[1].Actualizar();
-
             float velocidadRotacion = 45.0f; // Velocidad de rotación en grados por segundo
-            // letraU.setRotacion(letraU.Rotacion + new Vector3(0, velocidadRotacion * (float)e.Time, 0)); // Rotar en el eje Y
 
-            letraU.Partes[0].setRotacion(letraU.Partes[0].Rotacion + new Vector3(0, velocidadRotacion * (float)e.Time, 0));
+
+            // letraU.Rotar(new Vector3(letraU.Rotacion + new Vector3(0, velocidadRotacion * (float)e.Time, 0)));
+            // letraU.Rotar(new Vector3(letraU.Rotacion + new Vector3(0, 0, velocidadRotacion * (float)e.Time)));
+            //letraU.Rotar(new Vector3(letraU.Rotacion + new Vector3(velocidadRotacion * (float)e.Time, 0, 0)));
             
-            
+                // letraU.Partes[0].Rotar(letraU.Partes[0].Rotacion + new Vector3(0, velocidadRotacion * (float)e.Time, 0));
+                // letraU.Partes[0].Rotar(letraU.Partes[0].Rotacion + new Vector3(velocidadRotacion * (float)e.Time, 0, 0));
+                // letraU.Partes[0].Rotar(letraU.Partes[0].Rotacion + new Vector3(0, 0, velocidadRotacion * (float)e.Time));
+
             
             
 
-            // escenario.Rotar(new Vector3(180, 0, 0));
+            escenario.Rotar(new Vector3(escenario.Rotacion + new Vector3(0, velocidadRotacion * (float)e.Time, 0)));
+            // escenario.Rotar(new Vector3(escenario.Rotacion + new Vector3(0, 0, velocidadRotacion * (float)e.Time)));
+            // escenario.Rotar(new Vector3(escenario.Rotacion + new Vector3(velocidadRotacion * (float)e.Time, 0, 0)));
+            
             // escenario.Escalar(new Vector3(0.5f, 0.5f, 0.5f));
             // escenario.Mover(new Vector3(-5, 5, 0));
             // escenario.Actualizar();

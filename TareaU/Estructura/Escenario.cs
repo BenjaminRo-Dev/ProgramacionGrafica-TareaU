@@ -30,12 +30,15 @@ class Escenario : ObjetoGrafico
         Objetos.Add(objeto);
     }
 
-   public override void Rotar(Vector3 rotacion)
+    public override void Rotar(Vector3 rotacion)
     {
+        // CalcularCentroDeMasa();
+        Centro = new Vector3(0, 0, 0);
+        Rotacion = rotacion;
         foreach (var objeto in Objetos)
         {
-            objeto.Posicion = Centro;
-            objeto.Rotacion = rotacion;
+            objeto.setCentro(Centro);
+            objeto.setRotacion(Rotacion);
         }
     }
 
@@ -78,10 +81,18 @@ class Escenario : ObjetoGrafico
         }
 
         Centro = suma / totalVertices;
-        
+
         foreach (var objeto in Objetos)
         {
             objeto.Centro = Centro;
+            foreach (var parte in Partes)
+            {
+                parte.Centro = Centro;
+                foreach (var cara in parte.Caras)
+                {
+                    cara.Centro = Centro;
+                }
+            }
         }
     }
 
@@ -90,7 +101,6 @@ class Escenario : ObjetoGrafico
         Posicion = posicion;
         foreach (var objeto in Objetos)
         {
-            objeto.Posicion = Posicion;
             objeto.setPosicion(Posicion);
         }
     }
@@ -100,7 +110,6 @@ class Escenario : ObjetoGrafico
         Escala = escala;
         foreach (var objeto in Objetos)
         {
-            objeto.Escala = Escala;
             objeto.setEscala(Escala);
         }
     }
@@ -110,8 +119,16 @@ class Escenario : ObjetoGrafico
         Rotacion = rotacion;
         foreach (var objeto in Objetos)
         {
-            objeto.Rotacion = Rotacion;
             objeto.setRotacion(Rotacion);
+        }
+    }
+
+    public override void setCentro(Vector3 centro)
+    {
+        Centro = centro;
+        foreach (var objeto in Objetos)
+        {
+            objeto.setCentro(Centro);
         }
     }
 

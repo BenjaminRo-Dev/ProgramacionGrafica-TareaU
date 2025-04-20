@@ -11,6 +11,7 @@ namespace TareaU
         public Vector3 Escala { get; set; }
         public Vector3 Rotacion { get; set; }
         public Color4 Color { get; set; }
+
         private uint[] Indices;
 
         public Vertice[] Vertices;

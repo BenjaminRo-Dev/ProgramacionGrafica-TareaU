@@ -6,7 +6,7 @@ public abstract class ObjetoGrafico
     public virtual Vector3 Posicion { get; set; }
     public virtual Vector3 Escala { get; set; }
     public virtual Vector3 Rotacion { get; set; }
-    public Vector3 Centro { get; set;}
+    public virtual Vector3 Centro { get; set;}
     public List<Parte> Partes { get; set; } = new List<Parte>();
 
     protected ObjetoGrafico(Vector3 posicion, Vector3 escala, Vector3 rotacion )
@@ -36,14 +36,14 @@ public abstract class ObjetoGrafico
     public abstract void CalcularCentroDeMasa();
 
 
-    
+    public abstract void setCentro(Vector3 centro);
+
     public abstract void setPosicion(Vector3 posicion);
     public abstract void setEscala(Vector3 escala);
     public abstract void setRotacion(Vector3 rotacion);
-    // public virtual void setCentro(Vector3 centro)
-    // {
-    //     Centro = centro;
-    // }
+    
+
+    
 
 
     

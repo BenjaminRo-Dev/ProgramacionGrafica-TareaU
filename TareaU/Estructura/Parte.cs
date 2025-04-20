@@ -42,11 +42,12 @@ namespace TareaU
 
         public override void Rotar(Vector3 rotacion)
         {
-            Rotacion += rotacion; // Acumular la rotación en lugar de sobrescribirla
+            CalcularCentroDeMasa();
+            Rotacion = rotacion;
             foreach (var cara in Caras)
             {
-                // cara.CalcularCentro();
-                cara.Rotacion += rotacion; // Aplicar la rotación acumulativa
+                cara.Centro = Centro;
+                cara.Rotacion = Rotacion;
             }
         }
 
@@ -77,6 +78,10 @@ namespace TareaU
             );
         }
 
+
+
+
+
         public override void setPosicion(Vector3 posicion)
         {
             Posicion = posicion;
@@ -103,6 +108,16 @@ namespace TareaU
                 cara.Rotacion = Rotacion;
             }
         }
+
+        public override void setCentro(Vector3 centro)
+        {
+            Centro = centro;
+            foreach (var cara in Caras)
+            {
+                cara.Centro = Centro;
+            }
+        }
+
 
 
     }
