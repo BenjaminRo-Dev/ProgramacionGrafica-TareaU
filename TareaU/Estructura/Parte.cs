@@ -6,8 +6,7 @@ namespace TareaU
     {
         public Dictionary<string, Cara> Caras;
 
-        public Parte(string nombre, Vector3 posicion, Vector3 escala, Vector3 rotacion, Dictionary<string, Cara> caras)
-            : base(posicion, escala, rotacion)
+        public Parte(string nombre, Dictionary<string, Cara> caras)
         {
             Nombre = nombre;
             Caras = caras;
@@ -30,43 +29,14 @@ namespace TareaU
             }
         }
 
-        public override void Actualizar()
-        {
-            foreach (var cara in Caras.Values)
-            {
-                cara.Posicion = Posicion;
-                cara.Escala = Escala;
-                cara.Rotacion = Rotacion;
-            }
-        }
 
-        public override void Rotar(Vector3 angulos, Vector3 centro)
+        public override void Rotar(Vector3 angulos, Vector3? centro = null)
         {
-            Centro = centro;
+            Centro = centro ?? CalcularCentro();
             Rotacion = angulos;
             foreach (var cara in Caras.Values)
             {
                 cara.Rotar(Rotacion, Centro);
-            }
-        }
-
-        public void Rotar2(Vector3 angulos, Vector3? centro = null)
-        {
-            foreach (var cara in Caras.Values)
-            {
-                cara.Rotar2(angulos, centro);
-                // cara.Rotar(angulos, (Vector3)centro);
-            }
-        }
-
-        public void SetRotacion(Vector3 angulos)
-        {
-            Centro = CalcularCentro();
-            Rotacion = angulos;
-            foreach (var cara in Caras.Values)
-            {
-                cara.Rotacion = Rotacion;
-
             }
         }
 

@@ -5,8 +5,7 @@ public class Objeto : ObjetoGrafico
 {
     public Dictionary<string, Parte> Partes;
 
-    public Objeto(string nombre, Vector3 posicion, Vector3 escala, Vector3 rotacion, Dictionary<string, Parte> partes)
-        : base(posicion, escala, rotacion)
+    public Objeto(string nombre, Dictionary<string, Parte> partes)
     {
         Nombre = nombre;
         Partes = partes;
@@ -25,21 +24,9 @@ public class Objeto : ObjetoGrafico
             parte.Dibujar(shader);
     }
 
-    public override void Actualizar()
+    public override void Rotar(Vector3 angulos, Vector3? centro = null)
     {
-        foreach (var parte in Partes.Values)
-        {
-            parte.Posicion = Posicion;
-            parte.Escala = Escala;
-            parte.Rotacion = Rotacion;
-            parte.Centro = Centro;
-            parte.Actualizar();
-        }
-    }
-
-    public override void Rotar(Vector3 angulos, Vector3 centro)
-    {
-        Centro = centro;
+        Centro = centro ?? CalcularCentro();
         Rotacion = angulos;
         foreach (var parte in Partes.Values)
         {
@@ -47,28 +34,6 @@ public class Objeto : ObjetoGrafico
         }
     }
 
-    public void Rotar2(Vector3 angulos, Vector3? centro = null)
-    {
-        foreach (var parte in Partes.Values)
-        {
-            parte.Rotar2(angulos, centro);
-        }
-    }
-
-    public void SetRotacion(Vector3 angulos, Vector3 centro)
-    {
-        // Rotacion = angulos;
-        foreach (var parte in Partes.Values)
-        {
-            foreach (var cara in parte.Caras.Values)
-            {
-                // cara.Rotar(angulos, centro);
-                cara.Centro = centro;
-                cara.Rotacion += angulos;//Desde el objeto
-
-            }
-        }
-    }
     public override void Posicionar(Vector3 posicion)
     {
         Posicion = posicion;

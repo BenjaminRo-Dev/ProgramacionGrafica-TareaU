@@ -21,21 +21,6 @@ namespace TareaU
 
         public Matrix4 Modelo = Matrix4.Identity;
 
-        // public Matrix4 Modelo
-        // {
-        //     get 
-        //     {
-        //         return
-        //             Matrix4.CreateTranslation(-Centro) *
-        //             Matrix4.CreateScale(Escala) *
-        //             Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotacion.X)) *
-        //             Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotacion.Y)) *
-        //             Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotacion.Z)) *
-        //             Matrix4.CreateTranslation(Centro) *
-        //             Matrix4.CreateTranslation(Posicion);
-        //     }
-        // }
-        //TODO: configurar los indices para caras cuadradas y triangulares
         public Cara(Color4 color, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
         {
             Posicion = Vector3.Zero;
@@ -71,7 +56,6 @@ namespace TareaU
             this.Indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
         }
         
-
 
         public void Cargar()
         {
@@ -123,23 +107,8 @@ namespace TareaU
             return Centro;
         }
 
-        public void Rotar(Vector3 angulos, Vector3 centro)
-        {
-            Centro = centro;
-            Rotacion += angulos;
-
-            foreach (var vertice in Vertices.Values)
-            {
-                var posicion = new Vector4(vertice.posicion, 1.0f);
-                Console.WriteLine($"Posicion: {posicion}");
-                posicion = Vector4.TransformRow(posicion, Modelo);
-                vertice.posicion = posicion.Xyz;
-                Console.WriteLine($"Posicion transformada: {vertice.posicion}");
-            }
-        }
-
-
-        public void Rotar2(Vector3 angulos, Vector3? centro = null)
+        
+        public void Rotar(Vector3 angulos, Vector3? centro = null)
         {
             if (centro != null)
             {
@@ -157,7 +126,6 @@ namespace TareaU
 
             Modelo *= matrizRotacion;
 
-            // Actualizar la posición de los vértices
             foreach (var vertice in Vertices.Values)
             {
                 var posicion = new Vector4(vertice.posicion, 1.0f);

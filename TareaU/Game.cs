@@ -14,8 +14,6 @@ namespace TareaU
         private Objeto letraU = null!;
         private Objeto letraU2 = null!;
         private Objeto letraU3 = null!;
-        private Cara cara = null!;
-        private Cara cara2 = null!;
         private Escenario escenario = null!;
         public Game(int width, int height, string title)
             : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = title }) { }
@@ -33,8 +31,8 @@ namespace TareaU
 
             escenario = new Escenario();
 
-            letraU = new Objeto("letraU", Vector3.Zero, Vector3.One, Vector3.Zero, partesU());
-            letraU2 = new Objeto("letraU2", Vector3.Zero, Vector3.One, Vector3.Zero, partesU2());
+            letraU = new Objeto("letraU", partesU());
+            letraU2 = new Objeto("letraU2", partesU2());
             // letraU3 = new Objeto("letraU3", Vector3.Zero, Vector3.One, Vector3.Zero, partesU());
 
             // letraU = JsonLoader.Cargar("../../../datos/letraU.json");
@@ -43,26 +41,8 @@ namespace TareaU
 
             escenario.AgregarObjeto(letraU);
             escenario.AgregarObjeto(letraU2);
-            // escenario.AgregarObjeto(letraU3);
-
-            escenario.Objetos["letraU"].Posicionar(new Vector3(0, 0, 0));
-            escenario.Objetos["letraU2"].Posicionar(new Vector3(0, 0, 0));
-            // escenario.Objetos["letraU3"].Posicionar(new Vector3(10, 10, 0));
-
-            
-
-
-            // letraU.Posicionar(new Vector3(0, 0, 0));
-            // letraU2.Posicionar(new Vector3(-20, 0, 0));
-            // letraU3.Posicionar(new Vector3(10, 10, 0));
-
-            
-
-            centroParte1 = letraU.Partes["parte1"].CalcularCentro();
-
         }
 
-        Vector3 centroParte1;
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -88,59 +68,32 @@ namespace TareaU
                 Close();
             }
 
-            //Velocidad:
             float velocidad = 0.1f;
 
-            // Rotar todo el escenario con flechas
             if (KeyboardState.IsKeyDown(Keys.Up))
-                escenario.Rotar3(velocidad * new Vector3(-1, 0, 0));
-                // escenario.Rotar(velocidad * new Vector3(-1,0,0), Vector3.Zero);
-                // escenario.Rotar(velocidad * new Vector3(-1,0,0), Vector3.Zero);
+                escenario.Rotar(velocidad * new Vector3(-1, 0, 0));
+
             if (KeyboardState.IsKeyDown(Keys.Down))
-                escenario.Rotar3(velocidad * new Vector3(1, 0, 0));
-                // escenario.Rotar2(velocidad * new Vector3(1,0,0), Vector3.Zero);
-                // escenario.Rotar(velocidad * new Vector3(1,0,0), Vector3.Zero);
-            if (KeyboardState.IsKeyDown(Keys.Left))
-                escenario.Rotar3(velocidad * new Vector3(0, 1, 0));
-                // escenario.Rotar2(velocidad * new Vector3(0,1,0), Vector3.Zero);
-                // escenario.Rotar(velocidad * new Vector3(0,1,0), Vector3.Zero);
-
-            if (KeyboardState.IsKeyDown(Keys.Right))
-                escenario.Rotar3(velocidad * new Vector3(0, -1, 0));
-                // escenario.Rotar2(velocidad * new Vector3(0,-1,0), Vector3.Zero);
-                // escenario.Rotar(velocidad * new Vector3(0,-1,0), Vector3.Zero);
-            
-            if (KeyboardState.IsKeyDown(Keys.W))
-                // letraU2.Rotar2(velocidad * new Vector3(-1, 0, 0));
-                letraU2.Rotar2(velocidad * new Vector3(-1, 0, 0), letraU2.CalcularCentro());
-                // letraU2.SetRotacion(velocidad * new Vector3(-1, 0, 0), letraU2.CalcularCentro());
-
-            if (KeyboardState.IsKeyDown(Keys.S))
-                // letraU2.Rotar2(velocidad * new Vector3(1, 0, 0));
-                letraU2.Rotar2(velocidad * new Vector3(1, 0, 0), letraU2.CalcularCentro());
-                // letraU2.SetRotacion(velocidad * new Vector3(1, 0, 0), letraU2.Posicion);
-
-            if (KeyboardState.IsKeyDown(Keys.A))
-                // letraU2.Rotar2(velocidad * new Vector3(0, -1, 0));
-                letraU2.Rotar2(velocidad * new Vector3(0, -1, 0), letraU2.CalcularCentro());
-                // letraU2.SetRotacion(velocidad * new Vector3(0, -1, 0), letraU2.CalcularCentro());
-                // letraU2.Rotar(velocidad * new Vector3(0, -1, 0), letraU2.Posicion);
-
-            if (KeyboardState.IsKeyDown(Keys.D))
-                // letraU2.Rotar2(velocidad * new Vector3(0, 1, 0));
-                letraU2.Rotar2(velocidad * new Vector3(0, 1, 0), letraU2.CalcularCentro());
-                // letraU2.SetRotacion(velocidad * new Vector3(0, 1, 0), letraU2.CalcularCentro());
-            // if (KeyboardState.IsKeyDown(Keys.Q))
-            //     letraU2.Rotar(velocidad * new Vector3(0, 0, -1), letraU2.Posicion);
-            // if (KeyboardState.IsKeyDown(Keys.E))
-            //     letraU2.Rotar(velocidad * new Vector3(0, 0, 1), letraU2.Posicion);
+                escenario.Rotar(velocidad * new Vector3(1, 0, 0));
                 
-            // if (KeyboardState.IsKeyDown(Keys.P))
-            //     // letraU2.Partes["parte1"].Rotar(velocidad * new Vector3(0, 0, -1), centroParte1);
-            //     escenario.Objetos["letraU2"].Partes["parte1"].Rotar(velocidad * new Vector3(0, 0, -1), letraU2.Partes["parte1"].Posicion);
-            // if (KeyboardState.IsKeyDown(Keys.O))
-            //     letraU2.Partes["parte1"].Rotar(velocidad * new Vector3(0, 0, 1), letraU2.Partes["parte1"].Posicion);
-            
+            if (KeyboardState.IsKeyDown(Keys.Left))
+                escenario.Rotar(velocidad * new Vector3(0, 1, 0));
+                
+            if (KeyboardState.IsKeyDown(Keys.Right))
+                escenario.Rotar(velocidad * new Vector3(0, -1, 0));
+                
+            if (KeyboardState.IsKeyDown(Keys.W))
+                letraU2.Rotar(velocidad * new Vector3(-1, 0, 0), letraU2.CalcularCentro());
+                
+            if (KeyboardState.IsKeyDown(Keys.S))
+                letraU2.Rotar(velocidad * new Vector3(1, 0, 0), letraU2.CalcularCentro());
+                
+            if (KeyboardState.IsKeyDown(Keys.A))
+                letraU2.Rotar(velocidad * new Vector3(0, -1, 0), letraU2.CalcularCentro());
+                
+            if (KeyboardState.IsKeyDown(Keys.D))
+                letraU2.Rotar(velocidad * new Vector3(0, 1, 0), letraU2.CalcularCentro());
+                
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)
@@ -152,8 +105,6 @@ namespace TareaU
         protected override void OnUnload()
         {
             base.OnUnload();
-            // cara.Liberar(); // Liberar los recursos de la cara
-            // shader.Dispose(); // Liberar los recursos del shader
         }
 
         private Vector3[] verticesU()
@@ -247,9 +198,9 @@ namespace TareaU
         {
             var partes = new Dictionary<string, Parte>
             {
-                { "parte1", new Parte("parte1", Vector3.Zero, Vector3.One, Vector3.Zero, carasParte1()) },
-                { "parte2", new Parte("parte2", Vector3.Zero, Vector3.One, Vector3.Zero, carasParte2()) },
-                { "parte3", new Parte("parte3", Vector3.Zero, Vector3.One, Vector3.Zero, carasParte3()) }
+                { "parte1", new Parte("parte1", carasParte1()) },
+                { "parte2", new Parte("parte2", carasParte2()) },
+                { "parte3", new Parte("parte3", carasParte3()) }
             };
 
             return partes;
@@ -346,9 +297,9 @@ namespace TareaU
         {
             var partes = new Dictionary<string, Parte>
             {
-                { "parte1", new Parte("parte1", Vector3.Zero, Vector3.One, Vector3.Zero, carasParte21()) },
-                { "parte2", new Parte("parte2", Vector3.Zero, Vector3.One, Vector3.Zero, carasParte22()) },
-                { "parte3", new Parte("parte3", Vector3.Zero, Vector3.One, Vector3.Zero, carasParte23()) }
+                { "parte1", new Parte("parte1", carasParte21()) },
+                { "parte2", new Parte("parte2", carasParte22()) },
+                { "parte3", new Parte("parte3", carasParte23()) }
             };
 
             return partes;
