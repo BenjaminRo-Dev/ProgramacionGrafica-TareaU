@@ -3,6 +3,7 @@ using TareaU;
 
 public abstract class ObjetoGrafico
 {
+    public string Nombre { get; set; }
     public virtual Vector3 Posicion { get; set; }
     public virtual Vector3 Escala { get; set; }
     public virtual Vector3 Rotacion { get; set; }
@@ -25,20 +26,17 @@ public abstract class ObjetoGrafico
 
     public abstract void Actualizar();
 
-    public abstract void Mover(Vector3 posicion);
+    public abstract void Posicionar(Vector3 posicion);
 
     public abstract void Escalar(Vector3 escala);
 
-    public abstract void Rotar(Vector3 rotacion);
+    public abstract void Rotar(Vector3 angulos, Vector3 centro);
 
-
-    public abstract void CalcularCentroDeMasa();
-    public abstract void setCentro(Vector3 centro);
+    public abstract Vector3 CalcularCentro();
+    // public abstract void setCentro(Vector3 centro);
     
-
-    public abstract void setPosicion(Vector3 posicion);
-    public abstract void setEscala(Vector3 escala);
-    public abstract void setRotacion(Vector3 rotacion);
+    // public abstract void setEscala(Vector3 escala);
+    // public abstract void setRotacion(Vector3 rotacion);
     
 
     

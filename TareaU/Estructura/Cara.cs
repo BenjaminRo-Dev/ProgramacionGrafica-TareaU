@@ -1,4 +1,5 @@
 ﻿
+using OpenTK.Compute.OpenCL;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 
@@ -14,25 +15,26 @@ namespace TareaU
 
         private uint[] Indices;
 
-        public Vertice[] Vertices;
+        public Dictionary<string, Vertice> Vertices;
 
         public Vector3 Centro { get; set; }
 
-        public Matrix4 Modelo
-        {
-            get
-            {
-                return
-                    Matrix4.CreateTranslation(-Centro) *
-                    Matrix4.CreateScale(Escala) *
-                    Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotacion.X)) *
-                    Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotacion.Y)) *
-                    Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotacion.Z)) *
-                    Matrix4.CreateTranslation(Centro) *
-                    Matrix4.CreateTranslation(Posicion);
-            }
-        }
+        public Matrix4 Modelo = Matrix4.Identity;
 
+        // public Matrix4 Modelo
+        // {
+        //     get 
+        //     {
+        //         return
+        //             Matrix4.CreateTranslation(-Centro) *
+        //             Matrix4.CreateScale(Escala) *
+        //             Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotacion.X)) *
+        //             Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotacion.Y)) *
+        //             Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotacion.Z)) *
+        //             Matrix4.CreateTranslation(Centro) *
+        //             Matrix4.CreateTranslation(Posicion);
+        //     }
+        // }
         //TODO: configurar los indices para caras cuadradas y triangulares
         public Cara(Color4 color, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
         {
@@ -41,20 +43,39 @@ namespace TareaU
             Rotacion = Vector3.Zero;
             Color = color;
 
-            this.Vertices = new Vertice[4]
+            Vertices = new Dictionary<string, Vertice>
             {
-                new Vertice(p1, color),
-                new Vertice(p2, color),
-                new Vertice(p3, color),
-                new Vertice(p4, color)
+                { "p1", new Vertice(p1, color) },
+                { "p2", new Vertice(p2, color) },
+                { "p3", new Vertice(p3, color) },
+                { "p4", new Vertice(p4, color) }
             };
 
             this.Indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
         }
 
+        public Cara(Color4 color, Dictionary<string, Vector3> vertices)
+        {
+            Posicion = Vector3.Zero;
+            Escala = Vector3.One;
+            Rotacion = Vector3.Zero;
+            Color = color;
+
+            Vertices = new Dictionary<string, Vertice>();
+
+            foreach (var vertice in vertices)
+            {
+                Vertices.Add(vertice.Key, new Vertice(vertice.Value, color));
+            }
+
+            this.Indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
+        }
+        
+
+
         public void Cargar()
         {
-            float[] datosVertices = Vertices.SelectMany(v => new float[]
+            float[] datosVertices = Vertices.Values.SelectMany(v => new float[]
             {
                 v.posicion.X, v.posicion.Y, v.posicion.Z,
                 v.Color.R, v.Color.G, v.Color.B
@@ -89,12 +110,72 @@ namespace TareaU
             GL.DrawElements(PrimitiveType.Triangles, Indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 
+        public Vector3 CalcularCentro()
+        {
+            Vector3 suma = Vector3.Zero;
+
+            foreach (var vertice in Vertices.Values)
+            {
+                suma += vertice.posicion;
+            }
+
+            Centro = suma / Vertices.Values.Count;
+            return Centro;
+        }
+
+        public void Rotar(Vector3 angulos, Vector3 centro)
+        {
+            Centro = centro;
+            Rotacion += angulos;
+
+            foreach (var vertice in Vertices.Values)
+            {
+                var posicion = new Vector4(vertice.posicion, 1.0f);
+                Console.WriteLine($"Posicion: {posicion}");
+                posicion = Vector4.TransformRow(posicion, Modelo);
+                vertice.posicion = posicion.Xyz;
+                Console.WriteLine($"Posicion transformada: {vertice.posicion}");
+            }
+        }
+
+
+        public void Rotar2(Vector3 angulos, Vector3? centro = null)
+        {
+            if (centro != null)
+            {
+                Centro = (Vector3)centro;
+            }
+
+            Rotacion += angulos;
+
+            var matrizRotacion =
+                Matrix4.CreateTranslation(-Centro) *
+                Matrix4.CreateRotationX(MathHelper.DegreesToRadians(angulos.X)) *
+                Matrix4.CreateRotationY(MathHelper.DegreesToRadians(angulos.Y)) *
+                Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(angulos.Z)) *
+                Matrix4.CreateTranslation(Centro);
+
+            Modelo *= matrizRotacion;
+
+            // Actualizar la posición de los vértices
+            foreach (var vertice in Vertices.Values)
+            {
+                var posicion = new Vector4(vertice.posicion, 1.0f);
+                posicion = Vector4.TransformRow(posicion, matrizRotacion);
+                vertice.posicion = posicion.Xyz;
+            }
+
+        }
+
+
         public void Liberar()
         {
             GL.DeleteVertexArray(vao);
             GL.DeleteBuffer(vbo);
             GL.DeleteBuffer(ebo);
         }
+
+
 
     }
 

@@ -3,14 +3,15 @@ using TareaU;
 
 public class Objeto : ObjetoGrafico
 {
-    public List<Parte> Partes;
+    public Dictionary<string, Parte> Partes;
 
-    public Objeto(Vector3 posicion, Vector3 escala, Vector3 rotacion, List<Parte> partes)
+    public Objeto(string nombre, Vector3 posicion, Vector3 escala, Vector3 rotacion, Dictionary<string, Parte> partes)
         : base(posicion, escala, rotacion)
     {
+        Nombre = nombre;
         Partes = partes;
 
-        foreach (var parte in Partes)
+        foreach (var parte in Partes.Values)
         {
             parte.Posicion = Posicion;
             parte.Escala = Escala;
@@ -18,18 +19,15 @@ public class Objeto : ObjetoGrafico
         }
     }
 
-
     public override void Dibujar(Shader shader)
     {
-        foreach (var parte in Partes)
-        {
+        foreach (var parte in Partes.Values)
             parte.Dibujar(shader);
-        }
     }
 
     public override void Actualizar()
     {
-        foreach (var parte in Partes)
+        foreach (var parte in Partes.Values)
         {
             parte.Posicion = Posicion;
             parte.Escala = Escala;
@@ -39,99 +37,67 @@ public class Objeto : ObjetoGrafico
         }
     }
 
-    public override void Rotar(Vector3 rotacion)
+    public override void Rotar(Vector3 angulos, Vector3 centro)
     {
-        CalcularCentroDeMasa();
-        Rotacion = rotacion;
-        foreach (var parte in Partes)
+        Centro = centro;
+        Rotacion = angulos;
+        foreach (var parte in Partes.Values)
         {
-            parte.setCentro(Centro);
-            parte.setRotacion(Rotacion);
+            parte.Rotar(Rotacion, Centro);
         }
     }
 
-    public override void Mover(Vector3 posicion)
+    public void Rotar2(Vector3 angulos, Vector3? centro = null)
+    {
+        foreach (var parte in Partes.Values)
+        {
+            parte.Rotar2(angulos, centro);
+        }
+    }
+
+    public void SetRotacion(Vector3 angulos, Vector3 centro)
+    {
+        // Rotacion = angulos;
+        foreach (var parte in Partes.Values)
+        {
+            foreach (var cara in parte.Caras.Values)
+            {
+                // cara.Rotar(angulos, centro);
+                cara.Centro = centro;
+                cara.Rotacion += angulos;//Desde el objeto
+
+            }
+        }
+    }
+    public override void Posicionar(Vector3 posicion)
     {
         Posicion = posicion;
-        foreach (var parte in Partes)
+        foreach (var parte in Partes.Values)
         {
-            parte.Posicion = Posicion;
+            parte.Posicionar(posicion);
         }
     }
 
     public override void Escalar(Vector3 escala)
     {
         Escala = escala;
-        foreach (var parte in Partes)
+        foreach (var parte in Partes.Values)
         {
             parte.Escala = Escala;
         }
     }
 
-    public override void CalcularCentroDeMasa()
+    public override Vector3 CalcularCentro()
     {
-        Vector3 suma = Vector3.Zero;
-        int totalVertices = 0;
+        var vertices = Partes.Values
+            .SelectMany(parte => parte.Caras.Values)
+            .SelectMany(cara => cara.Vertices.Values)
+            .ToList();
 
-        foreach (var parte in Partes)
-        {
-            foreach (var cara in parte.Caras)
-            {
-                foreach (var vertice in cara.Vertices)
-                {
-                    suma += vertice.posicion;
-                    totalVertices++;
-                }
-            }
-        }
-
-        Centro = suma / totalVertices;
-        //Asignar el centro de masa a cada parte y cara
-        foreach (var parte in Partes)
-        {
-            parte.Centro = Centro;
-            foreach (var cara in parte.Caras)
-            {
-                cara.Centro = Centro;
-            }
-        }
+        return new Vector3(
+            vertices.Average(v => v.posicion.X),
+            vertices.Average(v => v.posicion.Y),
+            vertices.Average(v => v.posicion.Z)
+        );
     }
-
-    public override void setPosicion(Vector3 posicion)
-    {
-        Posicion = posicion;
-        foreach (var parte in Partes)
-        {
-            parte.setPosicion(Posicion);
-        }
-    }
-
-    public override void setEscala(Vector3 escala)
-    {
-        Escala = escala;
-        foreach (var parte in Partes)
-        {
-            parte.setEscala(Escala);
-        }
-    }
-
-    public override void setRotacion(Vector3 rotacion)
-    {
-        Rotacion = rotacion;
-        foreach (var parte in Partes)
-        {
-            parte.CalcularCentroDeMasa();
-            parte.setRotacion(Rotacion);
-        }
-    }
-
-    public override void setCentro(Vector3 centro)
-    {
-        Centro = centro;
-        foreach (var parte in Partes)
-        {
-            parte.setCentro(Centro);
-        }
-    }
-
 }

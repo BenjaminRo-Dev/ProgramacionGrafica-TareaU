@@ -2,52 +2,85 @@ using OpenTK.Mathematics;
 using TareaU;
 class Escenario : ObjetoGrafico
 {
-    public List<ObjetoGrafico> Objetos; // Lista de objetos en el escenario
-    
+    public Dictionary<string, Objeto> Objetos;
+
     public Escenario()
     {
-        Objetos = new List<ObjetoGrafico>();
+        Objetos = new Dictionary<string, Objeto>();
         Centro = new Vector3(0, 0, 0);
     }
 
     public override void Dibujar(Shader shader)
     {
         foreach (var objeto in Objetos)
-        {
-            objeto.Dibujar(shader);
-        }
+            objeto.Value.Dibujar(shader);
     }
 
     public override void Actualizar()
     {
-        foreach (var objeto in Objetos)
-        {
+        foreach (var objeto in Objetos.Values)
             objeto.Actualizar();
-        }
     }
 
-    public void AgregarObjeto(ObjetoGrafico objeto)
+    public void AgregarObjeto(Objeto objeto)
     {
-        Objetos.Add(objeto);
+        if (!Objetos.ContainsKey(objeto.Nombre))
+            Objetos.Add(objeto.Nombre, objeto);
+        else
+            Console.WriteLine("El nombre del objeto ya existe en el escenario.");
     }
 
-    public override void Rotar(Vector3 rotacion)
+    public override void Rotar(Vector3 angulos, Vector3 centro)
     {
-        // CalcularCentroDeMasa();
-        Centro = Posicion;
-        Rotacion = rotacion;
-        foreach (var objeto in Objetos)
+        Centro = centro;
+        Rotacion = angulos;
+        foreach (var objeto in Objetos.Values)
         {
-            objeto.setCentro(Centro - objeto.Posicion);
-            // objeto.setRotacion(objeto.Rotacion + Rotacion);
-            objeto.setRotacion(Rotacion);
+            objeto.Rotar(Rotacion, Centro);
         }
     }
 
-    public override void Mover(Vector3 posicion)
+    public void Rotar2(Vector3 angulos, Vector3 centro)
+    {
+        foreach (var objeto in Objetos.Values)
+        {
+            objeto.Rotar2(angulos, Centro);
+        }
+    }
+
+    public void Rotar3(Vector3 angulos)
+    {
+        foreach (var objeto in Objetos.Values)
+        {
+            foreach (var parte in objeto.Partes.Values)
+            {
+                foreach (var cara in parte.Caras.Values)
+                {
+                    cara.Rotar2(angulos, Centro);
+                }
+            }
+        }
+    }
+
+    public void setRotacion(Vector3 angulos, Vector3 centro)
+    {
+        foreach (var objeto in Objetos.Values)
+        {
+            foreach (var parte in objeto.Partes.Values)
+            {
+                foreach (var cara in parte.Caras.Values)
+                {
+                    cara.Rotar(angulos, Centro - objeto.Posicion);//Desde el escenario
+                    // cara.Rotacion += angulos;
+                }
+            }
+        }
+    }
+
+    public override void Posicionar(Vector3 posicion)
     {
         Posicion = posicion;
-        foreach (var objeto in Objetos)
+        foreach (var objeto in Objetos.Values)
         {
             objeto.Posicion = Posicion;
         }
@@ -56,54 +89,15 @@ class Escenario : ObjetoGrafico
     public override void Escalar(Vector3 escala)
     {
         Escala = escala;
-        foreach (var objeto in Objetos)
+        foreach (var objeto in Objetos.Values)
         {
             objeto.Escala = Escala;
         }
     }
 
-    public override void CalcularCentroDeMasa()
+    public override Vector3 CalcularCentro()
     {
-        Centro = Posicion;
+        return Centro;
     }
-
-    public override void setPosicion(Vector3 posicion)
-    {
-        Posicion = posicion;
-        foreach (var objeto in Objetos)
-        {
-            objeto.setPosicion(Posicion);
-        }
-    }
-
-    public override void setEscala(Vector3 escala)
-    {
-        Escala = escala;
-        foreach (var objeto in Objetos)
-        {
-            objeto.setEscala(Escala);
-        }
-    }
-
-    public override void setRotacion(Vector3 rotacion)
-    {
-        Rotacion = rotacion;
-        foreach (var objeto in Objetos)
-        {
-            objeto.setRotacion(Rotacion);
-        }
-    }
-
-    public override void setCentro(Vector3 centro)
-    {
-        Centro = centro;
-        foreach (var objeto in Objetos)
-        {
-            objeto.setCentro(Centro);
-        }
-    }
-
-
-
 
 }
