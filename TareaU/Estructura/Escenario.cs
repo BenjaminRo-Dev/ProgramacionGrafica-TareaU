@@ -4,8 +4,9 @@ class Escenario : ObjetoGrafico
 {
     public Dictionary<string, Objeto> Objetos;
 
-    public Escenario()
+    public Escenario(string nombre)
     {
+        Nombre = nombre;
         Objetos = new Dictionary<string, Objeto>();
         Centro = new Vector3(0, 0, 0);
     }
@@ -35,19 +36,17 @@ class Escenario : ObjetoGrafico
 
     public override void Posicionar(Vector3 posicion)
     {
-        Posicion = posicion;
         foreach (var objeto in Objetos.Values)
         {
-            objeto.Posicion = Posicion;
+            objeto.Posicionar(posicion);
         }
     }
 
-    public override void Escalar(Vector3 escala)
+    public override void Escalar(float escala, Vector3? centro = null)
     {
-        Escala = escala;
         foreach (var objeto in Objetos.Values)
         {
-            objeto.Escala = Escala;
+            objeto.Escalar(escala, null);
         }
     }
 

@@ -45,16 +45,16 @@ namespace TareaU
             Posicion = posicion;
             foreach (var cara in Caras.Values)
             {
-                cara.Posicion = Posicion;
+                cara.Posicionar(Posicion);
             }
         }
 
-        public override void Escalar(Vector3 escala)
+        public override void Escalar(float escala, Vector3? centro = null)
         {
-            Escala = escala;
+            Centro = centro ?? CalcularCentro();
             foreach (var cara in Caras.Values)
             {
-                cara.Escala = Escala;
+                cara.Escalar(escala, Centro);
             }
         }
 

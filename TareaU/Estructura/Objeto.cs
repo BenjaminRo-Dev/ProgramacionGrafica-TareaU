@@ -39,16 +39,16 @@ public class Objeto : ObjetoGrafico
         Posicion = posicion;
         foreach (var parte in Partes.Values)
         {
-            parte.Posicionar(posicion);
+            parte.Posicionar(Posicion);
         }
     }
 
-    public override void Escalar(Vector3 escala)
+    public override void Escalar(float escala, Vector3? centro = null)    
     {
-        Escala = escala;
+        Centro = CalcularCentro();
         foreach (var parte in Partes.Values)
         {
-            parte.Escala = Escala;
+            parte.Escalar(escala, Centro);
         }
     }
 

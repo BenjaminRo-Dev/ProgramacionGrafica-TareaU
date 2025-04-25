@@ -8,6 +8,8 @@ public abstract class ObjetoGrafico
     public virtual Vector3 Escala { get; set; }
     public virtual Vector3 Rotacion { get; set; }
     public virtual Vector3 Centro { get; set;}
+
+    // public Dictionary<string, ObjetoGrafico> graficos;
     
     public ObjetoGrafico()
     {
@@ -20,7 +22,7 @@ public abstract class ObjetoGrafico
 
     public abstract void Posicionar(Vector3 posicion);
 
-    public abstract void Escalar(Vector3 escala);
+    public abstract void Escalar(float escala, Vector3? centro = null);
 
     public abstract void Rotar(Vector3 angulos, Vector3? centro = null);
 

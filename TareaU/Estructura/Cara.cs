@@ -23,9 +23,9 @@ namespace TareaU
 
         public Cara(Color4 color, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4)
         {
-            Posicion = Vector3.Zero;
-            Escala = Vector3.One;
-            Rotacion = Vector3.Zero;
+            // Posicion = Vector3.Zero;
+            // Escala = Vector3.Zero;
+            // Rotacion = Vector3.Zero;
             Color = color;
 
             Vertices = new Dictionary<string, Vertice>
@@ -135,6 +135,58 @@ namespace TareaU
 
         }
 
+        public void Posicionar(Vector3 posicion)
+        {
+            Posicion = posicion;
+            var matrizTraslacion = Matrix4.CreateTranslation(Posicion);
+
+            Modelo *= matrizTraslacion;
+
+            foreach (var vertice in Vertices.Values)
+            {
+                var posicionVertice = new Vector4(vertice.posicion, 1.0f);
+                posicionVertice = Vector4.TransformRow(posicionVertice, matrizTraslacion);
+                vertice.posicion = posicionVertice.Xyz;
+            }
+        }
+
+        public void Escalar(float escala, Vector3? centro = null)
+        {
+            Centro = centro ?? CalcularCentro();
+            Escala *= escala;
+            Matrix4 matrizEscalado =
+                Matrix4.CreateTranslation(-Centro) *
+                Matrix4.CreateScale(escala) *              
+                Matrix4.CreateTranslation(Centro);
+            
+            Modelo *= matrizEscalado;
+
+            foreach (var vertice in Vertices.Values)
+            {
+                var posicionVertice = new Vector4(vertice.posicion, 1.0f);
+                posicionVertice = Vector4.TransformRow(posicionVertice, matrizEscalado);
+                vertice.posicion = posicionVertice.Xyz;
+            }
+        }
+
+        public void Escalar2(float escala, Vector3 centro)
+        {
+            Centro = centro;
+            Escala *= escala;
+            Matrix4 matrizEscalado =
+                Matrix4.CreateTranslation(-Centro) *
+                Matrix4.CreateScale(escala) *              
+                Matrix4.CreateTranslation(Centro);
+            
+            Modelo *= matrizEscalado;
+
+            foreach (var vertice in Vertices.Values)
+            {
+                var posicionVertice = new Vector4(vertice.posicion, 1.0f);
+                posicionVertice = Vector4.TransformRow(posicionVertice, matrizEscalado);
+                vertice.posicion = posicionVertice.Xyz;
+            }
+        }
 
         public void Liberar()
         {

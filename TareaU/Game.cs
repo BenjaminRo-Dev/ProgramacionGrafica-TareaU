@@ -15,6 +15,8 @@ namespace TareaU
         private Objeto letraU2 = null!;
         private Objeto letraU3 = null!;
         private Escenario escenario = null!;
+        private ObjetoGrafico grafico;
+
         public Game(int width, int height, string title)
             : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = title }) { }
 
@@ -29,11 +31,11 @@ namespace TareaU
             vista = Matrix4.CreateTranslation(0.0f, 0.0f, -60.0f);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / (float)Size.Y, 0.1f, 100.0f);
 
-            escenario = new Escenario();
+            escenario = new Escenario("escenario");
+            grafico = escenario;
 
             letraU = new Objeto("letraU", partesU());
             letraU2 = new Objeto("letraU2", partesU2());
-            // letraU3 = new Objeto("letraU3", Vector3.Zero, Vector3.One, Vector3.Zero, partesU());
 
             // letraU = JsonLoader.Cargar("../../../datos/letraU.json");
             // letraU2 = JsonLoader.Cargar("../../../datos/letraU.json");
@@ -70,17 +72,19 @@ namespace TareaU
 
             float velocidad = 0.1f;
 
+            //ROTACIONES
             if (KeyboardState.IsKeyDown(Keys.Up))
-                escenario.Rotar(velocidad * new Vector3(-1, 0, 0));
+                grafico.Rotar(velocidad * new Vector3(-1, 0, 0));
 
             if (KeyboardState.IsKeyDown(Keys.Down))
-                escenario.Rotar(velocidad * new Vector3(1, 0, 0));
+                grafico.Rotar(velocidad * new Vector3(1, 0, 0));
                 
             if (KeyboardState.IsKeyDown(Keys.Left))
-                escenario.Rotar(velocidad * new Vector3(0, 1, 0));
+                grafico.Rotar(velocidad * new Vector3(0, 1, 0));
                 
             if (KeyboardState.IsKeyDown(Keys.Right))
-                escenario.Rotar(velocidad * new Vector3(0, -1, 0));
+                grafico.Rotar(velocidad * new Vector3(0, -1, 0));
+
                 
             if (KeyboardState.IsKeyDown(Keys.W))
                 letraU2.Rotar(velocidad * new Vector3(-1, 0, 0), letraU2.CalcularCentro());
@@ -93,7 +97,72 @@ namespace TareaU
                 
             if (KeyboardState.IsKeyDown(Keys.D))
                 letraU2.Rotar(velocidad * new Vector3(0, 1, 0), letraU2.CalcularCentro());
-                
+
+
+            if (KeyboardState.IsKeyDown(Keys.R))
+                escenario.Objetos["letraU2"].Partes["parte1"].Rotar(
+                    new Vector3(0, 0, 1) * velocidad/4,
+                    escenario.Objetos["letraU2"].Partes["parte1"].CalcularCentro()
+                );
+            
+            if (KeyboardState.IsKeyDown(Keys.F))
+                escenario.Objetos["letraU2"].Partes["parte1"].Rotar(
+                    new Vector3(1, 0, 0) * velocidad/4,
+                    escenario.Objetos["letraU2"].Partes["parte1"].CalcularCentro()
+                );
+
+            //POSICIONES
+            // if (KeyboardState.IsKeyDown(Keys.KeyPad4))
+            //     escenario.Posicionar(new Vector3(-1, 0, 0) * velocidad/4);
+
+            if (KeyboardState.IsKeyDown(Keys.Q))
+                letraU2.Posicionar(new Vector3(-1, 0, 0) * velocidad/4);
+            
+            if (KeyboardState.IsKeyDown(Keys.E))
+                letraU2.Posicionar(new Vector3(1, 0, 0) * velocidad/4);
+            
+            if (KeyboardState.IsKeyDown(Keys.Z))
+                letraU2.Posicionar(new Vector3(0, -1, 0) * velocidad/4);
+            
+            if (KeyboardState.IsKeyDown(Keys.X))
+                letraU2.Posicionar(new Vector3(0, 1, 0) * velocidad/4);
+            
+            if (KeyboardState.IsKeyDown(Keys.C))
+                letraU2.Posicionar(new Vector3(0, 0, -1) * velocidad/4);
+            
+            if (KeyboardState.IsKeyDown(Keys.V))
+                letraU2.Posicionar(new Vector3(0, 0, 1) * velocidad/4);
+
+            
+            //Escalaciones
+            if (KeyboardState.IsKeyDown(Keys.L)){
+                letraU2.Escalar(1.001f);
+            }
+            
+            if (KeyboardState.IsKeyDown(Keys.M)){
+               letraU2.Escalar(0.999f);
+            }
+
+            if (KeyboardState.IsKeyDown(Keys.P)){
+               escenario.Objetos["letraU2"].Partes["parte1"].Escalar(1.001f);
+            }
+
+            if (KeyboardState.IsKeyDown(Keys.O)){
+               escenario.Objetos["letraU2"].Partes["parte1"].Escalar(0.999f);
+            }
+
+
+            if (KeyboardState.IsKeyDown(Keys.Space)){
+               escenario.Escalar(1.001f);
+            }
+
+            if (KeyboardState.IsKeyDown(Keys.LeftShift)){
+               escenario.Escalar(0.999f);
+            }
+
+
+
+            
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)
