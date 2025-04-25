@@ -8,16 +8,16 @@ namespace TareaU
     public class Cara
     {
         public int vao, vbo, ebo;
-        public Vector3 Posicion { get; set; }
-        public Vector3 Escala { get; set; }
-        public Vector3 Rotacion { get; set; }
-        public Color4 Color { get; set; }
+        public Vector3 Posicion;
+        public Vector3 Escala;
+        public Vector3 Rotacion;
+        public Color4 Color;
 
         private uint[] Indices;
 
         public Dictionary<string, Vertice> Vertices;
 
-        public Vector3 Centro { get; set; }
+        public Vector3 Centro;
 
         public Matrix4 Modelo = Matrix4.Identity;
 

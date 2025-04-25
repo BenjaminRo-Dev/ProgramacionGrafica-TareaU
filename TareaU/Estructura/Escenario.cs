@@ -1,6 +1,6 @@
 using OpenTK.Mathematics;
 using TareaU;
-class Escenario : ObjetoGrafico
+public class Escenario : ObjetoGrafico
 {
     public Dictionary<string, Objeto> Objetos;
 

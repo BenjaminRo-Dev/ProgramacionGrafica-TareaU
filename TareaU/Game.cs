@@ -1,4 +1,6 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -34,15 +36,15 @@ namespace TareaU
             escenario = new Escenario("escenario");
             grafico = escenario;
 
-            letraU = new Objeto("letraU", partesU());
-            letraU2 = new Objeto("letraU2", partesU2());
+            // letraU = new Objeto("letraU", partesU());
+            // letraU2 = new Objeto("letraU2", partesU2());
 
             // letraU = JsonLoader.Cargar("../../../datos/letraU.json");
             // letraU2 = JsonLoader.Cargar("../../../datos/letraU.json");
             // letraU3 = JsonLoader.Cargar("../../../datos/letraU.json");
 
-            escenario.AgregarObjeto(letraU);
-            escenario.AgregarObjeto(letraU2);
+            // escenario.AgregarObjeto(letraU);
+            // escenario.AgregarObjeto(letraU2);
         }
 
 
@@ -72,42 +74,75 @@ namespace TareaU
 
             float velocidad = 0.1f;
 
+            if (KeyboardState.IsKeyDown(Keys.F1)) // Guardar
+            {
+                var miObjeto = LetraU.ObjetosU()["letraU"];
+                var dto = ObjetoMapper.ConvertirADTO(miObjeto);
+
+                string json = JsonSerializer.Serialize(dto, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText("../../../datos/letraU2.json", json);
+
+                Console.WriteLine("Objeto guardado en miObjeto.json");
+            }
+
+            if (KeyboardState.IsKeyDown(Keys.F2)) // Cargar
+            {
+                if (File.Exists("../../../datos/letraU2.json"))
+                {
+                    string json = File.ReadAllText("../../../datos/letraU2.json");
+                    var dto = JsonSerializer.Deserialize<ObjetoDTO>(json);
+
+                    var objeto = ObjetoMapper.ConvertirAObjeto(dto);
+
+                    Console.WriteLine($"Nombre: {objeto.Nombre}");
+                    letraU2 = objeto;
+                    escenario.AgregarObjeto(letraU2);
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Archivo miObjeto.json no encontrado.");
+                }
+            }
+
+
+
             //ROTACIONES
             if (KeyboardState.IsKeyDown(Keys.Up))
                 grafico.Rotar(velocidad * new Vector3(-1, 0, 0));
 
             if (KeyboardState.IsKeyDown(Keys.Down))
                 grafico.Rotar(velocidad * new Vector3(1, 0, 0));
-                
+
             if (KeyboardState.IsKeyDown(Keys.Left))
                 grafico.Rotar(velocidad * new Vector3(0, 1, 0));
-                
+
             if (KeyboardState.IsKeyDown(Keys.Right))
                 grafico.Rotar(velocidad * new Vector3(0, -1, 0));
 
-                
+
             if (KeyboardState.IsKeyDown(Keys.W))
-                letraU2.Rotar(velocidad * new Vector3(-1, 0, 0), letraU2.CalcularCentro());
-                
+                escenario.Objetos["letraU2"].Rotar(velocidad * new Vector3(-1, 0, 0), escenario.Objetos["letraU2"].CalcularCentro());
+
             if (KeyboardState.IsKeyDown(Keys.S))
-                letraU2.Rotar(velocidad * new Vector3(1, 0, 0), letraU2.CalcularCentro());
-                
+                escenario.Objetos["letraU2"].Rotar(velocidad * new Vector3(1, 0, 0), escenario.Objetos["letraU2"].CalcularCentro());
+
             if (KeyboardState.IsKeyDown(Keys.A))
-                letraU2.Rotar(velocidad * new Vector3(0, -1, 0), letraU2.CalcularCentro());
-                
+                escenario.Objetos["letraU2"].Rotar(velocidad * new Vector3(0, -1, 0), escenario.Objetos["letraU2"].CalcularCentro());
+
             if (KeyboardState.IsKeyDown(Keys.D))
-                letraU2.Rotar(velocidad * new Vector3(0, 1, 0), letraU2.CalcularCentro());
+                escenario.Objetos["letraU2"].Rotar(velocidad * new Vector3(0, 1, 0), escenario.Objetos["letraU2"].CalcularCentro());
 
 
             if (KeyboardState.IsKeyDown(Keys.R))
                 escenario.Objetos["letraU2"].Partes["parte1"].Rotar(
-                    new Vector3(0, 0, 1) * velocidad/4,
+                    new Vector3(0, 0, 1) * velocidad / 4,
                     escenario.Objetos["letraU2"].Partes["parte1"].CalcularCentro()
                 );
-            
+
             if (KeyboardState.IsKeyDown(Keys.F))
                 escenario.Objetos["letraU2"].Partes["parte1"].Rotar(
-                    new Vector3(1, 0, 0) * velocidad/4,
+                    new Vector3(1, 0, 0) * velocidad / 4,
                     escenario.Objetos["letraU2"].Partes["parte1"].CalcularCentro()
                 );
 
@@ -116,53 +151,59 @@ namespace TareaU
             //     escenario.Posicionar(new Vector3(-1, 0, 0) * velocidad/4);
 
             if (KeyboardState.IsKeyDown(Keys.Q))
-                letraU2.Posicionar(new Vector3(-1, 0, 0) * velocidad/4);
-            
+                escenario.Objetos["letraU2"].Posicionar(new Vector3(-1, 0, 0) * velocidad / 4);
+
             if (KeyboardState.IsKeyDown(Keys.E))
-                letraU2.Posicionar(new Vector3(1, 0, 0) * velocidad/4);
-            
+                escenario.Objetos["letraU2"].Posicionar(new Vector3(1, 0, 0) * velocidad / 4);
+
             if (KeyboardState.IsKeyDown(Keys.Z))
-                letraU2.Posicionar(new Vector3(0, -1, 0) * velocidad/4);
-            
+                escenario.Objetos["letraU2"].Posicionar(new Vector3(0, -1, 0) * velocidad / 4);
+
             if (KeyboardState.IsKeyDown(Keys.X))
-                letraU2.Posicionar(new Vector3(0, 1, 0) * velocidad/4);
-            
+                escenario.Objetos["letraU2"].Posicionar(new Vector3(0, 1, 0) * velocidad / 4);
+
             if (KeyboardState.IsKeyDown(Keys.C))
-                letraU2.Posicionar(new Vector3(0, 0, -1) * velocidad/4);
-            
+                escenario.Objetos["letraU2"].Posicionar(new Vector3(0, 0, -1) * velocidad / 4);
+
             if (KeyboardState.IsKeyDown(Keys.V))
-                letraU2.Posicionar(new Vector3(0, 0, 1) * velocidad/4);
+                escenario.Objetos["letraU2"].Posicionar(new Vector3(0, 0, 1) * velocidad / 4);
 
-            
+
             //Escalaciones
-            if (KeyboardState.IsKeyDown(Keys.L)){
-                letraU2.Escalar(1.001f);
-            }
-            
-            if (KeyboardState.IsKeyDown(Keys.M)){
-               letraU2.Escalar(0.999f);
+            if (KeyboardState.IsKeyDown(Keys.L))
+            {
+                escenario.Objetos["letraU2"].Escalar(1.001f);
             }
 
-            if (KeyboardState.IsKeyDown(Keys.P)){
-               escenario.Objetos["letraU2"].Partes["parte1"].Escalar(1.001f);
+            if (KeyboardState.IsKeyDown(Keys.M))
+            {
+                escenario.Objetos["letraU2"].Escalar(0.999f);
             }
 
-            if (KeyboardState.IsKeyDown(Keys.O)){
-               escenario.Objetos["letraU2"].Partes["parte1"].Escalar(0.999f);
+            if (KeyboardState.IsKeyDown(Keys.P))
+            {
+                escenario.Objetos["letraU2"].Partes["parte1"].Escalar(1.001f);
             }
 
-
-            if (KeyboardState.IsKeyDown(Keys.Space)){
-               escenario.Escalar(1.001f);
-            }
-
-            if (KeyboardState.IsKeyDown(Keys.LeftShift)){
-               escenario.Escalar(0.999f);
+            if (KeyboardState.IsKeyDown(Keys.O))
+            {
+                escenario.Objetos["letraU2"].Partes["parte1"].Escalar(0.999f);
             }
 
 
+            if (KeyboardState.IsKeyDown(Keys.Space))
+            {
+                escenario.Escalar(1.001f);
+            }
 
-            
+            if (KeyboardState.IsKeyDown(Keys.LeftShift))
+            {
+                escenario.Escalar(0.999f);
+            }
+
+
+
+
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)

@@ -1,0 +1,1178 @@
+{
+  "Nombre": "letraU2",
+  "Posicion": [
+    0,
+    0,
+    0
+  ],
+  "Escala": [
+    1,
+    1,
+    1
+  ],
+  "Rotacion": [
+    0,
+    0,
+    0
+  ],
+  "Partes": {
+    "parte1": {
+      "Nombre": null,
+      "Posicion": [
+        0,
+        0,
+        0
+      ],
+      "Escala": [
+        1,
+        1,
+        1
+      ],
+      "Rotacion": [
+        0,
+        0,
+        0
+      ],
+      "Caras": {
+        "delantera": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                -2,
+                0,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                -2,
+                4,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                -1,
+                4,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                -1,
+                0,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "trasera": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                -2,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                -2,
+                4,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                -1,
+                4,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                -1,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "superior": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                -1,
+                0,
+                1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                -1,
+                4,
+                1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                -1,
+                4,
+                -1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                -1,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "inferior": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                -2,
+                0,
+                1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                -2,
+                4,
+                1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                -2,
+                4,
+                -1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                -2,
+                0,
+                -1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "lateralIzquierdo": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                -2,
+                0,
+                1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                -1,
+                0,
+                1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                -1,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                -2,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "lateralDerecho": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                -2,
+                4,
+                1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                -1,
+                4,
+                1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                -1,
+                4,
+                -1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                -2,
+                4,
+                -1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        }
+      }
+    },
+    "parte2": {
+      "Nombre": null,
+      "Posicion": [
+        0,
+        0,
+        0
+      ],
+      "Escala": [
+        1,
+        1,
+        1
+      ],
+      "Rotacion": [
+        0,
+        0,
+        0
+      ],
+      "Caras": {
+        "delantera": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                -1,
+                0,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                -1,
+                1,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                1,
+                1,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                1,
+                0,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "trasera": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                -2,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                -2,
+                1,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                2,
+                1,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                2,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "superior": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                1,
+                0,
+                1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                1,
+                1,
+                1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                2,
+                1,
+                -1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                2,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "inferior": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                -1,
+                0,
+                1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                -1,
+                1,
+                1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                -2,
+                1,
+                -1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                -2,
+                0,
+                -1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "lateralIzquierdo": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                -1,
+                0,
+                1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                1,
+                0,
+                1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                2,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                -2,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "lateralDerecho": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                -1,
+                1,
+                1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                1,
+                1,
+                1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                2,
+                1,
+                -1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                -2,
+                1,
+                -1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        }
+      }
+    },
+    "parte3": {
+      "Nombre": null,
+      "Posicion": [
+        0,
+        0,
+        0
+      ],
+      "Escala": [
+        1,
+        1,
+        1
+      ],
+      "Rotacion": [
+        0,
+        0,
+        0
+      ],
+      "Caras": {
+        "delantera": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                1,
+                0,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                1,
+                4,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                2,
+                4,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                2,
+                0,
+                1
+              ],
+              "Color": [
+                0.29411766,
+                0,
+                0.50980395,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "trasera": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                1,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                1,
+                4,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                2,
+                4,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                2,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                0.5019608,
+                0,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "superior": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                2,
+                0,
+                1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                2,
+                4,
+                1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                2,
+                4,
+                -1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                2,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                0,
+                1,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "inferior": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                1,
+                0,
+                1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                1,
+                4,
+                1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                1,
+                4,
+                -1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                1,
+                0,
+                -1
+              ],
+              "Color": [
+                1,
+                1,
+                0,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "lateralIzquierdo": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                1,
+                0,
+                1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                2,
+                0,
+                1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                2,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                1,
+                0,
+                -1
+              ],
+              "Color": [
+                0,
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        },
+        "lateralDerecho": {
+          "Vertices": {
+            "p1": {
+              "Posicion": [
+                1,
+                4,
+                1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            },
+            "p2": {
+              "Posicion": [
+                2,
+                4,
+                1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            },
+            "p3": {
+              "Posicion": [
+                2,
+                4,
+                -1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            },
+            "p4": {
+              "Posicion": [
+                1,
+                4,
+                -1
+              ],
+              "Color": [
+                1,
+                0,
+                1,
+                1
+              ]
+            }
+          },
+          "Posicion": null,
+          "Escala": null,
+          "Rotacion": null,
+          "Color": null,
+          "Centro": null
+        }
+      }
+    }
+  }
+}
