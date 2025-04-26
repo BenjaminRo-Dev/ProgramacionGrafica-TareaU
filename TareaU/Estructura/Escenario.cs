@@ -22,7 +22,11 @@ public class Escenario : ObjetoGrafico
         if (!Objetos.ContainsKey(objeto.Nombre))
             Objetos.Add(objeto.Nombre, objeto);
         else
+        {
             Console.WriteLine("El nombre del objeto ya existe en el escenario.");
+            // Objetos. Add($"{objeto.Nombre}copia", objeto);
+            // Objetos.Remove(objeto.Nombre);
+        }
     }
 
 

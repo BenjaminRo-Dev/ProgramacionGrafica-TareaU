@@ -1,6 +1,6 @@
 using OpenTK.Mathematics;
 using TareaU;
-
+//DataTransferObject
 public static class ObjetoMapper
 {
     public static Objeto ConvertirAObjeto(ObjetoDTO dto)
