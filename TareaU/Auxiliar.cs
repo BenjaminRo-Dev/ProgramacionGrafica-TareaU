@@ -66,7 +66,23 @@ public class Auxiliar
         if (keyboardState.IsKeyDown(Keys.D))
             escenario.Objetos["letraU2"].Rotar(velocidad * new Vector3(0, 1, 0), escenario.Objetos["letraU2"].CalcularCentro());
 
+        if (keyboardState.IsKeyDown(Keys.Y))
+            escenario.Objetos["letraU2"].Partes["parte1"].Rotar(velocidad * new Vector3(1, 0, 0));
+        if (keyboardState.IsKeyDown(Keys.U))
+            escenario.Objetos["letraU2"].Partes["parte1"].Rotar(velocidad * new Vector3(0, 1, 0));
+        if (keyboardState.IsKeyDown(Keys.I))
+            escenario.Objetos["letraU2"].Partes["parte1"].Rotar(velocidad * new Vector3(0, 0, 1));
+        
+
         // Posicionamiento
+
+        if (keyboardState.IsKeyDown(Keys.KeyPad4))
+            escenario.Posicionar(new Vector3(-1, 0, 0) * velocidad / 4);
+        
+        if (keyboardState.IsKeyDown(Keys.KeyPad6))
+            escenario.Posicionar(new Vector3(1, 0, 0) * velocidad / 4);
+
+
         if (keyboardState.IsKeyDown(Keys.Q))
             escenario.Objetos["letraU2"].Posicionar(new Vector3(-1, 0, 0) * velocidad / 4);
 
@@ -84,6 +100,12 @@ public class Auxiliar
 
         if (keyboardState.IsKeyDown(Keys.V))
             escenario.Objetos["letraU2"].Posicionar(new Vector3(0, 0, 1) * velocidad / 4);
+
+        if (keyboardState.IsKeyDown(Keys.H))
+            escenario.Objetos["letraU2"].Partes["parte2"].Posicionar(new Vector3(-1, 0, 0) * velocidad / 4);
+
+        if (keyboardState.IsKeyDown(Keys.J))
+            escenario.Objetos["letraU2"].Partes["parte2"].Posicionar(new Vector3(1, 0, 0) * velocidad / 4);
 
         // Escalaciones
         if (keyboardState.IsKeyDown(Keys.L))

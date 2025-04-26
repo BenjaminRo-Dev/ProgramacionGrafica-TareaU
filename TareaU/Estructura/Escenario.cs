@@ -37,6 +37,7 @@ public class Escenario : ObjetoGrafico
 
     public override void Posicionar(Vector3 posicion)
     {
+        Centro += posicion;
         foreach (var objeto in Objetos.Values)
         {
             objeto.Posicionar(posicion);
