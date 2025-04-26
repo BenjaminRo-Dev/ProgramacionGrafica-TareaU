@@ -3,8 +3,6 @@ using TareaU;
 
 public class Objeto : ObjetoGrafico
 {
-    public Dictionary<string, Parte> Partes;
-
     public Objeto(string nombre, Dictionary<string, Parte> partes)
     {
         Nombre = nombre;

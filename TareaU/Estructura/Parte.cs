@@ -4,8 +4,6 @@ namespace TareaU
 {
     public class Parte : ObjetoGrafico
     {
-        public Dictionary<string, Cara> Caras;
-
         public Parte(string nombre, Dictionary<string, Cara> caras)
         {
             Nombre = nombre;

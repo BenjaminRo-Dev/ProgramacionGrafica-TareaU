@@ -2,7 +2,6 @@ using OpenTK.Mathematics;
 using TareaU;
 public class Escenario : ObjetoGrafico
 {
-    public Dictionary<string, Objeto> Objetos;
 
     public Escenario(string nombre)
     {
@@ -17,15 +16,13 @@ public class Escenario : ObjetoGrafico
             objeto.Value.Dibujar(shader);
     }
 
-    public void AgregarObjeto(Objeto objeto)
+    public override void AgregarObjeto(Objeto objeto)
     {
         if (!Objetos.ContainsKey(objeto.Nombre))
             Objetos.Add(objeto.Nombre, objeto);
         else
         {
             Console.WriteLine("El nombre del objeto ya existe en el escenario.");
-            // Objetos. Add($"{objeto.Nombre}copia", objeto);
-            // Objetos.Remove(objeto.Nombre);
         }
     }
 

@@ -3,19 +3,12 @@ using OpenTK.Mathematics;
 
 namespace TareaU
 {
-    public class Cara
+    public class Cara: ObjetoGrafico
     {
         public int vao, vbo, ebo;
-        public Vector3 Posicion;
-        public Vector3 Escala;
-        public Vector3 Rotacion;
         public Color4 Color;
 
         private uint[] Indices;
-
-        public Dictionary<string, Vertice> Vertices;
-
-        public Vector3 Centro;
 
         public Matrix4 Modelo = Matrix4.Identity;
 
@@ -33,24 +26,6 @@ namespace TareaU
 
             this.Indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
         }
-
-        public Cara(Color4 color, Dictionary<string, Vector3> vertices)
-        {
-            Posicion = Vector3.Zero;
-            Escala = Vector3.One;
-            Rotacion = Vector3.Zero;
-            Color = color;
-
-            Vertices = new Dictionary<string, Vertice>();
-
-            foreach (var vertice in vertices)
-            {
-                Vertices.Add(vertice.Key, new Vertice(vertice.Value, color));
-            }
-
-            this.Indices = new uint[6] { 0, 1, 2, 2, 3, 0 };
-        }
-        
 
         public void Cargar()
         {
@@ -81,7 +56,7 @@ namespace TareaU
             GL.BindVertexArray(0);
         }
 
-        public void Dibujar(Shader shader)
+        public override void Dibujar(Shader shader)
         {
             shader.SetMatrix4("modelo", Modelo);
 
@@ -89,7 +64,7 @@ namespace TareaU
             GL.DrawElements(PrimitiveType.Triangles, Indices.Length, DrawElementsType.UnsignedInt, 0);
         }
 
-        public Vector3 CalcularCentro()
+        public override Vector3 CalcularCentro()
         {
             Vector3 suma = Vector3.Zero;
 
@@ -103,7 +78,7 @@ namespace TareaU
         }
 
         
-        public void Rotar(Vector3 angulos, Vector3? centro = null)
+        public override void Rotar(Vector3 angulos, Vector3? centro = null)
         {
             if (centro != null)
             {
@@ -130,7 +105,7 @@ namespace TareaU
 
         }
 
-        public void Posicionar(Vector3 posicion)
+        public override void Posicionar(Vector3 posicion)
         {
             Posicion = posicion;
             var matrizTraslacion = Matrix4.CreateTranslation(Posicion);
@@ -145,7 +120,7 @@ namespace TareaU
             }
         }
 
-        public void Escalar(float escala, Vector3? centro = null)
+        public override void Escalar(float escala, Vector3? centro = null)
         {
             Centro = centro ?? CalcularCentro();
             Escala *= escala;

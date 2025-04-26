@@ -9,7 +9,10 @@ public abstract class ObjetoGrafico
     public virtual Vector3 Rotacion { get; set; }
     public virtual Vector3 Centro { get; set;}
 
-    // public Dictionary<string, ObjetoGrafico> graficos;
+    public virtual Dictionary<string, Objeto> Objetos { get; set; }
+    public virtual Dictionary<string, Parte> Partes { get; set; }
+    public virtual Dictionary<string, Cara> Caras { get; set; }
+    public virtual Dictionary<string, Vertice> Vertices { get; set; }
     
     public ObjetoGrafico()
     {
@@ -19,14 +22,12 @@ public abstract class ObjetoGrafico
     }
 
     public abstract void Dibujar(Shader shader);
-
     public abstract void Posicionar(Vector3 posicion);
-
     public abstract void Escalar(float escala, Vector3? centro = null);
-
     public abstract void Rotar(Vector3 angulos, Vector3? centro = null);
-
     public abstract Vector3 CalcularCentro();
+
+    public virtual void AgregarObjeto(Objeto objeto){}
     
 
     

@@ -45,7 +45,7 @@ public static class ObjetoMapper
         return objeto;
     }
 
-    public static ObjetoDTO ConvertirADTO(Objeto objeto)
+    public static ObjetoDTO ConvertirADTO(ObjetoGrafico objeto)
     {
         var partesDTO = new Dictionary<string, ParteDTO>();
 
