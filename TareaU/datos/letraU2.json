@@ -2,7 +2,7 @@
   "Nombre": "letraU2",
   "Posicion": [
     0,
-    0.025,
+    0,
     0
   ],
   "Escala": [
@@ -12,7 +12,7 @@
   ],
   "Rotacion": [
     0,
-    0.1,
+    0,
     0
   ],
   "Partes": {
@@ -20,7 +20,7 @@
       "Nombre": null,
       "Posicion": [
         0,
-        0.025,
+        0,
         0
       ],
       "Escala": [
@@ -30,7 +30,7 @@
       ],
       "Rotacion": [
         0,
-        0.1,
+        0,
         0
       ],
       "Caras": {

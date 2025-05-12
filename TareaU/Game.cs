@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using System.Diagnostics;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -12,6 +13,9 @@ namespace TareaU
         private Escenario escenario = null!;
         private ObjetoGrafico grafico;
 
+        private Accion accion;
+        Stopwatch tiempoGlobal = new Stopwatch();
+
         public Game(int width, int height, string title)
             : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = title }) { }
 
@@ -21,13 +25,22 @@ namespace TareaU
             GL.Enable(EnableCap.DepthTest);
             shader = new Shader("../../../Shaders/shader.vert", "../../../Shaders/shader.frag");
 
-            vista = Matrix4.CreateTranslation(0.0f, 0.0f, -60.0f);
+            vista = Matrix4.CreateTranslation(0.0f, 0.0f, -50.0f);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / (float)Size.Y, 0.1f, 100.0f);
 
             escenario = new Escenario("escenario");
             grafico = escenario;
 
             Auxiliar.CargarObjetoJson(escenario, "letraU");
+            // escenario.Objetos["letraU"].Posicionar(new Vector3(0,0,0));
+            
+            tiempoGlobal.Start();
+            Vector3 destino = new Vector3(5,0,0);
+            accion = new Accion(1, 2, destino, escenario.Objetos["letraU"].Posicion);
+            // Console.WriteLine(let.Posicion);
+            // Console.WriteLine(escenario.Objetos["let"].Posicion);
+
+            
 
         }
 
@@ -49,6 +62,14 @@ namespace TareaU
         {
             base.OnUpdateFrame(e);
             Auxiliar.Teclas(KeyboardState, escenario, grafico);
+
+            float tFrame = (float)e.Time;
+            float tiempoActual = (float) tiempoGlobal.Elapsed.TotalSeconds;
+            // Console.WriteLine(tiempoActual);
+            // Console.WriteLine(tFrame);
+            // escenario.Objetos["letraU"].Posicionar(new Vector3(0.05f,0,0));//TODO: sigue posicionandose continuamente
+            
+            escenario.Objetos["letraU"].Posicionar(accion.Mover(tiempoActual, tFrame));
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)

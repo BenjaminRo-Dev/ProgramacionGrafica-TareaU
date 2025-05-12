@@ -86,8 +86,10 @@ public class Auxiliar
         if (keyboardState.IsKeyDown(Keys.Q))
             escenario.Objetos["letraU2"].Posicionar(new Vector3(-1, 0, 0) * velocidad / 4);
 
-        if (keyboardState.IsKeyDown(Keys.E))
+        if (keyboardState.IsKeyDown(Keys.E)){
             escenario.Objetos["letraU2"].Posicionar(new Vector3(1, 0, 0) * velocidad / 4);
+            Console.WriteLine(escenario.Objetos["letraU2"].Posicion);
+        }
 
         if (keyboardState.IsKeyDown(Keys.Z))
             escenario.Objetos["letraU2"].Posicionar(new Vector3(0, -1, 0) * velocidad / 4);
