@@ -14,6 +14,9 @@ namespace TareaU
         private ObjetoGrafico grafico;
 
         private Accion accion;
+
+        private Acciones1 acciones1;
+
         Stopwatch tiempoGlobal = new Stopwatch();
 
         public Game(int width, int height, string title)
@@ -35,8 +38,10 @@ namespace TareaU
             // escenario.Objetos["letraU"].Posicionar(new Vector3(0,0,0));
             
             tiempoGlobal.Start();
+            acciones1 = new Acciones1( escenario.Objetos["letraU"] );
+
             Vector3 destino = new Vector3(5,0,0);
-            accion = new Accion(1, 2, destino, escenario.Objetos["letraU"].Posicion);
+            accion = new Accion(1, escenario.Objetos["letraU"].Posicion, 2, destino);
             // Console.WriteLine(let.Posicion);
             // Console.WriteLine(escenario.Objetos["let"].Posicion);
 
@@ -67,9 +72,14 @@ namespace TareaU
             float tiempoActual = (float) tiempoGlobal.Elapsed.TotalSeconds;
             // Console.WriteLine(tiempoActual);
             // Console.WriteLine(tFrame);
-            // escenario.Objetos["letraU"].Posicionar(new Vector3(0.05f,0,0));//TODO: sigue posicionandose continuamente
             
-            escenario.Objetos["letraU"].Posicionar(accion.Mover(tiempoActual, tFrame));
+            // escenario.Objetos["letraU"].Posicionar(accion.Mover(tiempoActual, tFrame));
+            // acciones1.ObtenerAcciones();
+            foreach (var accion in acciones1.ObtenerAcciones())
+            {
+                escenario.Objetos["letraU"].Posicionar(accion.Mover(tiempoActual, tFrame));
+            }
+            
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)

@@ -14,7 +14,7 @@ public class Accion{
 
 
 
-    public Accion(float tInicial,float tDuracion, Vector3 destino, Vector3 posActual)
+    public Accion(float tInicial, Vector3 posActual, float tDuracion, Vector3 destino)
     {
         TInicial = tInicial;
         TDuracion = tDuracion;
@@ -28,6 +28,13 @@ public class Accion{
         velocidad = distancia / tDuracion;
     }
 
+    /*Nota: 
+    hay un error actualmente, la posición inicial o final no la esta tomando en cuenta,
+    solo suma la posicion actual a la posicion del destino, no la asigna
+    creo que es porque la estoy llamando desde onUpdate,
+    asi que puede que se solucione al hacer la llamada desde el hilo 2
+    */
+
     public Vector3 Mover(float tiempoGlobal, float tFrame)
     {
         if(tiempoGlobal >= TInicial)
@@ -40,6 +47,8 @@ public class Accion{
             else{
                 return Vector3.Zero;
             }
+        }else{
+            return Vector3.Zero;
         }
         return PosActual;
     }
