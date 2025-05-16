@@ -13,9 +13,9 @@ namespace TareaU
         private Escenario escenario = null!;
         private ObjetoGrafico grafico;
 
-        private Accion accion;
-
         private Acciones1 acciones1;
+        Ejecutor ejecutor;
+        float TiempoFrame;
 
         Stopwatch tiempoGlobal = new Stopwatch();
 
@@ -35,17 +35,19 @@ namespace TareaU
             grafico = escenario;
 
             Auxiliar.CargarObjetoJson(escenario, "letraU");
-            // escenario.Objetos["letraU"].Posicionar(new Vector3(0,0,0));
             
             tiempoGlobal.Start();
-            acciones1 = new Acciones1( escenario.Objetos["letraU"] );
+            acciones1 = new Acciones1();
 
-            Vector3 destino = new Vector3(5,0,0);
-            accion = new Accion(1, escenario.Objetos["letraU"].Posicion, 2, destino);
-            // Console.WriteLine(let.Posicion);
-            // Console.WriteLine(escenario.Objetos["let"].Posicion);
 
+            // Acciones1 acciones1 = new Acciones1();
+            Animaciones1 animaciones1 = new Animaciones1(escenario.Objetos["letraU"], acciones1.ObtenerAcciones());        
+            Escena escena1 = new Escena(animaciones1.ObtenerAnimaciones());
+
+
+            ejecutor = new Ejecutor(escena1);
             
+            Task.Run(async () => await ejecutor.Iniciar());
 
         }
 
@@ -60,6 +62,13 @@ namespace TareaU
 
             escenario.Dibujar(shader);
 
+            float tFrame = (float)e.Time;
+            TiempoFrame = tFrame;
+            float tiempoActual = (float) tiempoGlobal.Elapsed.TotalSeconds;
+            // ejecutor.ActualizarTiempos(tiempoActual, tFrame);
+
+            // Console.WriteLine(escenario.Objetos["letraU"].Partes["parte1"].Caras["delantera"].Posicion);
+
             SwapBuffers();
         }
 
@@ -67,19 +76,15 @@ namespace TareaU
         {
             base.OnUpdateFrame(e);
             Auxiliar.Teclas(KeyboardState, escenario, grafico);
-
             float tFrame = (float)e.Time;
+            TiempoFrame = tFrame;
             float tiempoActual = (float) tiempoGlobal.Elapsed.TotalSeconds;
-            // Console.WriteLine(tiempoActual);
-            // Console.WriteLine(tFrame);
-            
-            // escenario.Objetos["letraU"].Posicionar(accion.Mover(tiempoActual, tFrame));
-            // acciones1.ObtenerAcciones();
+
             foreach (var accion in acciones1.ObtenerAcciones())
             {
                 escenario.Objetos["letraU"].Posicionar(accion.Mover(tiempoActual, tFrame));
             }
-            
+
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)

@@ -2,12 +2,12 @@ using OpenTK.Mathematics;
 
 public class Animacion
 {
-    public List<Accion> Acciones { get; set; }
     public ObjetoGrafico ObjetoGrafico;
-    public Animacion(List<Accion> acciones, ObjetoGrafico objetoGrafico)
+    public List<Accion> Acciones { get; set; }
+    public Animacion(ObjetoGrafico objetoGrafico, List<Accion> acciones)
     {
-        Acciones = acciones;
         ObjetoGrafico = objetoGrafico;
+        Acciones = acciones;
     }
 
     public void Play(float tiempoGlobal, float tiempoFrame){
@@ -20,7 +20,7 @@ public class Animacion
             ObjetoGrafico.Posicionar(mover);
             //ObjetoGrafico.Escalar(escalar);
             //ObjetoGrafico.Rotar(rotar);
-            
+            // Console.WriteLine("Animacion:" + tiempoFrame, ObjetoGrafico.Nombre);
         }
     }
 
