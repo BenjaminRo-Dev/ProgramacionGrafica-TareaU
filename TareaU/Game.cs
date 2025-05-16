@@ -40,20 +40,27 @@ namespace TareaU
             escenario = new Escenario("escenario");
             grafico = escenario;
 
-            Auxiliar.CargarObjetoJson(escenario, "letraU");
+            // Auxiliar.CargarObjetoJson(escenario, "letraU");
             Objeto pista = new Objeto("Pista", Pista.partesU());
-
+            Objeto auto = new Objeto("Auto1", Auto.partesU());
+            auto.Posicionar(new Vector3(11, 1, 10));
+            auto.Rotar(new Vector3(0,90,0));
             escenario.AgregarObjeto(pista);
+            escenario.AgregarObjeto(auto);
             
             //Cargar datos animaciones
             tiempoGlobal.Start();
-            acciones1 = new Acciones1();
-            Animaciones1 animaciones1 = new Animaciones1(escenario.Objetos["letraU"], acciones1.ObtenerAcciones());        
+            // acciones1 = new Acciones1();
+            // Animaciones1 animaciones1 = new Animaciones1(escenario.Objetos["letraU"], acciones1.ObtenerAcciones());        
+            // Escena escena1 = new Escena(animaciones1.ObtenerAnimaciones());
+
+            AccionesAuto accionesAuto = new AccionesAuto();
+            Animaciones1 animaciones1 = new Animaciones1(escenario.Objetos["Auto1"], accionesAuto.ObtenerAcciones());        
             Escena escena1 = new Escena(animaciones1.ObtenerAnimaciones());
 
-            //Ejecutar ejecutor
+            // Ejecutar ejecutor
             ejecutor = new Ejecutor(escena1);
-            // Task.Run(async () => await ejecutor.Iniciar());
+            Task.Run(async () => await ejecutor.Iniciar());
 
         }
 
