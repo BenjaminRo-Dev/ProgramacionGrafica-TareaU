@@ -1,28 +1,33 @@
+using System.Threading;
+
 public class Ejecutor
 {
+    private CancellationTokenSource cts = new CancellationTokenSource();
+    private ManualResetEventSlim sincronizador = new ManualResetEventSlim(false);
+
     Escena Escena;
-    private float TiempoActual, TiempoFrame, TiempoHilo;
+    private float TiempoActual, TiempoFrame;
+    private bool enPausa = false;
 
     public Ejecutor(Escena escena)
     {
         Escena = escena;
     }
 
-    private CancellationTokenSource cts = new CancellationTokenSource();
-    private bool enPausa = false;
-
     public async Task Iniciar()
     {
         while (!cts.Token.IsCancellationRequested)
         {
+            sincronizador.Wait(); // Espera la señal del hilo principal
+            sincronizador.Reset(); // Resetea el evento para la próxima iteración
+
             if (!enPausa)
             {
                 Escena.Play(TiempoActual, TiempoFrame);
             }
+
+            // await Task.Delay((int)(TiempoFrame * 1000));
         }
-        // await Task.Delay(16); // Aproximadamente 60 FPS
-        // await Task.Delay((int) (TiempoFrame * 1000));
-        //Nota: Aqui al convertir a entero, es cero por lo tanto no funciona
 
         Console.WriteLine("Tarea finalizada.");
     }
@@ -31,12 +36,14 @@ public class Ejecutor
     {
         TiempoActual = tiempoActual;
         TiempoFrame = tiempoFrame;
-        // Console.WriteLine(tiempoActual);
+        sincronizador.Set(); // Notifica al hilo secundario que puede continuar
     }
 
     public void Pausar() => enPausa = true;
     public void Reanudar() => enPausa = false;
-    public void Detener() => cts.Cancel();
-    
-
+    public void Detener()
+    {
+        cts.Cancel();
+        sincronizador.Set(); // Asegura que el hilo no quede bloqueado
+    }
 }
