@@ -26,13 +26,24 @@ namespace TareaU
             GL.Enable(EnableCap.DepthTest);
             shader = new Shader("../../../Shaders/shader.vert", "../../../Shaders/shader.frag");
 
-            vista = Matrix4.CreateTranslation(0.0f, 0.0f, -50.0f);
+            // Posicionar la cámara en el cielo mirando hacia abajo
+            Vector3 posicionCamara = new Vector3(0.0f, 50.0f, 0.0f); // Posición elevada
+            Vector3 objetivo = new Vector3(0.0f, 0.0f, 0.0f);
+            Vector3 arriba = new Vector3(0.0f, 0.0f, -1.0f);
+
+            vista = Matrix4.LookAt(posicionCamara, objetivo, arriba);
             proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / (float)Size.Y, 0.1f, 100.0f);
+
+            // vista = Matrix4.CreateTranslation(0.0f, 0.0f, -50.0f);
+            // proyeccion = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), Size.X / (float)Size.Y, 0.1f, 100.0f);
 
             escenario = new Escenario("escenario");
             grafico = escenario;
 
             Auxiliar.CargarObjetoJson(escenario, "letraU");
+            Objeto pista = new Objeto("Pista", Pista.partesU());
+
+            escenario.AgregarObjeto(pista);
             
             //Cargar datos animaciones
             tiempoGlobal.Start();
@@ -42,7 +53,7 @@ namespace TareaU
 
             //Ejecutar ejecutor
             ejecutor = new Ejecutor(escena1);
-            Task.Run(async () => await ejecutor.Iniciar());
+            // Task.Run(async () => await ejecutor.Iniciar());
 
         }
 
