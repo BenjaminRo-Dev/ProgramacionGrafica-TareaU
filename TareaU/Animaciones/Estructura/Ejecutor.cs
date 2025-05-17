@@ -18,8 +18,8 @@ public class Ejecutor
     {
         while (!cts.Token.IsCancellationRequested)
         {
-            sincronizador.Wait(); // Espera la señal del hilo principal
-            sincronizador.Reset(); // Resetea el evento para la próxima iteración
+            sincronizador.Wait();
+            sincronizador.Reset();
 
             if (!enPausa)
             {
@@ -36,7 +36,7 @@ public class Ejecutor
     {
         TiempoActual = tiempoActual;
         TiempoFrame = tiempoFrame;
-        sincronizador.Set(); // Notifica al hilo secundario que puede continuar
+        sincronizador.Set();
     }
 
     public void Pausar() => enPausa = true;
@@ -44,6 +44,6 @@ public class Ejecutor
     public void Detener()
     {
         cts.Cancel();
-        sincronizador.Set(); // Asegura que el hilo no quede bloqueado
+        sincronizador.Set();
     }
 }

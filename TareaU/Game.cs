@@ -73,11 +73,6 @@ namespace TareaU
             shader.SetMatrix4("proyeccion", proyeccion);
 
             escenario.Dibujar(shader);
-
-            float tFrame = (float)e.Time;
-            float tiempoActual = (float) tiempoGlobal.Elapsed.TotalSeconds;
-            ejecutor.ActualizarTiempos(tiempoActual, tFrame);
-
             SwapBuffers();
         }
 
@@ -85,6 +80,9 @@ namespace TareaU
         {
             base.OnUpdateFrame(e);
             Auxiliar.Teclas(KeyboardState, escenario, grafico);
+            float tFrame = (float)e.Time;
+            float tiempoActual = (float) tiempoGlobal.Elapsed.TotalSeconds;
+            ejecutor.ActualizarTiempos(tiempoActual, tFrame);
         }
 
         protected override void OnFramebufferResize(FramebufferResizeEventArgs e)

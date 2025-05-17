@@ -11,7 +11,7 @@ namespace TareaU.Animaciones.Datos
             {
                 new("escalar", 16, 1, 2f),
                 // new("escalar", 3, 1, -2),
-                new("posicionar", 1 * k, Vector3.Zero, 5 * k, new Vector3(0, 0, -19)),
+                new("posicionar", 1, Vector3.Zero, 5 * k, new Vector3(0, 0, -19)),
                 new("posicionar", 6 * k, new Vector3(0, 0, -19), 1.5f * k, new Vector3(-2, 0, -21)),
                 new("rotar", 6f * k, Vector3.Zero, 1.5f * k, new Vector3(0, 90, 0)),
                 new("posicionar", 7.5f * k, new Vector3(-2, 0, -21), 5 * k, new Vector3(-20, 0, -21)),
@@ -28,12 +28,12 @@ namespace TareaU.Animaciones.Datos
             {
                 // new("escalar", 16, 1, 2f),
                 // new("escalar", 3, 1, -2),
-                new("posicionar", 1 * k, Vector3.Zero, 5 * k, new Vector3(0, 0, -21)),
-                
+                new("posicionar", 1, Vector3.Zero, 5 * k, new Vector3(0, 0, -21)),
+
                 new("posicionar", 6 * k, new Vector3(0, 0, -21), 1.5f * k, new Vector3(-2, 0, -23)),
                 new("rotar", 6f * k, Vector3.Zero, 1.5f * k, new Vector3(0, 90, 0)),
 
-                new("posicionar", 7.5f * k, new Vector3(-2, 0, -23), 5 * k, new Vector3(-27, 0, -23)),
+                new("posicionar", 8f * k, new Vector3(-2, 0, -23), 5 * k, new Vector3(-27, 0, -23)),
 
                 new("posicionar", 12.5f * k, new Vector3(-27, 0, -23), 1.5f * k, new Vector3(-27, 0, -19)),
                 new("rotar", 12.5f * k, Vector3.Zero, 1.5f * k, new Vector3(0, 90, 0)),
