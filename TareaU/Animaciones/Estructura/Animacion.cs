@@ -13,18 +13,14 @@ public class Animacion
     public void Play(float tiempoGlobal, float tiempoFrame){
         foreach (var accion in Acciones)
         {
-            // Vector3 acc = accion.Transformar(tiempoGlobal, tiempoFrame);
-
             if (accion.Tipo == "posicionar")
-                ObjetoGrafico.Posicionar(accion.Transformar(tiempoGlobal, tiempoFrame));
+                ObjetoGrafico.Posicionar( accion.Transformar(tiempoGlobal, tiempoFrame) );
 
             if (accion.Tipo == "rotar")
-                ObjetoGrafico.Rotar(accion.Transformar(tiempoGlobal, tiempoFrame));
+                ObjetoGrafico.Rotar( accion.Transformar(tiempoGlobal, tiempoFrame) );
 
             if (accion.Tipo == "escalar")
-                ObjetoGrafico.Escalar(accion.Escalar(tiempoGlobal, tiempoFrame));
-            //ObjetoGrafico.Escalar(escalar);
-            // Console.WriteLine("Animacion:" + tiempoFrame, ObjetoGrafico.Nombre);
+                ObjetoGrafico.Escalar( accion.Escalar(tiempoGlobal, tiempoFrame) );
         }
     }
 

@@ -64,15 +64,9 @@ public class Accion
                 Escala = 1 + (Velocidad * progreso);
                 TTranscurrido += tFrame;
             }
-            else
-            {
-                return 1;
-            }
+            else return 1;
         }
-        else
-        {
-            return 1;
-        }
+        else return 1;
 
         return Escala;
     }

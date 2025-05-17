@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
+using TareaU.Animaciones.Datos;
 
 namespace TareaU
 {
@@ -12,8 +13,6 @@ namespace TareaU
         private Matrix4 vista, proyeccion;
         private Escenario escenario = null!;
         private ObjetoGrafico grafico;
-
-        private Acciones1 acciones1;
         Ejecutor ejecutor;
         Stopwatch tiempoGlobal = new Stopwatch();
 
@@ -42,24 +41,24 @@ namespace TareaU
 
             // Auxiliar.CargarObjetoJson(escenario, "letraU");
             Objeto pista = new Objeto("Pista", Pista.partesU());
-            Objeto auto = new Objeto("Auto1", Auto.partesU());
-            auto.Posicionar(new Vector3(11, 1, 10));
-            auto.Rotar(new Vector3(0,90,0));
+            Objeto auto1 = new Objeto("Auto1", Auto.partesU());
+            Objeto auto2 = new Objeto("Auto2", Auto.partesU());
+
+            auto1.Posicionar(new Vector3(11, 1, 10));
+            auto1.Rotar(new Vector3(0,90,0));
+
+            auto2.Posicionar(new Vector3(14, 1, 10));
+            auto2.Rotar(new Vector3(0,90,0));
+
             escenario.AgregarObjeto(pista);
-            escenario.AgregarObjeto(auto);
+            escenario.AgregarObjeto(auto1);
+            escenario.AgregarObjeto(auto2);
+            
             
             //Cargar datos animaciones
             tiempoGlobal.Start();
-            // acciones1 = new Acciones1();
-            // Animaciones1 animaciones1 = new Animaciones1(escenario.Objetos["letraU"], acciones1.ObtenerAcciones());        
-            // Escena escena1 = new Escena(animaciones1.ObtenerAnimaciones());
-
-            AccionesAuto accionesAuto = new AccionesAuto();
-            Animaciones1 animaciones1 = new Animaciones1(escenario.Objetos["Auto1"], accionesAuto.ObtenerAcciones());        
-            Escena escena1 = new Escena(animaciones1.ObtenerAnimaciones());
-
-            // Ejecutar ejecutor
-            ejecutor = new Ejecutor(escena1);
+    
+            ejecutor = new Ejecutor(Grabacion.GetEscena(auto1, auto2));
             Task.Run(async () => await ejecutor.Iniciar());
 
         }
