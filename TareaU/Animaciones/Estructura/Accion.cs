@@ -5,14 +5,16 @@ public class Accion
 
     private float TInicial, TDuracion, TTranscurrido;
     private Vector3 Destino;
-    private float velocidad;
-    private Vector3 direccion;
-    float distancia;
+    private float Velocidad;
+    private Vector3 Direccion;
+    float Distancia;
     Vector3 PosActual;
+    float Escala;
+    public string Tipo;
 
-
-    public Accion(float tInicial, Vector3 posActual, float tDuracion, Vector3 destino)
+    public Accion(string tipo, float tInicial, Vector3 posActual, float tDuracion, Vector3 destino)
     {
+        Tipo = tipo;
         TInicial = tInicial;
         TDuracion = tDuracion;
         Destino = destino;
@@ -20,32 +22,60 @@ public class Accion
 
         TTranscurrido = 0f;
 
-        direccion = Vector3.Normalize(Destino - PosActual);
-        distancia = Vector3.Distance(Destino, PosActual);
-        velocidad = distancia / tDuracion;
+        Direccion = Vector3.Normalize(Destino - PosActual);
+        Distancia = Vector3.Distance(Destino, PosActual);
+        Velocidad = Distancia / tDuracion;
     }
 
-    public Vector3 Mover(float tiempoGlobal, float tFrame)
+    public Accion(string tipo, float tInicial, float tDuracion, float escala)
+    {
+        Tipo = tipo;
+        TInicial = tInicial;
+        Escala = 0.0001f / escala;
+        TDuracion = tDuracion;
+
+        Velocidad = Escala / TDuracion;
+    }
+
+    public Vector3 Transformar(float tiempoGlobal, float tFrame)
     {
         if (tiempoGlobal >= TInicial)
         {
             if (TTranscurrido < TDuracion)
             {
-                float distanciaFrame = velocidad * tFrame;
-                PosActual = direccion * distanciaFrame;
+                float distanciaFrame = Velocidad * tFrame;
+                PosActual = Direccion * distanciaFrame;
+                TTranscurrido += tFrame;
+            }
+            else return Vector3.Zero;
+        }
+        else return Vector3.Zero;
+
+        return PosActual;
+    }
+
+    public float Escalar(float tiempoGlobal, float tFrame)
+    {
+        if (tiempoGlobal >= TInicial)
+        {
+            if (TTranscurrido < TDuracion)
+            {
+                float progreso = TTranscurrido / TDuracion;
+                Escala = 1 + (Velocidad * progreso);
                 TTranscurrido += tFrame;
             }
             else
             {
-                return Vector3.Zero;
+                return 1;
             }
         }
         else
+        {
+            return 1;
+        }
 
-            return Vector3.Zero;
-        
-        return PosActual;
+        return Escala;
     }
-    
+
 
 }
